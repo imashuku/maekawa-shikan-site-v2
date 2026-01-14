@@ -377,7 +377,11 @@ export default function SupportPage() {
                                             </li>
                                             <li className="flex items-start gap-2">
                                                  <span className="text-[#ff8a80] mt-1">✓</span>
-                                                 <span>著者との個別オンラインミーティング（30分）</span>
+                                                 <span>前川先生と一緒に取材地を巡る歴史ツアー（日帰り）</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#ff8a80] mt-1">✓</span>
+                                                 <span>直筆サイン＆メッセージ入り特装版書籍</span>
                                             </li>
                                        </ul>
                                   </div>
