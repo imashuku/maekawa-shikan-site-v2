@@ -99,53 +99,55 @@ export default function SupportPage() {
       <section className="w-full bg-sumi-dark text-kinari py-20 md:py-32">
           <div className="max-w-4xl mx-auto px-6 text-center">
               <span className="text-kokihi text-xs font-bold tracking-widest mb-6 block">SPECIAL SUPPORT</span>
-              <h2 className="text-2xl md:text-4xl font-serif mb-8 leading-relaxed">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-8 leading-relaxed">
                   歴史探究の旅を、共に。
               </h2>
-              <p className="text-sm md:text-base font-serif leading-loose opacity-80 mb-16">
+              <p className="text-sm md:text-base font-serif leading-loose opacity-90 mb-16">
                   取材活動には、多大なリソースが必要です。<br/>
                   あなたの支援が、次の真実を掘り起こすスコップとなります。<br/>
                   <br/>
-                  対象商品をご購入いただくことで、売上の全額が<br/>
+                  対象商品をご購入いただくことで、<span className="border-b border-kokihi pb-1">売上の一部</span>が<br/>
                   前川史観の取材・執筆活動費に充てられます。
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                   {/* Support Item: bobs */}
-                  <div className="bg-sumi/50 border border-kinari/10 p-8 hover:border-kokihi/50 transition-colors group">
-                      <div className="h-48 bg-black/20 mb-6 flex items-center justify-center font-serif text-2xl tracking-widest border border-kinari/5">
-                          bobs
+                  <div className="bg-[#2a2a2a] border border-kinari/20 p-8 hover:border-kokihi/80 transition-colors group flex flex-col h-full">
+                      <div className="h-48 bg-black/40 mb-6 flex items-center justify-center font-serif text-3xl tracking-widest border border-kinari/10 relative overflow-hidden">
+                          <span className="relative z-10">bobs</span>
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent transform scale-150"></div>
                       </div>
-                      <h3 className="text-xl font-serif font-bold mb-2">bobs 購入支援</h3>
-                      <p className="text-xs opacity-60 mb-6 leading-relaxed">
-                          日常に溶け込むアートピース。<br/>
-                          その利益が、知の冒険を支えます。
+                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">bobs</h3>
+                      <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
+                          広島のアーティスト・Bob氏による、「一筆書き（1chain drawing）」のアートプロダクト。<br/>
+                          途切れることなく繋がる線は、過去から現在、そして未来へと続く歴史の連続性を象徴しています。
                       </p>
                       <a 
                         href="https://bobs.base.ec/" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="block w-full py-3 border border-kinari/30 text-kinari group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest"
+                        className="block w-full py-4 border border-kinari/40 text-kinari bg-sumi-dark/50 group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest font-bold"
                       >
                           支援する（商品ページへ）
                       </a>
                   </div>
 
-                  {/* Support Item: murasaki no */}
-                  <div className="bg-sumi/50 border border-kinari/10 p-8 hover:border-kokihi/50 transition-colors group">
-                      <div className="h-48 bg-pink-900/10 mb-6 flex items-center justify-center font-serif text-2xl tracking-widest border border-kinari/5 text-pink-100/50">
-                          murasaki no
+                  {/* Support Item: murasaki no organic */}
+                  <div className="bg-[#2a2a2a] border border-kinari/20 p-8 hover:border-kokihi/80 transition-colors group flex flex-col h-full">
+                      <div className="h-48 bg-purple-900/20 mb-6 flex items-center justify-center font-serif text-2xl tracking-widest border border-kinari/10 text-purple-100/70 relative overflow-hidden">
+                          <span className="relative z-10 text-center">murasaki no<br/>organic</span>
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-400 to-transparent transform scale-150"></div>
                       </div>
-                      <h3 className="text-xl font-serif font-bold mb-2">murasaki no 購入支援</h3>
-                      <p className="text-xs opacity-60 mb-6 leading-relaxed">
-                          高貴なる紫の系譜。<br/>
-                          歴史への敬意を纏う支援の形。
+                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">murasaki no organic</h3>
+                      <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
+                          滋賀県東近江市で、絶滅危惧種「紫草」をオーガニック栽培で再生。<br/>
+                          万葉の時代から愛された神秘の力と、琵琶湖の自然を守る取り組みは、近江の歴史そのものです。
                       </p>
                       <a 
                          href="https://murasakino-organic.stores.jp/" 
                          target="_blank" 
                          rel="noopener noreferrer"
-                         className="block w-full py-3 border border-kinari/30 text-kinari group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest"
+                         className="block w-full py-4 border border-kinari/40 text-kinari bg-sumi-dark/50 group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest font-bold"
                       >
                           支援する（商品ページへ）
                       </a>
