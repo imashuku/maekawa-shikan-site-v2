@@ -1,6 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { Noto_Serif_JP } from "next/font/google";
+
+const serif = Noto_Serif_JP({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-serif",
+});
+
 
 export default function SupportPage() {
   const handleSubscribe = (e: React.FormEvent) => {
@@ -9,194 +17,244 @@ export default function SupportPage() {
   };
 
   return (
-    <main className="min-h-screen bg-kinari text-sumi flex flex-col items-center relative overflow-hidden">
-      {/* Background Texture */}
-      <div className="fixed inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
-
+    <main className={`min-h-screen bg-[#f7f6f2] text-[#333] flex flex-col items-center relative overflow-hidden ${serif.variable} font-serif`}>
+      {/* Background Texture & Noise */}
+      <div className="fixed inset-0 pointer-events-none opacity-30 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
+      
       {/* Header / Nav */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-multiply">
-        <Link href="/" className="text-sm font-serif tracking-widest hover:text-kokihi transition-colors">
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:p-8 flex justify-between items-center mix-blend-multiply bg-white/5 backdrop-blur-sm">
+        <Link href="/" className="text-sm font-bold tracking-widest hover:text-[#9d2b2b] transition-colors border-b border-transparent hover:border-[#9d2b2b]">
             ← トップへ戻る
         </Link>
-        <span className="text-xs font-bold tracking-[0.2em] opacity-50">SUPPORT PROJECT</span>
+        <span className="text-[10px] md:text-xs font-bold tracking-[0.3em] opacity-60">SUPPORT PROJECT</span>
       </nav>
 
       {/* Hero Content */}
-      <section className="relative z-10 w-full max-w-4xl pt-28 md:pt-32 pb-16 md:pb-24 px-6 text-center">
-         <h1 className="text-3xl md:text-5xl font-serif font-bold text-sumi-dark mb-8 leading-tight">
+      <section className="relative z-10 w-full pt-40 pb-24 md:pt-52 md:pb-32 px-6 flex flex-col items-center text-center">
+         <span className="text-[#9d2b2b] text-xs md:text-sm font-bold tracking-[0.2em] mb-8 block animate-fade-in-up">JOIN THE JOURNEY</span>
+         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#1a1a1a] mb-10 leading-tight tracking-wide animate-fade-in-up delay-100">
             埋もれた歴史に、<br/>
-            光を。
+            <span className="text-[#9d2b2b]">光</span>を。
          </h1>
-         <p className="text-base md:text-xl font-serif text-sumi/80 leading-loose mb-12">
-            教科書にはない「もう一つの日本史」を、<br/>
-            共に紐解きませんか。
+         <p className="text-base md:text-xl text-[#4a4a4a] leading-loose max-w-2xl mx-auto animate-fade-in-up delay-200">
+            教科書にはない「もう一つの日本史」を、<br className="md:hidden"/>
+            共に紐解く旅に出ませんか。<br/>
+            あなたの参加が、新たな真実を照らす灯火となります。
          </p>
-         <div className="h-px w-24 bg-kokihi mx-auto opacity-50"></div>
+         <div className="h-24 w-px bg-[#333] mt-16 opacity-20 animate-fade-in-up delay-300"></div>
       </section>
 
       {/* Three Ways to Support */}
-      <section className="relative z-10 w-full max-w-5xl px-6 pb-20 md:pb-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {/* 1. Newsletter */}
-          <div className="bg-white/60 p-6 md:p-8 border border-sumi/10 text-center hover:shadow-lg transition-shadow duration-300">
-             <div className="w-16 h-16 bg-sumi text-kinari rounded-full flex items-center justify-center text-2xl font-serif mx-auto mb-6">壱</div>
-             <h3 className="text-xl font-serif font-bold mb-4">制作の裏側を知る</h3>
-             <p className="text-sm leading-relaxed mb-6">
-                表には出せない取材メモや、<br/>執筆過程の苦悩をニュースレターでお届けします。
-             </p>
-             <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
-                <input 
-                  type="email" 
-                  placeholder="メールアドレス" 
-                  className="w-full px-4 py-3 bg-kinari border border-sumi/20 focus:outline-none focus:border-kokihi transition-colors font-serif text-base"
-                />
-                <button type="submit" className="w-full bg-sumi text-kinari py-3 hover:bg-kokihi transition-colors font-serif font-bold">
-                   登録する（無料）
-                </button>
-             </form>
-          </div>
+      <section className="relative z-10 w-full max-w-6xl px-6 pb-32">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {/* 1. Newsletter */}
+              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">壹</div>
+                 <div className="relative z-10">
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                        知る
+                    </h3>
+                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                        表には出せない取材メモや、執筆過程の苦悩。<br/>
+                        ここでしか読めない裏話をニュースレターで。
+                    </p>
+                    <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
+                        <input 
+                          type="email" 
+                          placeholder="メールアドレス" 
+                          className="w-full px-4 py-3 bg-[#f9f9f9] border border-[#e0e0e0] focus:outline-none focus:border-[#9d2b2b] transition-colors text-sm"
+                        />
+                        <button type="submit" className="w-full bg-[#333] text-white py-3 hover:bg-[#9d2b2b] transition-colors text-sm font-bold tracking-widest">
+                           登録する（無料）
+                        </button>
+                    </form>
+                 </div>
+              </div>
 
-          {/* 2. Share */}
-          <div className="bg-white/60 p-6 md:p-8 border border-sumi/10 text-center hover:shadow-lg transition-shadow duration-300">
-             <div className="w-16 h-16 bg-kokihi text-white rounded-full flex items-center justify-center text-2xl font-serif mx-auto mb-6">弐</div>
-             <h3 className="text-xl font-serif font-bold mb-4">物語を広める</h3>
-             <p className="text-sm leading-relaxed mb-6">
-                あなたのシェアが、<br/>誰かの新たな視点への扉を開きます。
-             </p>
-             <div className="flex justify-center gap-4 flex-wrap">
-                <a 
-                  href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%89%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-sumi/20 hover:bg-sumi hover:text-kinari transition-colors text-sm font-serif inline-block font-bold min-w-[120px]"
-                >
-                   X (Twitter)
-                </a>
-                <a 
-                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan.vercel.app" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-sumi/20 hover:bg-sumi hover:text-kinari transition-colors text-sm font-serif inline-block font-bold min-w-[120px]"
-                >
-                   Facebook
-                </a>
-             </div>
-          </div>
+              {/* 2. Share */}
+              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">貳</div>
+                 <div className="relative z-10">
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                        広める
+                    </h3>
+                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                        「歴史は勝者によって作られる」<br/>
+                        あなたのシェアが、誰かの固定観念を壊します。
+                    </p>
+                    <div className="flex flex-col gap-3">
+                        <a 
+                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%89%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="w-full py-3 border border-[#333] text-[#333] hover:bg-[#333] hover:text-white transition-colors text-sm tracking-widest text-center"
+                        >
+                           X (Twitter)
+                        </a>
+                        <a 
+                          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan.vercel.app" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="w-full py-3 border border-[#e0e0e0] text-[#666] hover:bg-[#3b5998] hover:text-white hover:border-[#3b5998] transition-colors text-sm tracking-widest text-center"
+                        >
+                           Facebook
+                        </a>
+                    </div>
+                 </div>
+              </div>
 
-          {/* 3. Event */}
-          <div className="bg-white/60 p-6 md:p-8 border border-sumi/10 text-center hover:shadow-lg transition-shadow duration-300">
-             <div className="w-16 h-16 bg-sumi text-kinari rounded-full flex items-center justify-center text-2xl font-serif mx-auto mb-6">参</div>
-             <h3 className="text-xl font-serif font-bold mb-4">プロジェクトに参加する</h3>
-             <p className="text-sm leading-relaxed mb-6">
-                定期開催の「歴史を語る会」や<br/>現地ツアーで、歴史の手触りを感じてください。
-             </p>
-             <Link href="/contact" className="w-full inline-block border-b border-kokihi text-kokihi pb-1 hover:opacity-70 transition-opacity font-serif mt-2">
-                お問い合わせはこちら →
-             </Link>
+              {/* 3. Participate */}
+              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">參</div>
+                 <div className="relative z-10">
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                        参加する
+                    </h3>
+                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                        「歴史を語る会」や現地ツアー。<br/>
+                        文字だけでは伝わらない熱量を、現場で。
+                    </p>
+                    <Link 
+                        href="/contact" 
+                        className="flex items-center justify-center w-full py-3 bg-[#9d2b2b] text-white hover:bg-[#7a1f1f] transition-all duration-300 text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
+                    >
+                        お問い合わせへ
+                    </Link>
+                 </div>
+              </div>
           </div>
       </section>
 
       {/* Patron / Support Section */}
-      <section className="w-full bg-sumi-dark text-kinari py-20 md:py-32">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-              <span className="text-kokihi text-xs font-bold tracking-widest mb-6 block">SPECIAL SUPPORT</span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-8 leading-relaxed">
-                  歴史探究の旅を、共に。
-              </h2>
-              <p className="text-sm md:text-base font-serif leading-loose opacity-90 mb-16">
-                  取材活動には、多大なリソースが必要です。<br/>
-                  あなたの支援が、次の真実を掘り起こすスコップとなります。<br/>
-                  <br/>
-                  対象商品をご購入いただくことで、<span className="border-b border-kokihi pb-1">売上の一部</span>が<br/>
-                  前川史観の取材・執筆活動費に充てられます。
-              </p>
+      <section className="w-full bg-[#1a1a1a] text-[#f0f0f0] py-24 md:py-40">
+          <div className="max-w-5xl mx-auto px-6">
+              <div className="text-center mb-24">
+                  <span className="text-[#9d2b2b] text-xs font-bold tracking-[0.3em] mb-6 block">SPECIAL SUPPORT</span>
+                  <h2 className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+                      歴史探究の旅を、共に。
+                  </h2>
+                  <p className="text-sm md:text-base opacity-70 leading-loose max-w-2xl mx-auto font-light">
+                      取材活動には、多大なリソースが必要です。<br/>
+                      対象商品をご購入いただくことで、<span className="text-[#fff] border-b border-[#9d2b2b] pb-1 mx-1">売上の一部</span>が<br/>
+                      前川史観の取材・執筆活動費に充てられます。
+                  </p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+              <div className="grid grid-cols-1 gap-16">
                   {/* Support Item: bobs */}
-                  <div className="bg-[#2a2a2a] border border-kinari/20 p-8 hover:border-kokihi/80 transition-colors group flex flex-col h-full">
-                      <div className="h-48 bg-teal-900/20 mb-6 flex items-center justify-center font-serif text-3xl tracking-widest border border-kinari/10 relative overflow-hidden">
-                          <span className="relative z-10">bobs</span>
-                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-teal-400 to-transparent transform scale-150"></div>
-                      </div>
-                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">bobs ambient root</h3>
-                      <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
-                          滋賀のセレクトショップ「BORN FREE」が共同開発した、メンズオーガニックコスメ。<br/>
-                          「ニッポンの宝物グランプリ」を受賞。奥永源寺の紫根と政所茶、地域の宝を肌に纏う、男の身だしなみ。
-                      </p>
-                      <a 
-                        href="https://bobs.base.ec/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="block w-full py-4 border border-kinari/40 text-kinari bg-sumi-dark/50 group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest font-bold"
-                      >
-                          支援する（商品ページへ）
-                      </a>
+                  <div className="bg-[#222] border border-[#333] overflow-hidden group hover:border-[#555] transition-colors duration-500 grid grid-cols-1 md:grid-cols-2">
+                       <div className="h-64 md:h-auto bg-[#111] relative overflow-hidden flex items-center justify-center">
+                            <div className="absolute inset-0 bg-[#004d40] opacity-10 group-hover:opacity-20 transition-opacity duration-700"></div>
+                            {/* Decorative Elements */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004d40]/20 to-transparent"></div>
+                            <span className="relative z-10 text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#e0e0e0] opacity-90 group-hover:scale-105 transition-transform duration-700">bobs</span>
+                       </div>
+                       <div className="p-8 md:p-12 flex flex-col justify-center">
+                           <div className="flex items-center gap-3 mb-4">
+                                <span className="px-3 py-1 bg-[#004d40]/20 text-[#4db6ac] text-[10px] tracking-widest font-bold border border-[#004d40]/30">MEN'S ORGANIC</span>
+                                <span className="px-3 py-1 bg-[#b71c1c]/10 text-[#ef5350] text-[10px] tracking-widest font-bold border border-[#b71c1c]/20">AWARD WINNER</span>
+                           </div>
+                           <h3 className="text-2xl font-bold mb-4 tracking-wide">bobs ambient root</h3>
+                           <p className="text-sm leading-8 opacity-70 mb-8 border-l border-[#333] pl-4">
+                               滋賀のセレクトショップ「BORN FREE」が共同開発した、<br/>
+                               メンズオーガニックコスメ。<br/>
+                               「ニッポンの宝物 グランプリ」を受賞。<br/>
+                               奥永源寺の紫根と政所茶、自然の宝を肌に纏う。
+                           </p>
+                           <a 
+                             href="https://bobs.base.ec/" 
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center justify-center px-8 py-4 border border-[#444] text-[#ccc] hover:bg-[#004d40] hover:text-white hover:border-[#004d40] transition-colors duration-300 text-sm tracking-widest self-start"
+                           >
+                               商品ページを見る →
+                           </a>
+                       </div>
                   </div>
 
                   {/* Support Item: murasaki no organic */}
-                  <div className="bg-[#2a2a2a] border border-kinari/20 p-8 hover:border-kokihi/80 transition-colors group flex flex-col h-full">
-                      <div className="h-48 bg-purple-900/20 mb-6 flex items-center justify-center font-serif text-2xl tracking-widest border border-kinari/10 text-purple-100/70 relative overflow-hidden">
-                          <span className="relative z-10 text-center">murasaki no<br/>organic</span>
-                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-400 to-transparent transform scale-150"></div>
-                      </div>
-                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">murasaki no organic</h3>
-                      <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
-                          滋賀県東近江市で、絶滅危惧種「紫草」をオーガニック栽培で再生。<br/>
-                          万葉の時代から愛された神秘の力（紫根エキス）を現代へ。歴史と自然を守る、正統派オーガニックコスメ。
-                      </p>
-                      <a 
-                         href="https://murasakino-organic.stores.jp/" 
-                         target="_blank" 
-                         rel="noopener noreferrer"
-                         className="block w-full py-4 border border-kinari/40 text-kinari bg-sumi-dark/50 group-hover:bg-kokihi group-hover:border-kokihi group-hover:text-white transition-all duration-300 font-serif text-sm tracking-widest font-bold"
-                      >
-                          支援する（商品ページへ）
-                      </a>
+                  <div className="bg-[#222] border border-[#333] overflow-hidden group hover:border-[#555] transition-colors duration-500 grid grid-cols-1 md:grid-cols-2">
+                       <div className="h-64 md:h-auto bg-[#111] relative overflow-hidden flex items-center justify-center order-1 md:order-2">
+                            <div className="absolute inset-0 bg-[#4a148c] opacity-10 group-hover:opacity-20 transition-opacity duration-700"></div>
+                            {/* Decorative Elements */}
+                            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#4a148c]/20 to-transparent"></div>
+                            <span className="relative z-10 text-3xl md:text-4xl font-bold tracking-[0.1em] text-[#e0e0e0] opacity-90 group-hover:scale-105 transition-transform duration-700 text-center leading-tight">murasaki no<br/>organic</span>
+                       </div>
+                       <div className="p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
+                           <div className="flex items-center gap-3 mb-4">
+                                <span className="px-3 py-1 bg-[#4a148c]/20 text-[#ea80fc] text-[10px] tracking-widest font-bold border border-[#4a148c]/30">ORGANIC COSMETICS</span>
+                                <span className="px-3 py-1 bg-[#fff]/5 text-[#ccc] text-[10px] tracking-widest font-bold border border-[#fff]/10">SUSTAINABLE</span>
+                           </div>
+                           <h3 className="text-2xl font-bold mb-4 tracking-wide">murasaki no organic</h3>
+                           <p className="text-sm leading-8 opacity-70 mb-8 border-l border-[#333] pl-4">
+                               滋賀県東近江市で、絶滅危惧種「紫草」を<br/>
+                               完全無農薬オーガニック栽培で再生。<br/>
+                               万葉の時代から愛される神秘の力（紫根エキス）を、<br/>
+                               現代のスキンケアへ。
+                           </p>
+                           <a 
+                             href="https://murasakino-organic.stores.jp/" 
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center justify-center px-8 py-4 border border-[#444] text-[#ccc] hover:bg-[#4a148c] hover:text-white hover:border-[#4a148c] transition-colors duration-300 text-sm tracking-widest self-start"
+                           >
+                               商品ページを見る →
+                           </a>
+                       </div>
                   </div>
               </div>
 
               {/* Returns */}
-              <div className="bg-kinari/5 p-8 md:p-10 border border-kinari/10 text-left md:text-center">
-                  <h4 className="text-lg font-serif text-kokihi mb-4 flex items-center justify-center gap-3">
-                      <span className="h-px w-8 bg-kokihi"></span>
-                      支援者リターン
-                      <span className="h-px w-8 bg-kokihi"></span>
-                  </h4>
-                  <ul className="text-sm font-serif space-y-4 opacity-80 inline-block text-left">
-                      <li className="flex items-start gap-3">
-                          <span className="text-kokihi">✦</span>
-                          書籍出版時、巻末に「Special Thanks」としてお名前を掲載
-                      </li>
-                      <li className="flex items-start gap-3">
-                          <span className="text-kokihi">✦</span>
-                          未公開の取材写真・資料の限定公開（不定期）
-                      </li>
-                      <li className="flex items-start gap-3">
-                          <span className="text-kokihi">✦</span>
-                          出版記念パーティーへの優先ご招待
-                      </li>
-                  </ul>
+              <div className="mt-24 text-center">
+                   <div className="inline-block border border-[#333] bg-[#222] p-10 md:p-14 relative">
+                        {/* Corner Accents */}
+                        <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-[#555]"></div>
+                        <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#555]"></div>
+                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#555]"></div>
+                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#555]"></div>
+
+                        <h4 className="text-lg text-[#9d2b2b] mb-8 font-bold tracking-widest">支援者リターン</h4>
+                        <ul className="text-sm space-y-4 opacity-80 text-left md:text-center font-light">
+                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
+                                書籍出版時、巻末に「Special Thanks」としてお名前を掲載
+                            </li>
+                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
+                                未公開の取材写真・資料の限定公開（不定期）
+                            </li>
+                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
+                                出版記念パーティーへの優先ご招待
+                            </li>
+                        </ul>
+                   </div>
               </div>
           </div>
       </section>
 
       {/* Message from Author */}
-      <section className="relative z-10 w-full max-w-3xl px-6 pb-20 md:pb-32 text-center">
-         <div className="p-8 md:p-12 border border-sumi/10 bg-white/40 relative">
-             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-kinari px-4 text-xs tracking-widest text-sumi/60">FROM SHINJI MAEKAWA</span>
-             <p className="font-serif leading-loose text-sumi text-sm md:text-base">
-                「歴史は、過去のものではありません。<br/>
-                今を生きる私たちの足元を照らす光です。<br/>
-                <br/>
-                このプロジェクトを通じて、<br/>
-                皆様と共に新たな歴史の地平を拓けることを<br/>
-                心より楽しみにしています。」
-             </p>
-             <p className="mt-8 font-serif text-right text-sm">前川 真司</p>
-         </div>
+      <section className="relative z-10 w-full max-w-4xl px-6 pb-24 md:pb-40 text-center pt-24">
+          <div className="relative">
+              <span className="block text-[10px] tracking-[0.3em] opacity-40 mb-6">MESSAGE</span>
+              <p className="text-lg md:text-2xl font-bold leading-loose text-[#333]">
+                 「歴史は、過去のものではありません。<br/>
+                 今を生きる私たちの、<br/>
+                 <span className="text-[#9d2b2b]">足元を照らす光</span>です。」
+              </p>
+              <div className="mt-12 flex justify-center items-center gap-4 opacity-60">
+                 <div className="h-px w-12 bg-[#333]"></div>
+                 <p className="text-sm tracking-widest">前川 真司</p>
+                 <div className="h-px w-12 bg-[#333]"></div>
+              </div>
+          </div>
       </section>
 
       {/* Footer */}
-      <footer className="w-full bg-sumi-dark text-kinari py-8 text-center text-xs opacity-60">
+      <footer className="w-full bg-[#151515] text-[#888] py-12 text-center text-[10px] tracking-widest border-t border-[#333]">
         &copy; {new Date().getFullYear()} Shinji Maekawa All Rights Reserved.
       </footer>
     </main>
