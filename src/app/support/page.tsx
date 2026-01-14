@@ -207,30 +207,189 @@ export default function SupportPage() {
                   </div>
               </div>
 
-              {/* Returns */}
-              <div className="mt-24 text-center">
-                   <div className="inline-block border border-[#333] bg-[#222] p-10 md:p-14 relative">
+              {/* Crowdfunding Section */}
+              <div className="mt-24">
+                   {/* Progress Header */}
+                   <div className="text-center mb-16">
+                        <span className="text-xs tracking-[0.3em] opacity-60 mb-4 block">CROWDFUNDING</span>
+                        <h3 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: '#ffffff' }}>前川史観 出版支援プロジェクト</h3>
+                        <p className="text-sm opacity-70 mb-2">All-In方式（目標金額に関わらず支援金を受け取ります）</p>
+                   </div>
+
+                   {/* Stats Card */}
+                   <div className="border border-[#333] bg-[#222] p-8 md:p-12 mb-12 relative">
                         {/* Corner Accents */}
                         <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-[#555]"></div>
                         <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#555]"></div>
                         <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#555]"></div>
                         <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#555]"></div>
 
-                        <h4 className="text-xl mb-8 font-bold tracking-widest" style={{ color: '#ffffff' }}>支援者リターン</h4>
-                        <ul className="text-base space-y-4 text-left md:text-center font-light" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
-                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
-                                書籍出版時、巻末に「Special Thanks」としてお名前を掲載
-                            </li>
-                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
-                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
-                                未公開の取材写真・資料の限定公開（不定期）
-                            </li>
-                            <li className="flex flex-col md:flex-row items-center justify-center gap-2">
-                                <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
-                                出版記念パーティーへの優先ご招待
-                            </li>
-                        </ul>
+                        {/* Current Amount */}
+                        <div className="text-center mb-8">
+                             <p className="text-xs opacity-60 mb-2">現在の支援総額</p>
+                             <p className="text-4xl md:text-5xl font-bold" style={{ color: '#ffffff' }}>
+                                  ¥<span id="current-amount">0</span>
+                             </p>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="w-full bg-[#333] h-3 rounded-full mb-6 overflow-hidden">
+                             <div 
+                                  className="h-full bg-gradient-to-r from-[#9d2b2b] to-[#c74545] rounded-full transition-all duration-1000"
+                                  style={{ width: '0%' }}
+                                  id="progress-bar"
+                             ></div>
+                        </div>
+
+                        {/* Stats Row */}
+                        <div className="grid grid-cols-3 gap-4 text-center">
+                             <div>
+                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>0%</p>
+                                  <p className="text-xs opacity-60 mt-1">達成率</p>
+                             </div>
+                             <div>
+                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
+                                       <span id="supporter-count">0</span>人
+                                  </p>
+                                  <p className="text-xs opacity-60 mt-1">支援者</p>
+                             </div>
+                             <div>
+                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
+                                       <span id="days-left">76</span>日
+                                  </p>
+                                  <p className="text-xs opacity-60 mt-1">残り</p>
+                             </div>
+                        </div>
+
+                        {/* Goal */}
+                        <div className="mt-8 pt-6 border-t border-[#333] text-center">
+                             <p className="text-sm opacity-70">目標金額: <span className="font-bold" style={{ color: '#ffffff' }}>¥1,000,000</span></p>
+                             <p className="text-xs opacity-50 mt-2">期間: 2026年2月1日 〜 3月31日</p>
+                        </div>
+                   </div>
+
+                   {/* Support Plans */}
+                   <div className="space-y-6">
+                        <h4 className="text-center text-lg font-bold tracking-widest mb-8" style={{ color: '#ffffff' }}>支援プランを選ぶ</h4>
+                        
+                        {/* Plan 1: サポーター */}
+                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
+                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                                  <div className="flex-1">
+                                       <div className="flex items-center gap-3 mb-3">
+                                            <span className="px-3 py-1 bg-[#9d2b2b]/20 text-[#ef5350] text-[10px] tracking-widest font-bold border border-[#9d2b2b]/30">SUPPORTER</span>
+                                       </div>
+                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>サポーター</h5>
+                                       <p className="text-2xl font-bold mb-4" style={{ color: '#9d2b2b' }}>¥3,000</p>
+                                       <ul className="text-sm space-y-2 opacity-80">
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#9d2b2b] mt-1">✓</span>
+                                                 <span>書籍巻末に「Special Thanks」としてお名前を掲載</span>
+                                            </li>
+                                       </ul>
+                                  </div>
+                                  <button 
+                                       className="w-full md:w-auto px-8 py-4 bg-[#9d2b2b] text-white font-bold tracking-widest hover:bg-[#7a1f1f] transition-colors text-sm"
+                                       data-plan="supporter"
+                                       data-amount="3000"
+                                  >
+                                       このプランで支援する
+                                  </button>
+                             </div>
+                        </div>
+
+                        {/* Plan 2: 応援団 */}
+                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
+                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                                  <div className="flex-1">
+                                       <div className="flex items-center gap-3 mb-3">
+                                            <span className="px-3 py-1 bg-[#004d40]/20 text-[#4db6ac] text-[10px] tracking-widest font-bold border border-[#004d40]/30">FAN</span>
+                                            <span className="px-3 py-1 bg-[#fff]/5 text-[#ccc] text-[10px] tracking-widest font-bold border border-[#fff]/10">人気</span>
+                                       </div>
+                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>応援団</h5>
+                                       <p className="text-2xl font-bold mb-4" style={{ color: '#004d40' }}>¥10,000</p>
+                                       <ul className="text-sm space-y-2 opacity-80">
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#4db6ac] mt-1">✓</span>
+                                                 <span>サポータープランのすべて</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#4db6ac] mt-1">✓</span>
+                                                 <span>著者サイン入り書籍の送付</span>
+                                            </li>
+                                       </ul>
+                                  </div>
+                                  <button 
+                                       className="w-full md:w-auto px-8 py-4 bg-[#004d40] text-white font-bold tracking-widest hover:bg-[#00352c] transition-colors text-sm"
+                                       data-plan="fan"
+                                       data-amount="10000"
+                                  >
+                                       このプランで支援する
+                                  </button>
+                             </div>
+                        </div>
+
+                        {/* Plan 3: パトロン */}
+                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
+                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                                  <div className="flex-1">
+                                       <div className="flex items-center gap-3 mb-3">
+                                            <span className="px-3 py-1 bg-[#4a148c]/20 text-[#ea80fc] text-[10px] tracking-widest font-bold border border-[#4a148c]/30">PATRON</span>
+                                       </div>
+                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>パトロン</h5>
+                                       <p className="text-2xl font-bold mb-4" style={{ color: '#4a148c' }}>¥30,000</p>
+                                       <ul className="text-sm space-y-2 opacity-80">
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#ea80fc] mt-1">✓</span>
+                                                 <span>応援団プランのすべて</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#ea80fc] mt-1">✓</span>
+                                                 <span>出版記念パーティーへのご招待</span>
+                                            </li>
+                                       </ul>
+                                  </div>
+                                  <button 
+                                       className="w-full md:w-auto px-8 py-4 bg-[#4a148c] text-white font-bold tracking-widest hover:bg-[#320e61] transition-colors text-sm"
+                                       data-plan="patron"
+                                       data-amount="30000"
+                                  >
+                                       このプランで支援する
+                                  </button>
+                             </div>
+                        </div>
+
+                        {/* Plan 4: スポンサー */}
+                        <div className="border border-[#9d2b2b] bg-gradient-to-br from-[#222] to-[#2a1a1a] p-6 md:p-8 hover:border-[#c74545] transition-colors group relative overflow-hidden">
+                             {/* Premium Badge */}
+                             <div className="absolute top-0 right-0 bg-[#9d2b2b] text-white text-[10px] px-4 py-1 tracking-widest font-bold">PREMIUM</div>
+                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                                  <div className="flex-1">
+                                       <div className="flex items-center gap-3 mb-3">
+                                            <span className="px-3 py-1 bg-[#9d2b2b]/30 text-[#ff8a80] text-[10px] tracking-widest font-bold border border-[#9d2b2b]/50">SPONSOR</span>
+                                       </div>
+                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>スポンサー</h5>
+                                       <p className="text-2xl font-bold mb-4" style={{ color: '#ff8a80' }}>¥100,000</p>
+                                       <ul className="text-sm space-y-2 opacity-80">
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#ff8a80] mt-1">✓</span>
+                                                 <span>パトロンプランのすべて</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                 <span className="text-[#ff8a80] mt-1">✓</span>
+                                                 <span>著者との個別オンラインミーティング（30分）</span>
+                                            </li>
+                                       </ul>
+                                  </div>
+                                  <button 
+                                       className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-[#9d2b2b] to-[#c74545] text-white font-bold tracking-widest hover:from-[#7a1f1f] hover:to-[#9d2b2b] transition-all text-sm"
+                                       data-plan="sponsor"
+                                       data-amount="100000"
+                                  >
+                                       このプランで支援する
+                                  </button>
+                             </div>
+                        </div>
                    </div>
               </div>
           </div>
