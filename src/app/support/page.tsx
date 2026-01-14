@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Noto_Serif_JP } from "next/font/google";
 
 const serif = Noto_Serif_JP({
@@ -9,12 +11,76 @@ const serif = Noto_Serif_JP({
   variable: "--font-serif",
 });
 
+// 統計データの型
+interface Stats {
+  totalAmount: number;
+  supporterCount: number;
+  goalAmount: number;
+  daysRemaining: number;
+  percentage: number;
+}
 
 export default function SupportPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState<Stats>({
+    totalAmount: 0,
+    supporterCount: 0,
+    goalAmount: 1000000,
+    daysRemaining: 76,
+    percentage: 0,
+  });
+
+  // 統計データを取得
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(console.error);
+  }, []);
+
+  // 支援ボタンのクリックハンドラー
+  const handleSupportClick = (plan: string) => {
+    setSelectedPlan(plan);
+    setIsModalOpen(true);
+  };
+
+  // 決済処理
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedPlan) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: selectedPlan, email, name }),
+      });
+
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('エラーが発生しました。もう一度お試しください。');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('エラーが発生しました。');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     alert("ニュースレター登録（デモ）：ありがとうございます。現在は登録できません。");
   };
+
 
   return (
     <main className={`min-h-screen bg-[#f7f6f2] text-[#333] flex flex-col items-center relative overflow-hidden ${serif.variable} font-serif`}>
@@ -146,11 +212,14 @@ export default function SupportPage() {
               <div className="grid grid-cols-1 gap-16">
                   {/* Support Item: bobs */}
                   <div className="bg-[#222] border border-[#333] overflow-hidden group hover:border-[#555] transition-colors duration-500 grid grid-cols-1 md:grid-cols-2">
-                       <div className="h-64 md:h-auto bg-[#111] relative overflow-hidden flex items-center justify-center">
-                            <div className="absolute inset-0 bg-[#004d40] opacity-10 group-hover:opacity-20 transition-opacity duration-700"></div>
-                            {/* Decorative Elements */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#004d40]/20 to-transparent"></div>
-                            <span className="relative z-10 text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#e0e0e0] opacity-90 group-hover:scale-105 transition-transform duration-700">bobs</span>
+                       <div className="h-64 md:h-auto bg-[#f8f8f8] relative overflow-hidden flex items-center justify-center">
+                            <Image
+                              src="/bobs-product.jpeg"
+                              alt="bobs ambient root メンズオーガニックコスメ製品ラインナップ"
+                              width={600}
+                              height={400}
+                              className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700"
+                            />
                        </div>
                        <div className="p-8 md:p-12 flex flex-col justify-center">
                            <div className="flex items-center gap-3 mb-4">
@@ -177,11 +246,14 @@ export default function SupportPage() {
 
                   {/* Support Item: murasaki no organic */}
                   <div className="bg-[#222] border border-[#333] overflow-hidden group hover:border-[#555] transition-colors duration-500 grid grid-cols-1 md:grid-cols-2">
-                       <div className="h-64 md:h-auto bg-[#111] relative overflow-hidden flex items-center justify-center order-1 md:order-2">
-                            <div className="absolute inset-0 bg-[#4a148c] opacity-10 group-hover:opacity-20 transition-opacity duration-700"></div>
-                            {/* Decorative Elements */}
-                            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#4a148c]/20 to-transparent"></div>
-                            <span className="relative z-10 text-3xl md:text-4xl font-bold tracking-[0.1em] text-[#e0e0e0] opacity-90 group-hover:scale-105 transition-transform duration-700 text-center leading-tight">murasaki no<br/>organic</span>
+                       <div className="h-64 md:h-auto bg-[#faf9f7] relative overflow-hidden flex items-center justify-center order-1 md:order-2">
+                            <Image
+                              src="/murasaki-product.jpeg"
+                              alt="murasaki no organic 紫根スキンケア製品ラインナップ"
+                              width={600}
+                              height={400}
+                              className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700"
+                            />
                        </div>
                        <div className="p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
                            <div className="flex items-center gap-3 mb-4">
@@ -228,7 +300,7 @@ export default function SupportPage() {
                         <div className="text-center mb-8">
                              <p className="text-xs opacity-60 mb-2">現在の支援総額</p>
                              <p className="text-4xl md:text-5xl font-bold" style={{ color: '#ffffff' }}>
-                                  ¥<span id="current-amount">0</span>
+                                  ¥{stats.totalAmount.toLocaleString()}
                              </p>
                         </div>
 
@@ -236,26 +308,25 @@ export default function SupportPage() {
                         <div className="w-full bg-[#333] h-3 rounded-full mb-6 overflow-hidden">
                              <div 
                                   className="h-full bg-gradient-to-r from-[#9d2b2b] to-[#c74545] rounded-full transition-all duration-1000"
-                                  style={{ width: '0%' }}
-                                  id="progress-bar"
+                                  style={{ width: `${Math.min(stats.percentage, 100)}%` }}
                              ></div>
                         </div>
 
                         {/* Stats Row */}
                         <div className="grid grid-cols-3 gap-4 text-center">
                              <div>
-                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>0%</p>
+                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>{stats.percentage}%</p>
                                   <p className="text-xs opacity-60 mt-1">達成率</p>
                              </div>
                              <div>
                                   <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
-                                       <span id="supporter-count">0</span>人
+                                       {stats.supporterCount}人
                                   </p>
                                   <p className="text-xs opacity-60 mt-1">支援者</p>
                              </div>
                              <div>
                                   <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
-                                       <span id="days-left">76</span>日
+                                       {stats.daysRemaining}日
                                   </p>
                                   <p className="text-xs opacity-60 mt-1">残り</p>
                              </div>
@@ -290,8 +361,7 @@ export default function SupportPage() {
                                   </div>
                                   <button 
                                        className="w-full md:w-auto px-8 py-4 bg-[#9d2b2b] text-white font-bold tracking-widest hover:bg-[#7a1f1f] transition-colors text-sm"
-                                       data-plan="supporter"
-                                       data-amount="3000"
+                                       onClick={() => handleSupportClick('supporter')}
                                   >
                                        このプランで支援する
                                   </button>
@@ -321,8 +391,7 @@ export default function SupportPage() {
                                   </div>
                                   <button 
                                        className="w-full md:w-auto px-8 py-4 bg-[#004d40] text-white font-bold tracking-widest hover:bg-[#00352c] transition-colors text-sm"
-                                       data-plan="fan"
-                                       data-amount="10000"
+                                       onClick={() => handleSupportClick('fan')}
                                   >
                                        このプランで支援する
                                   </button>
@@ -351,8 +420,7 @@ export default function SupportPage() {
                                   </div>
                                   <button 
                                        className="w-full md:w-auto px-8 py-4 bg-[#4a148c] text-white font-bold tracking-widest hover:bg-[#320e61] transition-colors text-sm"
-                                       data-plan="patron"
-                                       data-amount="30000"
+                                       onClick={() => handleSupportClick('patron')}
                                   >
                                        このプランで支援する
                                   </button>
@@ -379,16 +447,11 @@ export default function SupportPage() {
                                                  <span className="text-[#ff8a80] mt-1">✓</span>
                                                  <span>前川先生と一緒に取材地を巡る歴史ツアー（日帰り）</span>
                                             </li>
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#ff8a80] mt-1">✓</span>
-                                                 <span>直筆サイン＆メッセージ入り特装版書籍</span>
-                                            </li>
                                        </ul>
                                   </div>
                                   <button 
                                        className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-[#9d2b2b] to-[#c74545] text-white font-bold tracking-widest hover:from-[#7a1f1f] hover:to-[#9d2b2b] transition-all text-sm"
-                                       data-plan="sponsor"
-                                       data-amount="100000"
+                                       onClick={() => handleSupportClick('sponsor')}
                                   >
                                        このプランで支援する
                                   </button>
@@ -415,6 +478,73 @@ export default function SupportPage() {
               </div>
           </div>
       </section>
+
+      {/* Payment Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          ></div>
+          
+          {/* Modal Content */}
+          <div className="relative bg-[#1a1a1a] border border-[#333] p-8 md:p-12 max-w-md w-full">
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-2xl"
+            >
+              ×
+            </button>
+            
+            <h3 className="text-xl font-bold mb-2 text-white">支援者情報の入力</h3>
+            <p className="text-sm text-gray-400 mb-6">
+              {selectedPlan === 'supporter' && 'サポータープラン ¥3,000'}
+              {selectedPlan === 'fan' && '応援団プラン ¥10,000'}
+              {selectedPlan === 'patron' && 'パトロンプラン ¥30,000'}
+              {selectedPlan === 'sponsor' && 'スポンサープラン ¥100,000'}
+            </p>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">お名前（Special Thanksに掲載）</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="匿名希望の場合は空欄でOK"
+                  className="w-full px-4 py-3 bg-[#222] border border-[#444] text-white placeholder-gray-600 focus:border-[#9d2b2b] focus:outline-none transition-colors"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">メールアドレス <span className="text-[#9d2b2b]">*</span></label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="example@email.com"
+                  className="w-full px-4 py-3 bg-[#222] border border-[#444] text-white placeholder-gray-600 focus:border-[#9d2b2b] focus:outline-none transition-colors"
+                />
+              </div>
+              
+              <button
+                type="submit"
+                disabled={isLoading || !email}
+                className="w-full py-4 bg-[#9d2b2b] text-white font-bold tracking-widest hover:bg-[#7a1f1f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              >
+                {isLoading ? '処理中...' : '決済へ進む'}
+              </button>
+            </form>
+            
+            <p className="text-xs text-gray-500 mt-6 text-center">
+              Stripeによる安全な決済
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="w-full bg-[#151515] text-[#888] py-12 text-center text-[10px] tracking-widest border-t border-[#333]">
