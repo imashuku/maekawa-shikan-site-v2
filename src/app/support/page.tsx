@@ -113,14 +113,14 @@ export default function SupportPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                   {/* Support Item: bobs */}
                   <div className="bg-[#2a2a2a] border border-kinari/20 p-8 hover:border-kokihi/80 transition-colors group flex flex-col h-full">
-                      <div className="h-48 bg-black/40 mb-6 flex items-center justify-center font-serif text-3xl tracking-widest border border-kinari/10 relative overflow-hidden">
+                      <div className="h-48 bg-teal-900/20 mb-6 flex items-center justify-center font-serif text-3xl tracking-widest border border-kinari/10 relative overflow-hidden">
                           <span className="relative z-10">bobs</span>
-                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent transform scale-150"></div>
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-teal-400 to-transparent transform scale-150"></div>
                       </div>
-                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">bobs</h3>
+                      <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">bobs ambient root</h3>
                       <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
-                          広島のアーティスト・Bob氏による、「一筆書き（1chain drawing）」のアートプロダクト。<br/>
-                          途切れることなく繋がる線は、過去から現在、そして未来へと続く歴史の連続性を象徴しています。
+                          滋賀のセレクトショップ「BORN FREE」が共同開発した、メンズオーガニックコスメ。<br/>
+                          「ニッポンの宝物グランプリ」を受賞。奥永源寺の紫根と政所茶、地域の宝を肌に纏う、男の身だしなみ。
                       </p>
                       <a 
                         href="https://bobs.base.ec/" 
@@ -141,7 +141,7 @@ export default function SupportPage() {
                       <h3 className="text-xl font-serif font-bold mb-3 tracking-wide">murasaki no organic</h3>
                       <p className="text-sm opacity-80 mb-8 leading-loose flex-grow text-left">
                           滋賀県東近江市で、絶滅危惧種「紫草」をオーガニック栽培で再生。<br/>
-                          万葉の時代から愛された神秘の力と、琵琶湖の自然を守る取り組みは、近江の歴史そのものです。
+                          万葉の時代から愛された神秘の力（紫根エキス）を現代へ。歴史と自然を守る、正統派オーガニックコスメ。
                       </p>
                       <a 
                          href="https://murasakino-organic.stores.jp/" 
