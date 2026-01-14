@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Design A: Authentic - Color Palette */
+  --sumi: #333333; /* Charcoal / Text Base */
+  --sumi-dark: #1a1a1a; /* Darker Charcoal / Headings */
+  --kokihi: #900d0d; /* Deep Red / Accent */
+  --kinari: #fcfaf2; /* Off-white / Background */
+  --washi-gray: #e6e6e6; /* Subtle Gray */
+
+  --background: var(--kinari);
+  --foreground: var(--sumi);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-sumi: var(--sumi);
+  --color-sumi-dark: var(--sumi-dark);
+  --color-kokihi: var(--kokihi);
+  --color-kinari: var(--kinari);
+  --color-washi-gray: var(--washi-gray);
+
+  --font-sans: "Noto Sans JP", SYSTEM-UI, sans-serif;
+  --font-serif: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+
+  /* Vertical writing utility if needed (Tailwind has built-in writing-mode but good to alias) */
+
+  --animate-fade-in-up: fade-in-up 1s ease-out forwards;
+  --animate-fade-in: fade-in 1.5s ease-out forwards;
+  --animate-pulse-slow: pulse-slow 8s infinite ease-in-out;
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  color: var(--sumi-dark);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
