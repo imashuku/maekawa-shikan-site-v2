@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function StoryPage({ params }: { params: { slug: string } }) {
+export default async function StoryPage({ params }: { params: Promise<{ slug: string }> }) {
   // Await params correctly (in Next.js 15+, params is a Promise)
   const { slug } = await params;
   const story = stories.find((s) => s.slug === slug);
