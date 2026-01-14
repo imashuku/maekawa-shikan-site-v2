@@ -157,8 +157,8 @@ export default function SupportPage() {
                                 <span className="px-3 py-1 bg-[#004d40]/20 text-[#4db6ac] text-[10px] tracking-widest font-bold border border-[#004d40]/30">MEN'S ORGANIC</span>
                                 <span className="px-3 py-1 bg-[#b71c1c]/10 text-[#ef5350] text-[10px] tracking-widest font-bold border border-[#b71c1c]/20">AWARD WINNER</span>
                            </div>
-                           <h3 className="text-2xl font-bold mb-4 tracking-wide">bobs ambient root</h3>
-                           <p className="text-sm leading-8 opacity-70 mb-8 border-l border-[#333] pl-4">
+                           <h3 className="text-2xl font-bold mb-4 tracking-wide" style={{ color: '#ffffff' }}>bobs ambient root</h3>
+                           <p className="text-sm leading-8 mb-8 border-l border-[#333] pl-4" style={{ color: 'rgba(255,255,255,0.85)' }}>
                                滋賀のセレクトショップ「BORN FREE」が共同開発した、<br/>
                                メンズオーガニックコスメ。<br/>
                                「ニッポンの宝物 グランプリ」を受賞。<br/>
@@ -188,8 +188,8 @@ export default function SupportPage() {
                                 <span className="px-3 py-1 bg-[#4a148c]/20 text-[#ea80fc] text-[10px] tracking-widest font-bold border border-[#4a148c]/30">ORGANIC COSMETICS</span>
                                 <span className="px-3 py-1 bg-[#fff]/5 text-[#ccc] text-[10px] tracking-widest font-bold border border-[#fff]/10">SUSTAINABLE</span>
                            </div>
-                           <h3 className="text-2xl font-bold mb-4 tracking-wide">murasaki no organic</h3>
-                           <p className="text-sm leading-8 opacity-70 mb-8 border-l border-[#333] pl-4">
+                           <h3 className="text-2xl font-bold mb-4 tracking-wide" style={{ color: '#ffffff' }}>murasaki no organic</h3>
+                           <p className="text-sm leading-8 mb-8 border-l border-[#333] pl-4" style={{ color: 'rgba(255,255,255,0.85)' }}>
                                滋賀県東近江市で、絶滅危惧種「紫草」を<br/>
                                完全無農薬オーガニック栽培で再生。<br/>
                                万葉の時代から愛される神秘の力（紫根エキス）を、<br/>
