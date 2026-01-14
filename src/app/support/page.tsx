@@ -216,8 +216,8 @@ export default function SupportPage() {
                         <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#555]"></div>
                         <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#555]"></div>
 
-                        <h4 className="text-xl text-white mb-8 font-bold tracking-widest">支援者リターン</h4>
-                        <ul className="text-base space-y-4 text-white/90 text-left md:text-center font-light">
+                        <h4 className="text-xl mb-8 font-bold tracking-widest" style={{ color: '#ffffff' }}>支援者リターン</h4>
+                        <ul className="text-base space-y-4 text-left md:text-center font-light" style={{ color: 'rgba(255,255,255,0.9)' }}>
                             <li className="flex flex-col md:flex-row items-center justify-center gap-2">
                                 <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
                                 書籍出版時、巻末に「Special Thanks」としてお名前を掲載
