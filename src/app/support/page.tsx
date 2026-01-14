@@ -132,7 +132,7 @@ export default function SupportPage() {
       <section className="w-full bg-[#1a1a1a] text-[#f0f0f0] py-24 md:py-40">
           <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-24">
-                  <span className="text-[#9d2b2b] text-xs font-bold tracking-[0.3em] mb-6 block">SPECIAL SUPPORT</span>
+                  <span className="text-[#e0e0e0] opacity-70 text-xs font-bold tracking-[0.3em] mb-6 block">SPECIAL SUPPORT</span>
                   <h2 className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
                       歴史探究の旅を、共に。
                   </h2>
@@ -216,7 +216,7 @@ export default function SupportPage() {
                         <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#555]"></div>
                         <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#555]"></div>
 
-                        <h4 className="text-lg text-[#9d2b2b] mb-8 font-bold tracking-widest">支援者リターン</h4>
+                        <h4 className="text-lg text-[#e0e0e0] mb-8 font-bold tracking-widest">支援者リターン</h4>
                         <ul className="text-sm space-y-4 opacity-80 text-left md:text-center font-light">
                             <li className="flex flex-col md:flex-row items-center justify-center gap-2">
                                 <span className="w-1.5 h-1.5 bg-[#9d2b2b] rounded-full mb-1 md:mb-0"></span>
