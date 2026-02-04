@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import LatestNote from "./components/LatestNote";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-8 sm:p-20 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 sm:p-20 relative overflow-hidden">
       {/* Background Texture */}
       <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat"></div>
 
@@ -231,8 +232,15 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* --- Section: Latest Note --- */}
+      <LatestNote />
+
       {/* --- Section: Upcoming Event --- */}
-      <section className="w-full bg-kinari py-20 md:py-32 text-sumi">
+      <section 
+        id="upcoming-event"
+        className="w-full bg-kinari py-20 md:py-32 text-sumi"
+      >
         <div className="max-w-4xl mx-auto px-6 md:px-0 text-center">
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             UPCOMING EVENT
@@ -587,6 +595,6 @@ export default function Home() {
           Rights Reserved.
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

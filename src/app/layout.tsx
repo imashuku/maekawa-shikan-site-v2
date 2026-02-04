@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 // import { Shippori_Mincho, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
 
 /*
 const shippori = Shippori_Mincho({
@@ -30,10 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body
-        className="font-sans antialiased"
-      >
-        {children}
+      <body className="font-sans antialiased bg-kinari text-sumi">
+        <Header />
+        <main className="pt-16 md:pt-20">
+          {children}
+        </main>
       </body>
     </html>
   );
