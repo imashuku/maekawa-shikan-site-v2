@@ -33,7 +33,7 @@ export default function ActivitiesPage() {
             href="/"
             className="text-xl font-serif font-bold text-sumi-dark hover:text-kokihi transition-colors"
           >
-            前川史観
+            それはまことですか
           </Link>
           <nav className="flex gap-6 text-sm font-serif">
             <Link
@@ -67,7 +67,7 @@ export default function ActivitiesPage() {
           <p className="text-sumi/80 font-serif leading-relaxed">
             前川真司が各地で行った講演や勉強会の記録です。
             <br />
-            「前川史観」を通じて、近江の歴史の深層を伝え続けています。
+            「それはまことですか」を通じて、近江の歴史の深層を伝え続けています。
           </p>
         </div>
       </section>
@@ -156,7 +156,7 @@ export default function ActivitiesPage() {
             <br />
             様々な場での講演を承っております。
             <br />
-            「前川史観」を通じて、歴史の新たな視点をお届けします。
+            「それはまことですか」を通じて、歴史の新たな視点をお届けします。
           </p>
           <Link
             href="/contact"
@@ -175,7 +175,7 @@ export default function ActivitiesPage() {
               href="/"
               className="text-xl font-serif font-bold hover:text-kokihi transition-colors"
             >
-              前川史観
+              それはまことですか
             </Link>
             <nav className="flex gap-6 text-sm font-serif opacity-60">
               <Link
@@ -205,7 +205,7 @@ export default function ActivitiesPage() {
             </nav>
           </div>
           <div className="text-center text-xs opacity-40 font-serif mt-8">
-            &copy; {new Date().getFullYear()} Shinji Maekawa Historical View.
+            &copy; {new Date().getFullYear()} Sore wa Makoto desu ka Production Team.
             All Rights Reserved.
           </div>
         </div>

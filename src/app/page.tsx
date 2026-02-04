@@ -51,11 +51,11 @@ export default function Home() {
         {/* Introduction Text */}
         <div className="absolute bottom-8 left-0 w-full text-center md:text-left md:pl-12 animate-fade-in">
           <p className="font-serif text-sumi-dark text-xs md:text-base tracking-[0.2em] uppercase mb-3 opacity-70">
-            SHINJI MAEKAWA HISTORICAL VIEW
+            IS THAT THE TRUTH?
           </p>
           <div className="h-px w-24 bg-kokihi mx-auto md:mx-0 mb-3"></div>
           <p className="text-kokihi text-xs md:text-sm font-bold tracking-[0.4em]">
-            前川史観
+            それはまことですか
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default function Home() {
           href="#profile"
           className="flex items-center justify-center border border-sumi text-sumi px-6 py-4 md:py-3 hover:bg-sumi hover:text-kinari transition-colors duration-300 text-sm md:text-base"
         >
-          前川真司について
+          ナビゲーター紹介
         </Link>
         <Link
           href="/support"
@@ -109,7 +109,7 @@ export default function Home() {
                 彼らがこの地で何を感じ、何を決断したのか。
               </p>
               <p>
-                前川史観は、既存の解釈を疑い、
+                このプロジェクトは、既存の解釈を疑い、
                 <br />
                 一次資料と現地の空気を重ね合わせることで、
                 <br />
@@ -143,7 +143,7 @@ export default function Home() {
             </div>
             <div className="hidden md:block text-right">
               <p className="font-serif text-sm opacity-80">
-                前川史観で読み解く、
+                独自の視点で読み解く、
                 <br />
                 知られざる物語。
               </p>
@@ -354,12 +354,12 @@ export default function Home() {
             PROJECT
           </span>
           <h2 className="text-2xl md:text-4xl font-serif text-sumi-dark mb-8 leading-relaxed">
-            前川史観、書籍化プロジェクト
+            書籍化プロジェクト
             <br />
             始動。
           </h2>
           <p className="leading-loose text-sumi font-serif mb-12 text-sm md:text-base">
-            現在、自身の集大成となる歴史ノンフィクションの執筆を進めています。
+            現在、長年の探究の集大成となる歴史ノンフィクションの執筆を進めています。
             <br />
             足で稼いだ一次情報と、独自の仮説が織りなす「もう一つの日本史」。
             <br />
@@ -393,15 +393,24 @@ export default function Home() {
           </div>
 
           <div className="md:w-2/3">
-            <h2 className="text-xl tracking-widest text-kokihi mb-2 font-serif">
-              PROFILE
+            <span className="text-kokihi font-bold text-xs tracking-[0.2em] mb-4 block">
+              NAVIGATOR
+            </span>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-10">
+              ナビゲーター紹介
             </h2>
-            <h3 className="text-3xl md:text-4xl font-serif text-sumi-dark mb-6">
-              前川 真司
-              <span className="text-lg ml-4 opacity-50">Shinji Maekawa</span>
-            </h3>
+
+            <div className="flex items-center gap-4 mb-2">
+              <span className="text-xs font-bold bg-sumi-dark text-white px-2 py-0.5 rounded-sm tracking-widest">
+                NAVIGATOR 01
+              </span>
+              <h3 className="text-2xl font-serif font-bold">
+                前川 真司
+                <span className="text-lg ml-4 opacity-50 font-normal">Shinji Maekawa</span>
+              </h3>
+            </div>
             <p className="text-sm text-sumi/60 mb-6 font-serif">
-              株式会社みんなの奥永源寺 代表取締役
+              歴史案内人
             </p>
 
             <p className="leading-loose text-sumi mb-6 text-sm md:text-base font-serif">
@@ -447,7 +456,7 @@ export default function Home() {
             </div>
             <div className="md:w-5/12 md:order-3">
               <p className="text-sm text-sumi">
-                「前川史観」の核となるテーマを選定。取材開始。
+                「それはまことですか」の核となるテーマを選定。取材開始。
                 <br />
                 ファンコミュニティの立ち上げ。
               </p>
@@ -527,7 +536,7 @@ export default function Home() {
       <footer className="w-full bg-sumi-dark text-kinari pt-24 pb-8">
         <div className="max-w-5xl mx-auto px-5 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-kinari/20 pb-16">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-serif font-bold mb-4">前川史観</h2>
+            <h2 className="text-2xl font-serif font-bold mb-4">それはまことですか</h2>
             <p className="text-xs opacity-60 leading-relaxed font-serif">
               歴史は勝者によって作られる。
               <br />
@@ -552,7 +561,7 @@ export default function Home() {
                   href="/#profile"
                   className="hover:text-kokihi transition-colors"
                 >
-                  プロフィールについて
+                  ナビゲーター紹介
                 </Link>
               </li>
               <li>
@@ -587,11 +596,20 @@ export default function Home() {
                   X (Twitter)
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://www.youtube.com/@sore-mako"
+                  target="_blank"
+                  className="hover:text-kokihi transition-colors"
+                >
+                  YouTube
+                </a>
+              </li>
             </ul>
           </div>
         </div>
         <div className="text-center text-xs opacity-40 font-serif">
-          &copy; {new Date().getFullYear()} Shinji Maekawa Historical View. All
+          &copy; {new Date().getFullYear()} Sore wa Makoto desu ka Production Team. All
           Rights Reserved.
         </div>
       </footer>

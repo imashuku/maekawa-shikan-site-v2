@@ -135,7 +135,7 @@ export default function SupportPage() {
                   <p className="text-sm md:text-base opacity-70 leading-loose max-w-2xl mx-auto font-light">
                       取材活動には、多大なリソースが必要です。<br/>
                       対象商品をご購入いただくことで、<span className="text-[#fff] border-b border-[#9d2b2b] pb-1 mx-1">売上の一部</span>が<br/>
-                      前川史観の取材・執筆活動費に充てられます。
+                      「それはまことですか」の取材・執筆活動費に充てられます。
                   </p>
               </div>
 
@@ -174,39 +174,7 @@ export default function SupportPage() {
                        </div>
                   </div>
 
-                  {/* Support Item: murasaki no organic */}
-                  <div className="bg-[#222] border border-[#333] overflow-hidden group hover:border-[#555] transition-colors duration-500 grid grid-cols-1 md:grid-cols-2">
-                       <div className="h-64 md:h-auto bg-[#faf9f7] relative overflow-hidden flex items-center justify-center order-1 md:order-2">
-                            <Image
-                              src="/murasaki-product.jpeg"
-                              alt="murasaki no organic 紫根スキンケア製品ラインナップ"
-                              width={600}
-                              height={400}
-                              className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700"
-                            />
-                       </div>
-                       <div className="p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
-                           <div className="flex items-center gap-3 mb-4">
-                                <span className="px-3 py-1 bg-[#4a148c]/20 text-[#ea80fc] text-[10px] tracking-widest font-bold border border-[#4a148c]/30">ORGANIC COSMETICS</span>
-                                <span className="px-3 py-1 bg-[#fff]/5 text-[#ccc] text-[10px] tracking-widest font-bold border border-[#fff]/10">SUSTAINABLE</span>
-                           </div>
-                           <h3 className="text-2xl font-bold mb-4 tracking-wide" style={{ color: '#ffffff' }}>murasaki no organic</h3>
-                           <p className="text-sm leading-8 mb-8 border-l border-[#333] pl-4" style={{ color: 'rgba(255,255,255,0.85)' }}>
-                               滋賀県東近江市で、絶滅危惧種「紫草」を<br/>
-                               完全無農薬オーガニック栽培で再生。<br/>
-                               万葉の時代から愛される神秘の力（紫根エキス）を、<br/>
-                               現代のスキンケアへ。
-                           </p>
-                           <a 
-                             href="https://murasakino-organic.stores.jp/" 
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="inline-flex items-center justify-center px-8 py-4 border border-[#444] text-[#ccc] hover:bg-[#4a148c] hover:text-white hover:border-[#4a148c] transition-colors duration-300 text-sm tracking-widest self-start"
-                           >
-                               商品ページを見る →
-                           </a>
-                       </div>
-                  </div>
+
               </div>
 
               {/* Coming Soon Section (Replaced Crowdfunding) */}
@@ -216,7 +184,7 @@ export default function SupportPage() {
                    </div>
                    
                    <h3 className="text-2xl md:text-3xl font-bold mb-8 text-[#fff]">
-                       前川史観 出版支援プロジェクト<br/>
+                       書籍化支援プロジェクト<br/>
                        <span className="text-base text-[#888] font-normal mt-2 block">CROWDFUNDING PROJECT</span>
                    </h3>
                    

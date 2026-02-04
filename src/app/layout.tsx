@@ -19,9 +19,9 @@ const notoSansJP = Noto_Sans_JP({
 */
 
 export const metadata: Metadata = {
-  title: "前川史観 | 歴史の本質を問う",
+  title: "それはまことですか | 歴史の本質を問う",
   description:
-    "教科書には載らない歴史の面白さを。前川真司による滋賀・近江の歴史再定義プロジェクト。",
+    "教科書には載らない歴史の面白さを。制作チームによる滋賀・近江の歴史再定義プロジェクト。",
 };
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="font-sans antialiased bg-kinari text-sumi">
+      <body suppressHydrationWarning className="font-sans antialiased bg-kinari text-sumi">
         <Header />
         <main className="pt-16 md:pt-20">
           {children}

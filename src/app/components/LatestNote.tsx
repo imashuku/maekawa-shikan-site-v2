@@ -42,7 +42,7 @@ export default function LatestNote() {
             </h2>
 
             <p className="text-sm md:text-base font-serif text-sumi leading-loose mb-8 opacity-80">
-              滋賀県・東近江市から発信する「前川史観」。
+              滋賀県・東近江市から発信する「それはまことですか」。
               <br />
               あなたの足元には、教科書が語らなかった日本史の核心が眠っているかもしれません。
               <br />
