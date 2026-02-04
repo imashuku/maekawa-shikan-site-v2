@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-kinari/90 backdrop-blur-sm border-b border-sumi/10 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-5 md:px-6 h-16 md:h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-serif font-bold text-xl md:text-2xl text-sumi-dark tracking-widest z-50 relative" onClick={closeMenu}>
           前川史観

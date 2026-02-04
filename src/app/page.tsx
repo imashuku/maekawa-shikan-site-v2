@@ -4,7 +4,7 @@ import LatestNote from "./components/LatestNote";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 sm:p-20 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center px-5 py-8 sm:p-20 relative overflow-hidden">
       {/* Background Texture */}
       <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat"></div>
 
@@ -61,7 +61,7 @@ export default function Home() {
       </section>
 
       {/* Navigation / Links Placeholder */}
-      <div className="z-10 mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg font-serif px-6 md:px-0">
+      <div className="z-10 mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg font-serif px-5 md:px-0">
         <Link
           href="#profile"
           className="flex items-center justify-center border border-sumi text-sumi px-6 py-4 md:py-3 hover:bg-sumi hover:text-kinari transition-colors duration-300 text-sm md:text-base"
@@ -84,7 +84,7 @@ export default function Home() {
       {/* --- Section: Concept (Thinking) --- */}
       <section
         id="concept"
-        className="w-full max-w-4xl py-20 md:py-32 px-6 md:px-0"
+        className="w-full max-w-4xl py-20 md:py-32 px-5 md:px-0"
       >
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="md:w-1/2">
@@ -133,7 +133,7 @@ export default function Home() {
         id="stories"
         className="w-full bg-sumi-dark text-kinari py-20 md:py-32"
       >
-        <div className="max-w-5xl mx-auto px-6 md:px-0">
+        <div className="max-w-5xl mx-auto px-5 md:px-0">
           <div className="flex justify-between items-end mb-12 md:mb-16 border-b border-kinari/20 pb-4">
             <div>
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-2">
@@ -241,7 +241,7 @@ export default function Home() {
         id="upcoming-event"
         className="w-full bg-kinari py-20 md:py-32 text-sumi"
       >
-        <div className="max-w-4xl mx-auto px-6 md:px-0 text-center">
+        <div className="max-w-4xl mx-auto px-5 md:px-0 text-center">
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             UPCOMING EVENT
           </span>
@@ -349,7 +349,7 @@ export default function Home() {
 
       {/* --- Section: Road to Publication --- */}
       <section className="w-full bg-kokihi/5 py-20 md:py-32">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto px-5 text-center">
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             PROJECT
           </span>
@@ -378,7 +378,7 @@ export default function Home() {
         id="profile"
         className="w-full bg-white/50 py-20 md:py-32 border-y border-sumi/10"
       >
-        <div className="max-w-4xl mx-auto px-6 md:px-0 flex flex-col-reverse md:flex-row gap-12 items-center">
+        <div className="max-w-4xl mx-auto px-5 md:px-0 flex flex-col-reverse md:flex-row gap-12 items-center">
           <div className="md:w-1/3 text-right md:text-left">
             <div className="relative inline-block w-48 h-64 md:w-64 md:h-80 shadow-2xl rotate-3 bg-white p-2">
               <div className="w-full h-full bg-sumi/10 relative overflow-hidden">
@@ -427,7 +427,7 @@ export default function Home() {
       </section>
 
       {/* --- Section: Roadmap (Project) --- */}
-      <section className="w-full max-w-4xl py-32 px-6 md:px-0">
+      <section className="w-full max-w-4xl py-32 px-5 md:px-0">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-serif text-sumi-dark mb-4">
             書籍化への道程
@@ -494,7 +494,7 @@ export default function Home() {
 
       {/* --- Section: LINE Official Account --- */}
       <section className="w-full bg-white py-20 md:py-32 border-y border-sumi/10">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto px-5 text-center">
           <span className="text-[#06C755] text-xs font-bold tracking-widest mb-4 block">
             OFFICIAL ACCOUNT
           </span>
@@ -525,7 +525,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full bg-sumi-dark text-kinari pt-24 pb-8">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-kinari/20 pb-16">
+        <div className="max-w-5xl mx-auto px-5 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-kinari/20 pb-16">
           <div className="col-span-1 md:col-span-2">
             <h2 className="text-2xl font-serif font-bold mb-4">前川史観</h2>
             <p className="text-xs opacity-60 leading-relaxed font-serif">

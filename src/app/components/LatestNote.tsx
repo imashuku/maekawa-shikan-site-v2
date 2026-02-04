@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function LatestNote() {
   return (
-    <section className="w-full bg-washi-gray/30 py-20 px-6 md:px-0 border-t border-sumi/5">
+    <section className="w-full bg-washi-gray/30 py-20 px-5 md:px-0 border-t border-sumi/5">
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center">
           
