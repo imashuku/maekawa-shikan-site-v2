@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Noto_Serif_JP } from "next/font/google";
@@ -11,76 +10,7 @@ const serif = Noto_Serif_JP({
   variable: "--font-serif",
 });
 
-// 統計データの型
-interface Stats {
-  totalAmount: number;
-  supporterCount: number;
-  goalAmount: number;
-  daysRemaining: number;
-  percentage: number;
-}
-
 export default function SupportPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [stats, setStats] = useState<Stats>({
-    totalAmount: 0,
-    supporterCount: 0,
-    goalAmount: 1000000,
-    daysRemaining: 76,
-    percentage: 0,
-  });
-
-  // 統計データを取得
-  useEffect(() => {
-    fetch('/api/stats')
-      .then(res => res.json())
-      .then(data => setStats(data))
-      .catch(console.error);
-  }, []);
-
-  // 支援ボタンのクリックハンドラー
-  const handleSupportClick = (plan: string) => {
-    setSelectedPlan(plan);
-    setIsModalOpen(true);
-  };
-
-  // 決済処理
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedPlan) return;
-
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: selectedPlan, email, name }),
-      });
-
-      const data = await response.json();
-      
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('エラーが発生しました。もう一度お試しください。');
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      alert('エラーが発生しました。');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("ニュースレター登録（デモ）：ありがとうございます。現在は登録できません。");
-  };
-
 
   return (
     <main className={`min-h-screen bg-[#f7f6f2] text-[#333] flex flex-col items-center relative overflow-hidden ${serif.variable} font-serif`}>
@@ -113,30 +43,30 @@ export default function SupportPage() {
       {/* Three Ways to Support */}
       <section className="relative z-10 w-full max-w-6xl px-6 pb-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-              {/* 1. Newsletter */}
+              {/* 1. LINE Official Account */}
               <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
-                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">壹</div>
-                 <div className="relative z-10">
-                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
-                        知る
-                    </h3>
-                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
-                        表には出せない取材メモや、執筆過程の苦悩。<br/>
-                        ここでしか読めない裏話をニュースレターで。
-                    </p>
-                    <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
-                        <input 
-                          type="email" 
-                          placeholder="メールアドレス" 
-                          className="w-full px-4 py-3 bg-[#f9f9f9] border border-[#e0e0e0] focus:outline-none focus:border-[#9d2b2b] transition-colors text-sm"
-                        />
-                        <button type="submit" className="w-full bg-[#333] text-white py-3 hover:bg-[#9d2b2b] transition-colors text-sm font-bold tracking-widest">
-                           登録する（無料）
-                        </button>
-                    </form>
-                 </div>
+                     <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">壹</div>
+                     <div className="relative z-10">
+                        <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                            <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                            知る
+                        </h3>
+                        <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                            公式LINEで最新情報を受け取る。<br/>
+                            取材の裏側や、新着記事の通知をお届けします。
+                        </p>
+                        
+                        <a 
+                          href="https://lin.ee/KY9xx1E" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-full py-3 bg-[#06C755] text-white hover:bg-[#05b54d] transition-colors text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
+                        >
+                            公式LINEを友だち追加
+                        </a>
+                     </div>
               </div>
+
 
               {/* 2. Share */}
               <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
@@ -152,7 +82,7 @@ export default function SupportPage() {
                     </p>
                     <div className="flex flex-col gap-3">
                         <a 
-                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%89%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3" 
+                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3" 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="w-full py-3 border border-[#333] text-[#333] hover:bg-[#333] hover:text-white transition-colors text-sm tracking-widest text-center"
@@ -279,185 +209,32 @@ export default function SupportPage() {
                   </div>
               </div>
 
-              {/* Crowdfunding Section */}
-              <div className="mt-24">
-                   {/* Progress Header */}
-                   <div className="text-center mb-16">
-                        <span className="text-xs tracking-[0.3em] opacity-60 mb-4 block">CROWDFUNDING</span>
-                        <h3 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: '#ffffff' }}>前川史観 出版支援プロジェクト</h3>
-                        <p className="text-sm opacity-70 mb-2">All-In方式（目標金額に関わらず支援金を受け取ります）</p>
+              {/* Coming Soon Section (Replaced Crowdfunding) */}
+              <div className="mt-32 border-t border-[#333] pt-24 text-center">
+                   <div className="inline-block px-4 py-2 bg-[#333] mb-8">
+                        <span className="text-[#9d2b2b] font-bold tracking-[0.2em] text-sm">COMING SOON</span>
                    </div>
+                   
+                   <h3 className="text-2xl md:text-3xl font-bold mb-8 text-[#fff]">
+                       前川史観 出版支援プロジェクト<br/>
+                       <span className="text-base text-[#888] font-normal mt-2 block">CROWDFUNDING PROJECT</span>
+                   </h3>
+                   
+                   <p className="text-[#ccc] text-lg leading-loose max-w-2xl mx-auto mb-10">
+                        現在、クラウドファンディングの準備を進めています。<br/>
+                        開始が決まりましたら、公式LINEにてお知らせいたします。
+                    </p>
 
-                   {/* Stats Card */}
-                   <div className="border border-[#333] bg-[#222] p-8 md:p-12 mb-12 relative">
-                        {/* Corner Accents */}
-                        <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-[#555]"></div>
-                        <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#555]"></div>
-                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#555]"></div>
-                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#555]"></div>
-
-                        {/* Current Amount */}
-                        <div className="text-center mb-8">
-                             <p className="text-xs opacity-60 mb-2">現在の支援総額</p>
-                             <p className="text-4xl md:text-5xl font-bold" style={{ color: '#ffffff' }}>
-                                  ¥{stats.totalAmount.toLocaleString()}
-                             </p>
-                        </div>
-
-                        {/* Progress Bar */}
-                        <div className="w-full bg-[#333] h-3 rounded-full mb-6 overflow-hidden">
-                             <div 
-                                  className="h-full bg-gradient-to-r from-[#9d2b2b] to-[#c74545] rounded-full transition-all duration-1000"
-                                  style={{ width: `${Math.min(stats.percentage, 100)}%` }}
-                             ></div>
-                        </div>
-
-                        {/* Stats Row */}
-                        <div className="grid grid-cols-3 gap-4 text-center">
-                             <div>
-                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>{stats.percentage}%</p>
-                                  <p className="text-xs opacity-60 mt-1">達成率</p>
-                             </div>
-                             <div>
-                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
-                                       {stats.supporterCount}人
-                                  </p>
-                                  <p className="text-xs opacity-60 mt-1">支援者</p>
-                             </div>
-                             <div>
-                                  <p className="text-2xl md:text-3xl font-bold" style={{ color: '#ffffff' }}>
-                                       {stats.daysRemaining}日
-                                  </p>
-                                  <p className="text-xs opacity-60 mt-1">残り</p>
-                             </div>
-                        </div>
-
-                        {/* Goal */}
-                        <div className="mt-8 pt-6 border-t border-[#333] text-center">
-                             <p className="text-sm opacity-70">目標金額: <span className="font-bold" style={{ color: '#ffffff' }}>¥1,000,000</span></p>
-                             <p className="text-xs opacity-50 mt-2">期間: 2026年2月1日 〜 3月31日</p>
-                        </div>
-                   </div>
-
-                   {/* Support Plans */}
-                   <div className="space-y-6">
-                        <h4 className="text-center text-lg font-bold tracking-widest mb-8" style={{ color: '#ffffff' }}>支援プランを選ぶ</h4>
-                        
-                        {/* Plan 1: サポーター */}
-                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
-                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                                  <div className="flex-1">
-                                       <div className="flex items-center gap-3 mb-3">
-                                            <span className="px-3 py-1 bg-[#9d2b2b]/20 text-[#ef5350] text-[10px] tracking-widest font-bold border border-[#9d2b2b]/30">SUPPORTER</span>
-                                       </div>
-                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>サポーター</h5>
-                                       <p className="text-2xl font-bold mb-4" style={{ color: '#9d2b2b' }}>¥3,000</p>
-                                       <ul className="text-sm space-y-2 opacity-80">
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#9d2b2b] mt-1">✓</span>
-                                                 <span>書籍巻末に「Special Thanks」としてお名前を掲載</span>
-                                            </li>
-                                       </ul>
-                                  </div>
-                                  <button 
-                                       className="w-full md:w-auto px-8 py-4 bg-[#9d2b2b] text-white font-bold tracking-widest hover:bg-[#7a1f1f] transition-colors text-sm"
-                                       onClick={() => handleSupportClick('supporter')}
-                                  >
-                                       このプランで支援する
-                                  </button>
-                             </div>
-                        </div>
-
-                        {/* Plan 2: 応援団 */}
-                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
-                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                                  <div className="flex-1">
-                                       <div className="flex items-center gap-3 mb-3">
-                                            <span className="px-3 py-1 bg-[#004d40]/20 text-[#4db6ac] text-[10px] tracking-widest font-bold border border-[#004d40]/30">FAN</span>
-                                            <span className="px-3 py-1 bg-[#fff]/5 text-[#ccc] text-[10px] tracking-widest font-bold border border-[#fff]/10">人気</span>
-                                       </div>
-                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>応援団</h5>
-                                       <p className="text-2xl font-bold mb-4" style={{ color: '#004d40' }}>¥10,000</p>
-                                       <ul className="text-sm space-y-2 opacity-80">
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#4db6ac] mt-1">✓</span>
-                                                 <span>サポータープランのすべて</span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#4db6ac] mt-1">✓</span>
-                                                 <span>著者サイン入り書籍の送付</span>
-                                            </li>
-                                       </ul>
-                                  </div>
-                                  <button 
-                                       className="w-full md:w-auto px-8 py-4 bg-[#004d40] text-white font-bold tracking-widest hover:bg-[#00352c] transition-colors text-sm"
-                                       onClick={() => handleSupportClick('fan')}
-                                  >
-                                       このプランで支援する
-                                  </button>
-                             </div>
-                        </div>
-
-                        {/* Plan 3: パトロン */}
-                        <div className="border border-[#333] bg-[#222] p-6 md:p-8 hover:border-[#555] transition-colors group">
-                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                                  <div className="flex-1">
-                                       <div className="flex items-center gap-3 mb-3">
-                                            <span className="px-3 py-1 bg-[#4a148c]/20 text-[#ea80fc] text-[10px] tracking-widest font-bold border border-[#4a148c]/30">PATRON</span>
-                                       </div>
-                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>パトロン</h5>
-                                       <p className="text-2xl font-bold mb-4" style={{ color: '#4a148c' }}>¥30,000</p>
-                                       <ul className="text-sm space-y-2 opacity-80">
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#ea80fc] mt-1">✓</span>
-                                                 <span>応援団プランのすべて</span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#ea80fc] mt-1">✓</span>
-                                                 <span>出版記念パーティーへのご招待</span>
-                                            </li>
-                                       </ul>
-                                  </div>
-                                  <button 
-                                       className="w-full md:w-auto px-8 py-4 bg-[#4a148c] text-white font-bold tracking-widest hover:bg-[#320e61] transition-colors text-sm"
-                                       onClick={() => handleSupportClick('patron')}
-                                  >
-                                       このプランで支援する
-                                  </button>
-                             </div>
-                        </div>
-
-                        {/* Plan 4: スポンサー */}
-                        <div className="border border-[#9d2b2b] bg-gradient-to-br from-[#222] to-[#2a1a1a] p-6 md:p-8 hover:border-[#c74545] transition-colors group relative overflow-hidden">
-                             {/* Premium Badge */}
-                             <div className="absolute top-0 right-0 bg-[#9d2b2b] text-white text-[10px] px-4 py-1 tracking-widest font-bold">PREMIUM</div>
-                             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                                  <div className="flex-1">
-                                       <div className="flex items-center gap-3 mb-3">
-                                            <span className="px-3 py-1 bg-[#9d2b2b]/30 text-[#ff8a80] text-[10px] tracking-widest font-bold border border-[#9d2b2b]/50">SPONSOR</span>
-                                       </div>
-                                       <h5 className="text-xl font-bold mb-2" style={{ color: '#ffffff' }}>スポンサー</h5>
-                                       <p className="text-2xl font-bold mb-4" style={{ color: '#ff8a80' }}>¥100,000</p>
-                                       <ul className="text-sm space-y-2 opacity-80">
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#ff8a80] mt-1">✓</span>
-                                                 <span>パトロンプランのすべて</span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                 <span className="text-[#ff8a80] mt-1">✓</span>
-                                                 <span>前川先生と一緒に取材地を巡る歴史ツアー（日帰り）</span>
-                                            </li>
-                                       </ul>
-                                  </div>
-                                  <button 
-                                       className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-[#9d2b2b] to-[#c74545] text-white font-bold tracking-widest hover:from-[#7a1f1f] hover:to-[#9d2b2b] transition-all text-sm"
-                                       onClick={() => handleSupportClick('sponsor')}
-                                  >
-                                       このプランで支援する
-                                  </button>
-                             </div>
-                        </div>
-                   </div>
+                    <div className="flex justify-center gap-4">
+                         <a 
+                           href="https://lin.ee/KY9xx1E" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           className="px-8 py-3 bg-[#06C755] text-white font-bold text-sm tracking-widest hover:bg-[#05b54d] transition-colors"
+                         >
+                            公式LINEで最新情報を受け取る
+                         </a>
+                    </div>
               </div>
           </div>
       </section>
@@ -478,73 +255,6 @@ export default function SupportPage() {
               </div>
           </div>
       </section>
-
-      {/* Payment Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onClick={() => setIsModalOpen(false)}
-          ></div>
-          
-          {/* Modal Content */}
-          <div className="relative bg-[#1a1a1a] border border-[#333] p-8 md:p-12 max-w-md w-full">
-            {/* Close Button */}
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-2xl"
-            >
-              ×
-            </button>
-            
-            <h3 className="text-xl font-bold mb-2 text-white">支援者情報の入力</h3>
-            <p className="text-sm text-gray-400 mb-6">
-              {selectedPlan === 'supporter' && 'サポータープラン ¥3,000'}
-              {selectedPlan === 'fan' && '応援団プラン ¥10,000'}
-              {selectedPlan === 'patron' && 'パトロンプラン ¥30,000'}
-              {selectedPlan === 'sponsor' && 'スポンサープラン ¥100,000'}
-            </p>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">お名前（Special Thanksに掲載）</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="匿名希望の場合は空欄でOK"
-                  className="w-full px-4 py-3 bg-[#222] border border-[#444] text-white placeholder-gray-600 focus:border-[#9d2b2b] focus:outline-none transition-colors"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">メールアドレス <span className="text-[#9d2b2b]">*</span></label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="example@email.com"
-                  className="w-full px-4 py-3 bg-[#222] border border-[#444] text-white placeholder-gray-600 focus:border-[#9d2b2b] focus:outline-none transition-colors"
-                />
-              </div>
-              
-              <button
-                type="submit"
-                disabled={isLoading || !email}
-                className="w-full py-4 bg-[#9d2b2b] text-white font-bold tracking-widest hover:bg-[#7a1f1f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-6"
-              >
-                {isLoading ? '処理中...' : '決済へ進む'}
-              </button>
-            </form>
-            
-            <p className="text-xs text-gray-500 mt-6 text-center">
-              Stripeによる安全な決済
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* Footer */}
       <footer className="w-full bg-[#151515] text-[#888] py-12 text-center text-[10px] tracking-widest border-t border-[#333]">

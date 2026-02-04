@@ -484,6 +484,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* --- Section: LINE Official Account --- */}
+      <section className="w-full bg-white py-20 md:py-32 border-y border-sumi/10">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <span className="text-[#06C755] text-xs font-bold tracking-widest mb-4 block">
+            OFFICIAL ACCOUNT
+          </span>
+          <h2 className="text-2xl md:text-3xl font-serif text-sumi-dark mb-8 leading-relaxed">
+            最新情報は
+            <br className="md:hidden" />
+            LINE公式アカウントで
+          </h2>
+          <p className="leading-loose text-sumi font-serif mb-10 text-sm md:text-base">
+            イベントの開催案内や、執筆の裏側、
+            <br />
+            ここだけの限定コンテンツをお届けします。
+          </p>
+          <a
+            href="https://lin.ee/KY9xx1E"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-sm bg-[#06C755] px-10 py-5 font-bold text-white shadow-md transition-all duration-300 hover:bg-[#05b54b] hover:shadow-xl w-full md:w-auto"
+          >
+            <span className="mr-2 fa-lg">LINE友だち追加する</span>
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-shine" />
+          </a>
+          <p className="text-xs text-sumi/50 mt-6 font-serif">
+            ※ID検索：「@918kbaia」でも登録可能です
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="w-full bg-sumi-dark text-kinari pt-24 pb-8">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-kinari/20 pb-16">
