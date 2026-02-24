@@ -55,7 +55,7 @@ export default function Home() {
           </p>
           <div className="h-px w-24 bg-kokihi mx-auto md:mx-0 mb-3"></div>
           <p className="text-kokihi text-xs md:text-sm font-bold tracking-[0.4em]">
-            それはまことですか
+            それはまことですか？
           </p>
         </div>
       </section>
@@ -254,7 +254,7 @@ export default function Home() {
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第4回 近江歴史を学ぶ会
+              第5回 近江歴史を学ぶ会
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
@@ -266,7 +266,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    2月12日(木)
+                    3月18日(水)
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
@@ -295,9 +295,8 @@ export default function Home() {
                   <p className="font-bold text-lg text-sumi-dark">
                     SATSUKI-RO（さつき楼）
                   </p>
-                  <p className="text-sm mt-1">お部屋：かえで</p>
                   <p className="text-sm opacity-80 mt-1">
-                    東近江市八日市本町9-19（八日市駅前すぐ）
+                    滋賀県東近江市八日市本町9-19（八日市駅前すぐ）
                   </p>
                   <a
                     href="https://maps.app.goo.gl/..."
@@ -326,12 +325,12 @@ export default function Home() {
 
             <div className="mt-12 text-center">
               <p className="text-sm text-sumi/70 mb-6 font-serif leading-loose">
-                前川さんと直接じっくりお話しできる貴重な機会です。
+                「源氏物語」も「平家物語」も、実は近江から始まっていた。
                 <br />
-                皆様のご参加をお待ちしております。
+                教科書では語られない近江の真実を、今回も紐解きます。
               </p>
               <a
-                href="https://chouseisan.com/s?h=fac063a11fd84e1dab783a927ea7ac9b"
+                href="https://chouseisan.com/s?h=bd3af601c8d44ff19b09dd27404a3bda"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-sm bg-kokihi px-8 py-4 font-bold text-white shadow-md transition-all duration-300 hover:bg-sumi-dark hover:shadow-xl w-full md:w-auto"
@@ -536,7 +535,7 @@ export default function Home() {
       <footer className="w-full bg-sumi-dark text-kinari pt-24 pb-8">
         <div className="max-w-5xl mx-auto px-5 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 border-b border-kinari/20 pb-16">
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-serif font-bold mb-4">それはまことですか</h2>
+            <h2 className="text-2xl font-serif font-bold mb-4">それはまことですか？</h2>
             <p className="text-xs opacity-60 leading-relaxed font-serif">
               歴史は勝者によって作られる。
               <br />

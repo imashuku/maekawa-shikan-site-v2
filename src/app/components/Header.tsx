@@ -28,7 +28,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-5 md:px-6 h-16 md:h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-serif font-bold text-xl md:text-2xl text-sumi-dark tracking-widest z-50 relative" onClick={closeMenu}>
-          それはまことですか
+          それはまことですか？
         </Link>
 
         {/* Desktop Nav */}
