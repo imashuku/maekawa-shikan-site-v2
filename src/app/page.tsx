@@ -537,9 +537,11 @@ export default function Home() {
           <div className="col-span-1 md:col-span-2">
             <h2 className="text-2xl font-serif font-bold mb-4">それはまことですか？</h2>
             <p className="text-xs opacity-60 leading-relaxed font-serif">
-              歴史は勝者によって作られる。
+              勝者だけが、歴史をつくるのではない。
               <br />
-              しかし、真実は敗者の側にこそ宿る。
+              語られなかった者たちの声に耳を澄ませ、
+              <br />
+              ともに「まこと」を問い続ける。
             </p>
           </div>
           <div>
