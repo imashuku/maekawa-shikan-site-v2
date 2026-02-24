@@ -455,7 +455,7 @@ export default function Home() {
             </div>
             <div className="md:w-5/12 md:order-3">
               <p className="text-sm text-sumi">
-                「それはまことですか」の核となるテーマを選定。取材開始。
+                「それはまことですか？」の核となるテーマを選定。取材開始。
                 <br />
                 ファンコミュニティの立ち上げ。
               </p>
