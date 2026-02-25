@@ -42,7 +42,7 @@ function SuccessContent() {
         ご支援ありがとうございます
       </h1>
       <p className="text-xl text-[#9d2b2b] font-bold mb-6">
-        「それはまことですか」プロジェクト
+        「それはまことですか？」プロジェクト
       </p>
       <p className="text-gray-300 leading-relaxed mb-8">
         あなたのご支援が、滋賀・近江の歴史を紐解く旅を支えてくれます。<br />
@@ -79,7 +79,7 @@ function SuccessContent() {
         <p className="text-gray-500 text-sm mb-4">プロジェクトを応援する</p>
         <div className="flex justify-center gap-4">
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('「それはまことですか」プロジェクトを支援しました！滋賀・近江の歴史を紐解く書籍、完成が楽しみです。')}&url=${encodeURIComponent('https://maekawa-shikan-site-v2.vercel.app/support')}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('「それはまことですか？」プロジェクトを支援しました！滞賀・近江の歴史を紐解く書籍、完成が楽しみです。')}&url=${encodeURIComponent('https://maekawa-shikan-site-v2.vercel.app/support')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2 bg-[#1da1f2] text-white text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors"

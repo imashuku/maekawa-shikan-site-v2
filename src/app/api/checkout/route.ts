@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: 'jpy',
             product_data: {
-              name: `「それはまことですか」 支援 - ${selectedPlan.name}プラン`,
+              name: `「それはまことですか？」 支援 - ${selectedPlan.name}プラン`,
               description: selectedPlan.description,
             },
             unit_amount: selectedPlan.amount,

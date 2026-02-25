@@ -135,7 +135,7 @@ export default function SupportPage() {
                   <p className="text-sm md:text-base opacity-70 leading-loose max-w-2xl mx-auto font-light">
                       取材活動には、多大なリソースが必要です。<br/>
                       対象商品をご購入いただくことで、<span className="text-[#fff] border-b border-[#9d2b2b] pb-1 mx-1">売上の一部</span>が<br/>
-                      「それはまことですか」の取材・執筆活動費に充てられます。
+                      「それはまことですか？」の取材・執筆活動費に充てられます。
                   </p>
               </div>
 
