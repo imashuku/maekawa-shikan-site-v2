@@ -264,16 +264,16 @@ export default function MypagePage() {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Link
-            href="/members"
-            className="text-center border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors"
-          >
-            会員一覧
-          </Link>
-          <Link
             href="/apply"
             className="text-center bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors"
           >
             次回イベントに申し込む
+          </Link>
+          <Link
+            href="/"
+            className="text-center border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors"
+          >
+            トップへ戻る
           </Link>
         </div>
       </div>

@@ -18,7 +18,6 @@ export default function Header() {
     { label: "ホーム", href: "/" },
     { label: "歴史の断片", href: "/#stories" },
     { label: "NOTE", href: "https://note.com/maekawa_shikan", external: true },
-    { label: "メンバーズ", href: "/members" },
     { label: "イベント", href: "/#upcoming-event" },
     { label: "プロフィール", href: "/#profile" },
     { label: "書籍化PJ", href: "/support", highlight: true },
