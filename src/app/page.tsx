@@ -254,10 +254,26 @@ export default function Home() {
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第5回 近江歴史を学ぶ会
+              第6回 それまこ会
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
+              <div className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8">
+                <span className="text-kokihi font-bold text-sm w-20 shrink-0 flex items-center md:h-7 tracking-widest">
+                  <span className="bg-kokihi/10 px-2 py-1 rounded text-center w-full">
+                    テーマ
+                  </span>
+                </span>
+                <div>
+                  <p className="text-base md:text-lg font-bold font-serif text-sumi-dark leading-relaxed">
+                    井伊直弼の桜田門外ノ変とは何だったのか？
+                  </p>
+                  <p className="text-sm text-sumi/70 mt-2">
+                    源平の振り返りから戦国時代〜江戸時代へ。近江ゆかりの江戸幕府トップリーダーの真実に迫ります。
+                  </p>
+                </div>
+              </div>
+
               <div className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8">
                 <span className="text-kokihi font-bold text-sm w-20 shrink-0 flex items-center md:h-7 tracking-widest">
                   <span className="bg-kokihi/10 px-2 py-1 rounded text-center w-full">
@@ -266,7 +282,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    3月18日(水)
+                    4月23日(木)
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
@@ -325,22 +341,17 @@ export default function Home() {
 
             <div className="mt-12 text-center">
               <p className="text-sm text-sumi/70 mb-6 font-serif leading-loose">
-                「源氏物語」も「平家物語」も、実は近江から始まっていた。
-                <br />
                 教科書では語られない近江の真実を、今回も紐解きます。
+                <br />
+                初めての方も大歓迎です。
               </p>
-              <a
-                href="https://chouseisan.com/s?h=bd3af601c8d44ff19b09dd27404a3bda"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/apply"
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-sm bg-kokihi px-8 py-4 font-bold text-white shadow-md transition-all duration-300 hover:bg-sumi-dark hover:shadow-xl w-full md:w-auto"
               >
-                <span className="mr-2">出欠を入力する</span>
-                <span className="text-xs opacity-80 group-hover:opacity-100 transition-opacity">
-                  （調整さん）
-                </span>
+                <span className="mr-2">参加を申し込む</span>
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-shine" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
