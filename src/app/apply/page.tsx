@@ -22,9 +22,8 @@ export default function ApplyPage() {
   const [loading, setLoading] = useState(true);
 
   // Form state
-  const [isNew, setIsNew] = useState<boolean | null>(null);
-  const [selectedMemberNo, setSelectedMemberNo] = useState("");
-  const [name, setName] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [newName, setNewName] = useState("");
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{
@@ -35,6 +34,9 @@ export default function ApplyPage() {
     already_registered?: boolean;
   } | null>(null);
 
+  const isNewMember = selectedValue === "__new__";
+  const selectedMember = memberList.find((m) => m.member_no === selectedValue);
+
   useEffect(() => {
     Promise.all([
       fetch("/api/apply").then((r) => r.json()),
@@ -42,7 +44,6 @@ export default function ApplyPage() {
     ])
       .then(([applyData, membersData]) => {
         setEvent(applyData.event);
-        // Sort by furigana (already sorted from API, but ensure)
         const sorted = (membersData as MemberOption[]).sort((a, b) =>
           (a.furigana || "").localeCompare(b.furigana || "", "ja")
         );
@@ -54,6 +55,7 @@ export default function ApplyPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!selectedValue) return;
     setSubmitting(true);
 
     try {
@@ -61,10 +63,10 @@ export default function ApplyPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          member_no: isNew ? null : selectedMemberNo,
-          name,
+          member_no: isNewMember ? null : selectedValue,
+          name: isNewMember ? newName : selectedMember?.name,
           event_id: event?.id,
-          is_new: isNew,
+          is_new: isNewMember,
           afterparty,
         }),
       });
@@ -81,19 +83,14 @@ export default function ApplyPage() {
     }
   }
 
-  function handleMemberSelect(memberNo: string) {
-    setSelectedMemberNo(memberNo);
-    const member = memberList.find((m) => m.member_no === memberNo);
-    if (member) {
-      setName(member.name);
-    }
-  }
-
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr + "T00:00:00");
     const days = ["日", "月", "火", "水", "木", "金", "土"];
     return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${days[d.getDay()]}）`;
   };
+
+  const canSubmit =
+    selectedValue && (isNewMember ? newName.trim() : true) && !submitting;
 
   if (loading) {
     return (
@@ -145,16 +142,15 @@ export default function ApplyPage() {
                 No.{result.member_no}
               </p>
               <p className="text-xs text-sumi/50 mt-3 font-serif">
-                次回以降はお名前を選ぶだけで申し込めます
+                次回からはお名前を選ぶだけで申し込めます
               </p>
             </div>
           )}
 
           {!result.is_new && !result.already_registered && (
             <div className="bg-sumi-dark/5 border border-sumi/10 p-6 mb-8 mt-8">
-              <p className="text-sm text-sumi/70 font-serif mb-2">会員番号</p>
-              <p className="text-3xl font-bold font-serif text-sumi-dark tracking-widest">
-                No.{result.member_no}
+              <p className="font-serif text-sumi-dark">
+                お申し込みありがとうございます！
               </p>
             </div>
           )}
@@ -218,170 +214,83 @@ export default function ApplyPage() {
           </div>
         )}
 
-        {/* Step 1: New or Existing */}
-        {isNew === null && (
-          <div className="space-y-4">
-            <p className="font-serif text-center text-sumi mb-6">
-              参加は初めてですか？
-            </p>
-            <button
-              onClick={() => setIsNew(false)}
-              className="w-full bg-white border-2 border-sumi/20 p-6 text-left hover:border-kokihi transition-colors group"
+        {/* Single form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
+              お名前
+            </label>
+            <select
+              value={selectedValue}
+              onChange={(e) => {
+                setSelectedValue(e.target.value);
+                setNewName("");
+              }}
+              className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none"
+              required
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23333'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 16px center",
+              }}
             >
-              <span className="font-serif font-bold text-lg text-sumi-dark group-hover:text-kokihi transition-colors">
-                参加したことがある
-              </span>
-              <p className="text-sm text-sumi/60 font-serif mt-1">
-                お名前を選んで申し込み
-              </p>
-            </button>
-            <button
-              onClick={() => setIsNew(true)}
-              className="w-full bg-white border-2 border-sumi/20 p-6 text-left hover:border-kokihi transition-colors group"
-            >
-              <span className="font-serif font-bold text-lg text-sumi-dark group-hover:text-kokihi transition-colors">
-                はじめて参加する
-              </span>
-              <p className="text-sm text-sumi/60 font-serif mt-1">
-                会員番号が発行されます
-              </p>
-            </button>
+              <option value="">-- 選択してください --</option>
+              {memberList
+                .filter((m) => m.member_no !== "001") // 講師は除外
+                .map((m) => (
+                  <option key={m.member_no} value={m.member_no}>
+                    {m.name}
+                  </option>
+                ))}
+              <option value="__new__">
+                ── この中にない方（初参加・久しぶり）
+              </option>
+            </select>
           </div>
-        )}
 
-        {/* Step 2: Existing member - select from list */}
-        {isNew === false && (
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* New member: name input */}
+          {isNewMember && (
             <div>
               <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                お名前を選んでください
-              </label>
-              <select
-                value={selectedMemberNo}
-                onChange={(e) => handleMemberSelect(e.target.value)}
-                className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none"
-                required
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23333'/%3E%3C/svg%3E")`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 16px center",
-                }}
-              >
-                <option value="">-- 選択してください --</option>
-                {memberList
-                  .filter((m) => m.member_no !== "001") // 講師は除外
-                  .map((m) => (
-                    <option key={m.member_no} value={m.member_no}>
-                      {m.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            {selectedMemberNo && (
-              <div className="bg-sumi-dark/5 border border-sumi/10 px-4 py-3 font-serif text-sm">
-                会員番号：
-                <span className="font-bold">{selectedMemberNo}</span>
-              </div>
-            )}
-
-            <div>
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={afterparty}
-                  onChange={(e) => setAfterparty(e.target.checked)}
-                  className="w-5 h-5 accent-kokihi"
-                />
-                <span className="font-serif text-sumi">
-                  懇親会にも参加する
-                  <span className="text-xs text-sumi/50 ml-2">
-                    （20:30〜 / 近隣店舗 / 任意）
-                  </span>
-                </span>
-              </label>
-            </div>
-
-            <div className="flex gap-4 pt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsNew(null);
-                  setSelectedMemberNo("");
-                  setName("");
-                  setResult(null);
-                }}
-                className="border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi/5 transition-colors"
-              >
-                戻る
-              </button>
-              <button
-                type="submit"
-                disabled={submitting || !selectedMemberNo}
-                className="flex-1 bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
-              >
-                {submitting ? "送信中..." : "申し込む"}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {/* Step 2: New member */}
-        {isNew === true && (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                お名前
+                お名前を入力してください
               </label>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
                 placeholder="例: 山田太郎"
                 className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
                 required
+                autoFocus
               />
             </div>
+          )}
 
-            <div>
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={afterparty}
-                  onChange={(e) => setAfterparty(e.target.checked)}
-                  className="w-5 h-5 accent-kokihi"
-                />
-                <span className="font-serif text-sumi">
-                  懇親会にも参加する
-                  <span className="text-xs text-sumi/50 ml-2">
-                    （20:30〜 / 近隣店舗 / 任意）
-                  </span>
+          <div>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={afterparty}
+                onChange={(e) => setAfterparty(e.target.checked)}
+                className="w-5 h-5 accent-kokihi"
+              />
+              <span className="font-serif text-sumi">
+                懇親会にも参加する
+                <span className="text-xs text-sumi/50 ml-2">
+                  （20:30〜 / 近隣店舗 / 任意）
                 </span>
-              </label>
-            </div>
+              </span>
+            </label>
+          </div>
 
-            <div className="flex gap-4 pt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsNew(null);
-                  setName("");
-                  setResult(null);
-                }}
-                className="border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi/5 transition-colors"
-              >
-                戻る
-              </button>
-              <button
-                type="submit"
-                disabled={submitting || !name}
-                className="flex-1 bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
-              >
-                {submitting ? "送信中..." : "申し込む"}
-              </button>
-            </div>
-          </form>
-        )}
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className="w-full bg-kokihi text-white px-6 py-4 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
+          >
+            {submitting ? "送信中..." : "申し込む"}
+          </button>
+        </form>
       </div>
     </div>
   );
