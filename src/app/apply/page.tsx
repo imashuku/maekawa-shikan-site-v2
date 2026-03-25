@@ -10,13 +10,20 @@ interface EventInfo {
   venue: string;
 }
 
+interface MemberOption {
+  member_no: string;
+  name: string;
+  furigana: string;
+}
+
 export default function ApplyPage() {
   const [event, setEvent] = useState<EventInfo | null>(null);
+  const [memberList, setMemberList] = useState<MemberOption[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Form state
   const [isNew, setIsNew] = useState<boolean | null>(null);
-  const [memberNo, setMemberNo] = useState("");
+  const [selectedMemberNo, setSelectedMemberNo] = useState("");
   const [name, setName] = useState("");
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -29,9 +36,18 @@ export default function ApplyPage() {
   } | null>(null);
 
   useEffect(() => {
-    fetch("/api/apply")
-      .then((res) => res.json())
-      .then((data) => setEvent(data.event))
+    Promise.all([
+      fetch("/api/apply").then((r) => r.json()),
+      fetch("/api/members").then((r) => r.json()),
+    ])
+      .then(([applyData, membersData]) => {
+        setEvent(applyData.event);
+        // Sort by furigana (already sorted from API, but ensure)
+        const sorted = (membersData as MemberOption[]).sort((a, b) =>
+          (a.furigana || "").localeCompare(b.furigana || "", "ja")
+        );
+        setMemberList(sorted);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
@@ -45,7 +61,7 @@ export default function ApplyPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          member_no: isNew ? null : memberNo,
+          member_no: isNew ? null : selectedMemberNo,
           name,
           event_id: event?.id,
           is_new: isNew,
@@ -62,6 +78,14 @@ export default function ApplyPage() {
       setResult({ success: false, message: "通信エラーが発生しました" });
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  function handleMemberSelect(memberNo: string) {
+    setSelectedMemberNo(memberNo);
+    const member = memberList.find((m) => m.member_no === memberNo);
+    if (member) {
+      setName(member.name);
     }
   }
 
@@ -121,7 +145,7 @@ export default function ApplyPage() {
                 No.{result.member_no}
               </p>
               <p className="text-xs text-sumi/50 mt-3 font-serif">
-                この番号をお控えください。次回以降のお申し込みに使います。
+                次回以降はお名前を選ぶだけで申し込めます
               </p>
             </div>
           )}
@@ -135,9 +159,7 @@ export default function ApplyPage() {
             </div>
           )}
 
-          <p className="text-sumi/70 font-serif mb-2">
-            {event.name}
-          </p>
+          <p className="text-sumi/70 font-serif mb-2">{event.name}</p>
           <p className="text-sumi font-serif font-bold mb-8">
             {formatDate(event.event_date)} 18:30〜 / {event.venue}
           </p>
@@ -145,13 +167,13 @@ export default function ApplyPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <Link
               href={`/mypage/${result.member_no}`}
-              className="bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors"
+              className="bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors text-center"
             >
               マイページを見る
             </Link>
             <Link
               href="/"
-              className="border border-sumi text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors"
+              className="border border-sumi text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors text-center"
             >
               トップへ戻る
             </Link>
@@ -200,8 +222,19 @@ export default function ApplyPage() {
         {isNew === null && (
           <div className="space-y-4">
             <p className="font-serif text-center text-sumi mb-6">
-              初めての方ですか？
+              参加は初めてですか？
             </p>
+            <button
+              onClick={() => setIsNew(false)}
+              className="w-full bg-white border-2 border-sumi/20 p-6 text-left hover:border-kokihi transition-colors group"
+            >
+              <span className="font-serif font-bold text-lg text-sumi-dark group-hover:text-kokihi transition-colors">
+                参加したことがある
+              </span>
+              <p className="text-sm text-sumi/60 font-serif mt-1">
+                お名前を選んで申し込み
+              </p>
+            </button>
             <button
               onClick={() => setIsNew(true)}
               className="w-full bg-white border-2 border-sumi/20 p-6 text-left hover:border-kokihi transition-colors group"
@@ -213,39 +246,89 @@ export default function ApplyPage() {
                 会員番号が発行されます
               </p>
             </button>
-            <button
-              onClick={() => setIsNew(false)}
-              className="w-full bg-white border-2 border-sumi/20 p-6 text-left hover:border-kokihi transition-colors group"
-            >
-              <span className="font-serif font-bold text-lg text-sumi-dark group-hover:text-kokihi transition-colors">
-                会員番号を持っている
-              </span>
-              <p className="text-sm text-sumi/60 font-serif mt-1">
-                以前参加されたことがある方
-              </p>
-            </button>
           </div>
         )}
 
-        {/* Step 2: Form */}
-        {isNew !== null && (
+        {/* Step 2: Existing member - select from list */}
+        {isNew === false && (
           <form onSubmit={handleSubmit} className="space-y-6">
-            {!isNew && (
-              <div>
-                <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                  会員番号
-                </label>
-                <input
-                  type="text"
-                  value={memberNo}
-                  onChange={(e) => setMemberNo(e.target.value)}
-                  placeholder="例: 001"
-                  className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
-                  required
-                />
+            <div>
+              <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
+                お名前を選んでください
+              </label>
+              <select
+                value={selectedMemberNo}
+                onChange={(e) => handleMemberSelect(e.target.value)}
+                className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none"
+                required
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23333'/%3E%3C/svg%3E")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 16px center",
+                }}
+              >
+                <option value="">-- 選択してください --</option>
+                {memberList
+                  .filter((m) => m.member_no !== "001") // 講師は除外
+                  .map((m) => (
+                    <option key={m.member_no} value={m.member_no}>
+                      {m.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            {selectedMemberNo && (
+              <div className="bg-sumi-dark/5 border border-sumi/10 px-4 py-3 font-serif text-sm">
+                会員番号：
+                <span className="font-bold">{selectedMemberNo}</span>
               </div>
             )}
 
+            <div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={afterparty}
+                  onChange={(e) => setAfterparty(e.target.checked)}
+                  className="w-5 h-5 accent-kokihi"
+                />
+                <span className="font-serif text-sumi">
+                  懇親会にも参加する
+                  <span className="text-xs text-sumi/50 ml-2">
+                    （20:30〜 / 近隣店舗 / 任意）
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsNew(null);
+                  setSelectedMemberNo("");
+                  setName("");
+                  setResult(null);
+                }}
+                className="border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi/5 transition-colors"
+              >
+                戻る
+              </button>
+              <button
+                type="submit"
+                disabled={submitting || !selectedMemberNo}
+                className="flex-1 bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
+              >
+                {submitting ? "送信中..." : "申し込む"}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 2: New member */}
+        {isNew === true && (
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
                 お名前
@@ -271,7 +354,7 @@ export default function ApplyPage() {
                 <span className="font-serif text-sumi">
                   懇親会にも参加する
                   <span className="text-xs text-sumi/50 ml-2">
-                    （20:30〜 / 近隣店舗にて / 任意）
+                    （20:30〜 / 近隣店舗 / 任意）
                   </span>
                 </span>
               </label>
@@ -282,6 +365,7 @@ export default function ApplyPage() {
                 type="button"
                 onClick={() => {
                   setIsNew(null);
+                  setName("");
                   setResult(null);
                 }}
                 className="border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi/5 transition-colors"
@@ -290,7 +374,7 @@ export default function ApplyPage() {
               </button>
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || !name}
                 className="flex-1 bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
               >
                 {submitting ? "送信中..." : "申し込む"}

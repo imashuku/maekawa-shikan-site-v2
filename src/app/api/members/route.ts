@@ -9,6 +9,7 @@ export async function GET() {
         m.id,
         m.member_no,
         m.name,
+        m.furigana,
         m.role,
         m.bio,
         m.favorite_era,
@@ -19,7 +20,7 @@ export async function GET() {
       LEFT JOIN attendances a ON m.id = a.member_id
       LEFT JOIN events e ON m.joined_event_id = e.id
       GROUP BY m.id
-      ORDER BY m.member_no
+      ORDER BY m.furigana
     `);
     return NextResponse.json(result.rows);
   } catch (error) {
