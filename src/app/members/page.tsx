@@ -112,9 +112,12 @@ export default function MembersPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center justify-center gap-2 mt-4 text-xs text-sumi/40 font-serif">
-          <span className="w-2.5 h-2.5 bg-kokihi rounded-full inline-block" />
-          <span>= 1回参加</span>
+        <div className="flex flex-col items-center gap-1 mt-4 text-xs text-sumi/40 font-serif">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 bg-kokihi rounded-full inline-block" />
+            <span>= 1回参加</span>
+          </div>
+          <span>※ 第4回以降の記録です（第1〜3回「近江歴史を学ぶ会」は未計測）</span>
         </div>
 
         {/* CTA */}

@@ -154,6 +154,9 @@ export default function MypagePage() {
                 <p className="text-xs text-sumi/50 font-serif mt-1">参加率</p>
               </div>
             </div>
+            <p className="text-[10px] text-sumi/40 font-serif text-center mt-4">
+              ※ 第4回以降の記録です（第1〜3回「近江歴史を学ぶ会」は未計測）
+            </p>
           </div>
 
           {/* Stamp Card */}
