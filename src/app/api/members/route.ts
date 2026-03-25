@@ -17,7 +17,7 @@ export async function GET() {
         COUNT(a.id) as attend_count,
         e.name as joined_event_name
       FROM members m
-      LEFT JOIN attendances a ON m.id = a.member_id
+      LEFT JOIN attendances a ON m.id = a.member_id AND a.status = 'attended'
       LEFT JOIN events e ON m.joined_event_id = e.id
       GROUP BY m.id
       ORDER BY m.furigana

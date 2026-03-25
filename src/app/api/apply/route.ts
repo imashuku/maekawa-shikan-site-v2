@@ -87,10 +87,10 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Register attendance
+    // Register (not yet attended - stamp given after actual attendance)
     await db.execute({
       sql: "INSERT INTO attendances (member_id, event_id, status) VALUES (?, ?, ?)",
-      args: [memberId, event_id, afterparty ? "attended_with_party" : "registered"],
+      args: [memberId, event_id, afterparty ? "registered_with_party" : "registered"],
     });
 
     return NextResponse.json({

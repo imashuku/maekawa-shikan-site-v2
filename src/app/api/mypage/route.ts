@@ -32,12 +32,12 @@ export async function GET(request: NextRequest) {
 
     const member = memberResult.rows[0];
 
-    // Attendance history
+    // Attendance history (only confirmed attendance, not just registered)
     const attendances = await db.execute({
-      sql: `SELECT e.id, e.name, e.event_date, e.venue
+      sql: `SELECT e.id, e.name, e.event_date, e.venue, a.status
             FROM attendances a
             JOIN events e ON a.event_id = e.id
-            WHERE a.member_id = ?
+            WHERE a.member_id = ? AND a.status = 'attended'
             ORDER BY e.event_date`,
       args: [member.id],
     });
