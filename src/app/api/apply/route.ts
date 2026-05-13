@@ -29,11 +29,18 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { member_no, name, event_id, is_new, afterparty } = body;
+    const { member_no, name, furigana, event_id, is_new, afterparty } = body;
 
     if (!name || !event_id) {
       return NextResponse.json(
         { error: "お名前とイベントは必須です" },
+        { status: 400 }
+      );
+    }
+
+    if ((is_new || !member_no) && (!furigana || !String(furigana).trim())) {
+      return NextResponse.json(
+        { error: "ふりがなを入力してください" },
         { status: 400 }
       );
     }
@@ -51,8 +58,8 @@ export async function POST(request: NextRequest) {
         .padStart(3, "0");
 
       const insertResult = await db.execute({
-        sql: "INSERT INTO members (member_no, name, joined_event_id) VALUES (?, ?, ?)",
-        args: [nextNo, name, event_id],
+        sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
+        args: [nextNo, name, String(furigana).trim(), event_id],
       });
       memberId = Number(insertResult.lastInsertRowid);
       assignedNo = nextNo;

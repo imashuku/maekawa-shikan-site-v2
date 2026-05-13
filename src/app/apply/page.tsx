@@ -24,6 +24,7 @@ export default function ApplyPage() {
   // Form state
   const [selectedValue, setSelectedValue] = useState("");
   const [newName, setNewName] = useState("");
+  const [newFurigana, setNewFurigana] = useState("");
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{
@@ -65,6 +66,7 @@ export default function ApplyPage() {
         body: JSON.stringify({
           member_no: isNewMember ? null : selectedValue,
           name: isNewMember ? newName : selectedMember?.name,
+          furigana: isNewMember ? newFurigana : undefined,
           event_id: event?.id,
           is_new: isNewMember,
           afterparty,
@@ -90,7 +92,9 @@ export default function ApplyPage() {
   };
 
   const canSubmit =
-    selectedValue && (isNewMember ? newName.trim() : true) && !submitting;
+    selectedValue &&
+    (isNewMember ? newName.trim() && newFurigana.trim() : true) &&
+    !submitting;
 
   if (loading) {
     return (
@@ -248,22 +252,40 @@ export default function ApplyPage() {
             </select>
           </div>
 
-          {/* New member: name input */}
+          {/* New member: name + furigana input */}
           {isNewMember && (
-            <div>
-              <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                お名前を入力してください
-              </label>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="例: 山田太郎"
-                className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
-                required
-                autoFocus
-              />
-            </div>
+            <>
+              <div>
+                <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
+                  お名前を入力してください
+                </label>
+                <input
+                  type="text"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="例: 山田太郎"
+                  className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
+                  required
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
+                  ふりがな（ひらがな）
+                </label>
+                <input
+                  type="text"
+                  value={newFurigana}
+                  onChange={(e) => setNewFurigana(e.target.value)}
+                  placeholder="例: やまだたろう"
+                  className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
+                  required
+                />
+                <p className="text-xs text-sumi/50 mt-2 font-serif">
+                  名簿の50音順表示に使います。
+                </p>
+              </div>
+            </>
           )}
 
           <div>
