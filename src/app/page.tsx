@@ -254,7 +254,7 @@ export default function Home() {
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第6回 それまこ会
+              第7回 それまこ会
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
@@ -266,10 +266,11 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-base md:text-lg font-bold font-serif text-sumi-dark leading-relaxed">
-                    井伊直弼の桜田門外ノ変とは何だったのか？
+                    近江商人とは何だったのか？<br />
+                    〜明治・大正編〜
                   </p>
                   <p className="text-sm text-sumi/70 mt-2">
-                    源平の振り返りから戦国時代〜江戸時代へ。近江ゆかりの江戸幕府トップリーダーの真実に迫ります。
+                    三井家のみならず、住友もトヨタも近江商人だった——日本経済の源流をたどり、教科書では語られない近江商人の真実に迫ります。
                   </p>
                 </div>
               </div>
@@ -282,16 +283,16 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    4月23日(木)
+                    5月27日(水)
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
                       <span className="font-bold mr-2">18:30-20:30</span> 講演会
                     </p>
                     <p>
-                      <span className="font-bold mr-2">20:30-22:00</span> 懇親会{" "}
+                      <span className="font-bold mr-2">21:00〜</span> 懇親会{" "}
                       <span className="text-xs opacity-70 ml-1">
-                        （近隣店舗にて / 任意参加）
+                        （リオにて / 任意参加）
                       </span>
                     </p>
                   </div>

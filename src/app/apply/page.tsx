@@ -277,7 +277,7 @@ export default function ApplyPage() {
               <span className="font-serif text-sumi">
                 懇親会にも参加する
                 <span className="text-xs text-sumi/50 ml-2">
-                  （20:30〜 / 近隣店舗 / 任意）
+                  （21:00〜 / リオ / 任意）
                 </span>
               </span>
             </label>
