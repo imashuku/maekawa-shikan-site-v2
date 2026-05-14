@@ -134,24 +134,24 @@ export default function MypagePage() {
 
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <p className="text-3xl font-bold font-serif text-kokihi">
+                <p className="text-2xl sm:text-3xl font-bold font-serif text-kokihi">
                   {attendCount}
                 </p>
-                <p className="text-xs text-sumi/50 font-serif mt-1">参加回数</p>
+                <p className="text-xs sm:text-sm text-sumi/70 mt-1">参加回数</p>
               </div>
               <div>
-                <p className="text-3xl font-bold font-serif text-sumi-dark">
+                <p className="text-2xl sm:text-3xl font-bold font-serif text-sumi-dark">
                   {totalEvents}
                 </p>
-                <p className="text-xs text-sumi/50 font-serif mt-1">
+                <p className="text-xs sm:text-sm text-sumi/70 mt-1">
                   総開催回数
                 </p>
               </div>
               <div>
-                <p className="text-3xl font-bold font-serif text-sumi-dark">
+                <p className="text-2xl sm:text-3xl font-bold font-serif text-sumi-dark">
                   {attendRate}%
                 </p>
-                <p className="text-xs text-sumi/50 font-serif mt-1">参加率</p>
+                <p className="text-xs sm:text-sm text-sumi/70 mt-1">参加率</p>
               </div>
             </div>
             <p className="text-[10px] text-sumi/40 font-serif text-center mt-4">
@@ -164,7 +164,7 @@ export default function MypagePage() {
             <h2 className="font-serif font-bold text-sumi-dark mb-6 text-center">
               スタンプカード
             </h2>
-            <div className="grid grid-cols-5 gap-3 max-w-xs mx-auto">
+            <div className="grid grid-cols-5 gap-2 sm:gap-3 max-w-xs mx-auto">
               {Array.from({ length: stampSlots }).map((_, i) => {
                 const isAttended = i < attendCount;
                 const eventName =
@@ -185,7 +185,7 @@ export default function MypagePage() {
                       {isAttended ? "印" : i + 1}
                     </div>
                     {eventName && (
-                      <span className="text-[10px] text-sumi/40 mt-1 text-center leading-tight font-serif">
+                      <span className="text-[10px] text-sumi/60 mt-1 text-center leading-tight">
                         {eventName.replace(/それまこ会/, "").trim()}
                       </span>
                     )}
@@ -196,17 +196,17 @@ export default function MypagePage() {
 
             {/* Next rank info */}
             {attendCount < 3 && (
-              <p className="text-center text-xs text-sumi/50 font-serif mt-6">
+              <p className="text-center text-sm text-sumi/70 mt-6">
                 あと{3 - attendCount}回参加で「銅の印」に昇格！
               </p>
             )}
             {attendCount >= 3 && attendCount < 5 && (
-              <p className="text-center text-xs text-sumi/50 font-serif mt-6">
+              <p className="text-center text-sm text-sumi/70 mt-6">
                 あと{5 - attendCount}回参加で「銀の印」に昇格！
               </p>
             )}
             {attendCount >= 5 && attendCount < 10 && (
-              <p className="text-center text-xs text-sumi/50 font-serif mt-6">
+              <p className="text-center text-sm text-sumi/70 mt-6">
                 あと{10 - attendCount}回参加で「金の印」に昇格！
               </p>
             )}
@@ -225,10 +225,10 @@ export default function MypagePage() {
                 >
                   <div className="w-2 h-2 bg-kokihi rounded-full shrink-0" />
                   <div className="flex-1">
-                    <p className="font-serif text-sm font-bold text-sumi-dark">
+                    <p className="text-sm md:text-base font-bold text-sumi-dark">
                       {a.name}
                     </p>
-                    <p className="text-xs text-sumi/50 font-serif">
+                    <p className="text-sm text-sumi/70">
                       {formatDate(a.event_date)} / {a.venue}
                     </p>
                   </div>
@@ -262,16 +262,16 @@ export default function MypagePage() {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-8">
           <Link
             href="/apply"
-            className="text-center bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors"
+            className="text-center bg-kokihi text-white px-6 py-4 font-bold text-base hover:bg-sumi-dark transition-colors"
           >
             次回イベントに申し込む
           </Link>
           <Link
             href="/"
-            className="text-center border border-sumi/20 text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors"
+            className="text-center border border-sumi/20 text-sumi px-6 py-4 text-base hover:bg-sumi hover:text-kinari transition-colors"
           >
             トップへ戻る
           </Link>

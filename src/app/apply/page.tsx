@@ -230,12 +230,12 @@ export default function ApplyPage() {
                 setSelectedValue(e.target.value);
                 setNewName("");
               }}
-              className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none"
+              className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none text-base"
               required
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23333'/%3E%3C/svg%3E")`,
                 backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 16px center",
+                backgroundPosition: "right 14px center",
               }}
             >
               <option value="">-- 選択してください --</option>
@@ -250,6 +250,9 @@ export default function ApplyPage() {
                 ── この中にない方（初参加・久しぶり）
               </option>
             </select>
+            <p className="text-sm text-sumi/70 mt-2">
+              名簿は50音順／全{memberList.filter((m) => m.member_no !== "001").length}名・スクロールで全件確認できます
+            </p>
           </div>
 
           {/* New member: name + furigana input */}
@@ -264,7 +267,8 @@ export default function ApplyPage() {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="例: 山田太郎"
-                  className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
+                  className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
+                  autoComplete="name"
                   required
                   autoFocus
                 />
@@ -278,10 +282,12 @@ export default function ApplyPage() {
                   value={newFurigana}
                   onChange={(e) => setNewFurigana(e.target.value)}
                   placeholder="例: やまだたろう"
-                  className="w-full border border-sumi/20 px-4 py-3 font-serif bg-white focus:outline-none focus:border-kokihi transition-colors"
+                  className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
+                  inputMode="text"
+                  lang="ja"
                   required
                 />
-                <p className="text-xs text-sumi/50 mt-2 font-serif">
+                <p className="text-sm text-sumi/70 mt-2">
                   名簿の50音順表示に使います。
                 </p>
               </div>
@@ -289,16 +295,16 @@ export default function ApplyPage() {
           )}
 
           <div>
-            <label className="flex items-center gap-3 cursor-pointer">
+            <label className="flex items-start gap-3 cursor-pointer py-2">
               <input
                 type="checkbox"
                 checked={afterparty}
                 onChange={(e) => setAfterparty(e.target.checked)}
-                className="w-5 h-5 accent-kokihi"
+                className="w-6 h-6 accent-kokihi shrink-0 mt-0.5"
               />
-              <span className="font-serif text-sumi">
+              <span className="text-sumi text-base leading-relaxed">
                 懇親会にも参加する
-                <span className="text-xs text-sumi/50 ml-2">
+                <span className="text-sm text-sumi/70 ml-2 block sm:inline">
                   （21:00〜 / リオ / 任意）
                 </span>
               </span>
@@ -308,7 +314,7 @@ export default function ApplyPage() {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full bg-kokihi text-white px-6 py-4 font-serif font-bold hover:bg-sumi-dark transition-colors disabled:opacity-50"
+            className="w-full bg-kokihi text-white px-6 py-5 font-bold text-base hover:bg-sumi-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "送信中..." : "申し込む"}
           </button>

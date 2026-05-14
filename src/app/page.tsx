@@ -9,24 +9,24 @@ export default function Home() {
       <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat"></div>
 
       {/* Hero Section */}
-      <section className="relative z-10 w-full max-w-5xl flex flex-col md:flex-row items-center justify-center gap-16 py-24 md:py-32">
-        {/* Title Group (Vertical Writing) */}
-        <div className="flex flex-row-reverse gap-6 md:gap-12 min-h-[60vh] md:h-[75vh] items-center justify-center py-8 md:py-0">
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-sumi-dark vertical-rl tracking-widest leading-loose animate-fade-in-up drop-shadow-sm select-none">
+      <section className="relative z-10 w-full max-w-5xl flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 py-16 md:py-32">
+        {/* Title Group — horizontal on mobile, vertical writing from md */}
+        <div className="flex flex-col items-center text-center gap-6 md:flex-row-reverse md:text-left md:gap-12 md:min-h-[60vh] md:h-[75vh] md:items-center md:justify-center md:py-0">
+          <h1 className="font-serif font-bold text-sumi-dark tracking-widest leading-snug md:leading-loose animate-fade-in-up drop-shadow-sm select-none text-3xl sm:text-4xl md:text-5xl lg:text-7xl md:[writing-mode:vertical-rl] md:[text-orientation:upright]">
             <span className="text-kokihi">勝者</span>の歴史が、
             <br />
             全てか。
           </h1>
-          <div className="flex flex-col gap-0 h-full justify-center pt-8">
-            <p className="text-lg md:text-2xl font-serif text-sumi vertical-rl tracking-widest leading-loose animate-fade-in-up delay-200 select-none">
+          <div className="flex flex-col gap-3 md:gap-0 md:h-full md:justify-center md:pt-8">
+            <p className="font-serif text-sumi tracking-wider md:tracking-widest leading-relaxed md:leading-loose animate-fade-in-up delay-200 select-none text-base md:text-2xl md:[writing-mode:vertical-rl] md:[text-orientation:upright]">
               隠されたルーツ。
               <br />
               敗れし者の祈り。
             </p>
-            <p className="text-base md:text-xl font-serif text-sumi/80 vertical-rl tracking-widest leading-loose mt-8 animate-fade-in-up delay-300 select-none">
+            <p className="font-serif text-sumi/80 tracking-wider md:tracking-widest leading-relaxed md:leading-loose mt-4 md:mt-8 animate-fade-in-up delay-300 select-none text-sm md:text-xl md:[writing-mode:vertical-rl] md:[text-orientation:upright]">
               近江に眠る、
               <br />
-              <span className="border-r-2 border-kokihi pr-2">
+              <span className="border-b-2 md:border-b-0 md:border-r-2 border-kokihi pb-0.5 md:pb-0 md:pr-2">
                 もう一つの日本史
               </span>
               <br />
@@ -37,24 +37,25 @@ export default function Home() {
 
         {/* Hero Image / Emblem */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-15 md:opacity-20 pointer-events-none select-none mix-blend-multiply">
-          <div className="relative w-[300px] h-[300px] md:w-[600px] md:h-[600px] animate-pulse-slow">
+          <div className="relative w-[260px] h-[260px] md:w-[600px] md:h-[600px] animate-pulse-slow">
             <Image
               src="/kamon.png"
               alt="Maekawa Kamon"
               fill
               className="object-contain"
+              sizes="(max-width: 768px) 60vw, 600px"
               priority
             />
           </div>
         </div>
 
-        {/* Introduction Text */}
-        <div className="absolute bottom-8 left-0 w-full text-center md:text-left md:pl-12 animate-fade-in">
-          <p className="font-serif text-sumi-dark text-xs md:text-base tracking-[0.2em] uppercase mb-3 opacity-70">
+        {/* Introduction Text — flows below hero on mobile, absolute on desktop */}
+        <div className="relative md:absolute md:bottom-8 left-0 w-full text-center md:text-left md:pl-12 mt-8 md:mt-0 animate-fade-in">
+          <p className="font-serif text-sumi-dark text-sm md:text-base tracking-[0.2em] uppercase mb-3 opacity-80">
             IS THAT THE TRUTH?
           </p>
           <div className="h-px w-24 bg-kokihi mx-auto md:mx-0 mb-3"></div>
-          <p className="text-kokihi text-xs md:text-sm font-bold tracking-[0.4em]">
+          <p className="text-kokihi text-sm font-bold tracking-[0.4em]">
             それはまことですか？
           </p>
         </div>
@@ -122,6 +123,7 @@ export default function Home() {
               src="/concept.png"
               alt="Lake Biwa Concept Art"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover opacity-80 hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -159,6 +161,7 @@ export default function Home() {
                   src="/story-kimigahata.png"
                   alt="Kimigahata Village"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -171,7 +174,7 @@ export default function Home() {
                   <br />
                   木地師の源流
                 </h3>
-                <p className="text-xs opacity-60 font-serif leading-relaxed line-clamp-3">
+                <p className="text-sm opacity-80 font-serif leading-relaxed line-clamp-3">
                   国家「君が代」の真実とは。1200年の時を超えて守られた、敗れし者たちの祈りと誇りの物語。
                 </p>
               </div>
@@ -185,6 +188,7 @@ export default function Home() {
                   src="/story-kagami.png"
                   alt="Kagami no Sato"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -197,7 +201,7 @@ export default function Home() {
                   <br />
                   源平の宿命
                 </h3>
-                <p className="text-xs opacity-60 font-serif leading-relaxed line-clamp-3">
+                <p className="text-sm opacity-80 font-serif leading-relaxed line-clamp-3">
                   源義経の決意と、平宗盛の最期。勝者と敗者が交差する、近江の聖地に眠る二つの正義。
                 </p>
               </div>
@@ -211,6 +215,7 @@ export default function Home() {
                   src="/story-zansho.png"
                   alt="Ancient high-tech Oumi"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -223,7 +228,7 @@ export default function Home() {
                   <br />
                   渡来の王と技術
                 </h3>
-                <p className="text-xs opacity-60 font-serif leading-relaxed line-clamp-3">
+                <p className="text-sm opacity-80 font-serif leading-relaxed line-clamp-3">
                   アメノヒボコが伝えた鏡と鉄。ここは日本のハイテク産業の原点、古代のシリコンバレーだった。
                 </p>
               </div>
@@ -397,6 +402,7 @@ export default function Home() {
                   src="/profile.png"
                   alt="Shinji Maekawa"
                   fill
+                  sizes="(max-width: 768px) 50vw, 256px"
                   className="object-cover opacity-90 grayscale hover:grayscale-0 transition-all duration-700"
                 />
               </div>

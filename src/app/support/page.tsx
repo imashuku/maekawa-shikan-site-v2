@@ -2,65 +2,50 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Noto_Serif_JP } from "next/font/google";
-
-const serif = Noto_Serif_JP({
-  subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-serif",
-});
 
 export default function SupportPage() {
 
   return (
-    <main className={`min-h-screen bg-[#f7f6f2] text-[#333] flex flex-col items-center relative overflow-hidden ${serif.variable} font-serif`}>
+    <main className="min-h-screen bg-kinari text-sumi flex flex-col items-center relative overflow-hidden">
       {/* Background Texture & Noise */}
       <div className="fixed inset-0 pointer-events-none opacity-30 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
-      
-      {/* Header / Nav */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:p-8 flex justify-between items-center mix-blend-multiply bg-white/5 backdrop-blur-sm">
-        <Link href="/" className="text-sm font-bold tracking-widest hover:text-[#9d2b2b] transition-colors border-b border-transparent hover:border-[#9d2b2b]">
-            ← トップへ戻る
-        </Link>
-        <span className="text-[10px] md:text-xs font-bold tracking-[0.3em] opacity-60">SUPPORT PROJECT</span>
-      </nav>
 
       {/* Hero Content */}
-      <section className="relative z-10 w-full pt-40 pb-24 md:pt-52 md:pb-32 px-6 flex flex-col items-center text-center">
-         <span className="text-[#9d2b2b] text-xs md:text-sm font-bold tracking-[0.2em] mb-8 block animate-fade-in-up">JOIN THE JOURNEY</span>
-         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#1a1a1a] mb-10 leading-tight tracking-wide animate-fade-in-up delay-100">
+      <section className="relative z-10 w-full pt-20 pb-20 md:pt-32 md:pb-32 px-6 flex flex-col items-center text-center">
+         <span className="text-kokihi text-sm font-bold tracking-[0.2em] mb-8 block animate-fade-in-up">JOIN THE JOURNEY</span>
+         <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-sumi-dark mb-10 leading-tight tracking-wide animate-fade-in-up delay-100">
             埋もれた歴史に、<br/>
-            <span className="text-[#9d2b2b]">光</span>を。
+            <span className="text-kokihi">光</span>を。
          </h1>
-         <p className="text-base md:text-xl text-[#4a4a4a] leading-loose max-w-2xl mx-auto animate-fade-in-up delay-200">
+         <p className="text-base md:text-xl text-sumi/80 leading-loose max-w-2xl mx-auto animate-fade-in-up delay-200">
             教科書にはない「もう一つの日本史」を、<br className="md:hidden"/>
             共に紐解く旅に出ませんか。<br/>
             あなたの参加が、新たな真実を照らす灯火となります。
          </p>
-         <div className="h-24 w-px bg-[#333] mt-16 opacity-20 animate-fade-in-up delay-300"></div>
+         <div className="h-24 w-px bg-sumi mt-16 opacity-20 animate-fade-in-up delay-300"></div>
       </section>
 
       {/* Three Ways to Support */}
-      <section className="relative z-10 w-full max-w-6xl px-6 pb-32">
+      <section className="relative z-10 w-full max-w-6xl px-6 pb-24 md:pb-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               {/* 1. LINE Official Account */}
-              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
-                     <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">壹</div>
+              <div className="bg-white p-6 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                     <div className="absolute -right-4 -top-8 text-[120px] font-bold text-washi-gray pointer-events-none group-hover:text-kokihi/10 transition-colors z-0 font-serif">壹</div>
                      <div className="relative z-10">
-                        <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                            <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                        <h3 className="text-xl md:text-2xl font-serif font-bold mb-4 flex items-center gap-3">
+                            <span className="w-2 h-2 bg-kokihi rounded-full"></span>
                             知る
                         </h3>
-                        <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                        <p className="text-base leading-relaxed text-sumi/80 mb-8 md:min-h-[5rem]">
                             公式LINEで最新情報を受け取る。<br/>
                             取材の裏側や、新着記事の通知をお届けします。
                         </p>
-                        
-                        <a 
-                          href="https://lin.ee/KY9xx1E" 
-                          target="_blank" 
+
+                        <a
+                          href="https://lin.ee/KY9xx1E"
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center w-full py-3 bg-[#06C755] text-white hover:bg-[#05b54d] transition-colors text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
+                          className="flex items-center justify-center w-full py-4 bg-[#06C755] text-white hover:bg-[#05b54d] transition-colors text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
                         >
                             公式LINEを友だち追加
                         </a>
@@ -69,31 +54,31 @@ export default function SupportPage() {
 
 
               {/* 2. Share */}
-              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
-                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">貳</div>
+              <div className="bg-white p-6 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-washi-gray pointer-events-none group-hover:text-kokihi/10 transition-colors z-0 font-serif">貳</div>
                  <div className="relative z-10">
-                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                    <h3 className="text-xl md:text-2xl font-serif font-bold mb-4 flex items-center gap-3">
+                        <span className="w-2 h-2 bg-kokihi rounded-full"></span>
                         広める
                     </h3>
-                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                    <p className="text-base leading-relaxed text-sumi/80 mb-8 md:min-h-[5rem]">
                         「歴史は勝者によって作られる」<br/>
                         あなたのシェアが、誰かの固定観念を壊します。
                     </p>
                     <div className="flex flex-col gap-3">
-                        <a 
-                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3" 
-                          target="_blank" 
+                        <a
+                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3"
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full py-3 border border-[#333] text-[#333] hover:bg-[#333] hover:text-white transition-colors text-sm tracking-widest text-center"
+                          className="w-full py-4 border border-sumi text-sumi hover:bg-sumi hover:text-white transition-colors text-sm tracking-widest text-center"
                         >
                            X (Twitter)
                         </a>
-                        <a 
-                          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan.vercel.app" 
-                          target="_blank" 
+                        <a
+                          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan.vercel.app"
+                          target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full py-3 border border-[#e0e0e0] text-[#666] hover:bg-[#3b5998] hover:text-white hover:border-[#3b5998] transition-colors text-sm tracking-widest text-center"
+                          className="w-full py-4 border border-washi-gray text-sumi/80 hover:bg-[#3b5998] hover:text-white hover:border-[#3b5998] transition-colors text-sm tracking-widest text-center"
                         >
                            Facebook
                         </a>
@@ -102,20 +87,20 @@ export default function SupportPage() {
               </div>
 
               {/* 3. Participate */}
-              <div className="bg-white p-8 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
-                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-[#f0f0f0] pointer-events-none group-hover:text-[#f7e8e8] transition-colors z-0 font-serif">參</div>
+              <div className="bg-white p-6 md:p-12 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden">
+                 <div className="absolute -right-4 -top-8 text-[120px] font-bold text-washi-gray pointer-events-none group-hover:text-kokihi/10 transition-colors z-0 font-serif">參</div>
                  <div className="relative z-10">
-                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
-                        <span className="w-2 h-2 bg-[#9d2b2b] rounded-full"></span>
+                    <h3 className="text-xl md:text-2xl font-serif font-bold mb-4 flex items-center gap-3">
+                        <span className="w-2 h-2 bg-kokihi rounded-full"></span>
                         参加する
                     </h3>
-                    <p className="text-sm leading-8 text-[#666] mb-8 min-h-[5rem]">
+                    <p className="text-base leading-relaxed text-sumi/80 mb-8 md:min-h-[5rem]">
                         「歴史を語る会」や現地ツアー。<br/>
                         文字だけでは伝わらない熱量を、現場で。
                     </p>
-                    <Link 
-                        href="/contact" 
-                        className="flex items-center justify-center w-full py-3 bg-[#9d2b2b] text-white hover:bg-[#7a1f1f] transition-all duration-300 text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
+                    <Link
+                        href="/contact"
+                        className="flex items-center justify-center w-full py-4 bg-kokihi text-white hover:bg-sumi-dark transition-all duration-300 text-sm font-bold tracking-widest shadow-md hover:shadow-lg"
                     >
                         お問い合わせへ
                     </Link>
@@ -148,6 +133,7 @@ export default function SupportPage() {
                               alt="bobs ambient root メンズオーガニックコスメ製品ラインナップ"
                               width={600}
                               height={400}
+                              sizes="(max-width: 768px) 100vw, 50vw"
                               className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700"
                             />
                        </div>

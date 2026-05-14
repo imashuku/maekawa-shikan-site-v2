@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 // import { Shippori_Mincho, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
@@ -22,6 +22,12 @@ export const metadata: Metadata = {
   title: "それはまことですか | 歴史の本質を問う",
   description:
     "教科書には載らない歴史の面白さを。制作チームによる滋賀・近江の歴史再定義プロジェクト。",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

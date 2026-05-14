@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 // 活動報告データ
 const activities = [
@@ -26,37 +25,8 @@ const activities = [
 export default function ActivitiesPage() {
   return (
     <main className="min-h-screen bg-kinari">
-      {/* Header Navigation */}
-      <header className="fixed top-0 left-0 right-0 bg-kinari/95 backdrop-blur-sm z-50 border-b border-sumi/10">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link
-            href="/"
-            className="text-xl font-serif font-bold text-sumi-dark hover:text-kokihi transition-colors"
-          >
-            それはまことですか
-          </Link>
-          <nav className="flex gap-6 text-sm font-serif">
-            <Link
-              href="/#stories"
-              className="text-sumi hover:text-kokihi transition-colors"
-            >
-              歴史の断片
-            </Link>
-            <Link href="/activities" className="text-kokihi font-bold">
-              活動報告
-            </Link>
-            <Link
-              href="/support"
-              className="text-sumi hover:text-kokihi transition-colors"
-            >
-              書籍化プロジェクト
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       {/* Page Title */}
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-5 md:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             ACTIVITIES
@@ -73,12 +43,12 @@ export default function ActivitiesPage() {
       </section>
 
       {/* Activities List */}
-      <section className="pb-24 px-6">
-        <div className="max-w-4xl mx-auto space-y-12">
+      <section className="pb-20 md:pb-24 px-5 md:px-6">
+        <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
           {activities.map((activity, index) => (
             <article
               key={activity.id}
-              className="bg-white p-8 md:p-12 shadow-lg border border-sumi/10 relative"
+              className="bg-white p-6 md:p-12 shadow-lg border border-sumi/10 relative"
             >
               {/* Corner Decorations */}
               <div className="absolute -top-3 -left-3 w-6 h-6 border-l-2 border-t-2 border-kokihi"></div>
@@ -112,14 +82,14 @@ export default function ActivitiesPage() {
 
               {/* Theme */}
               <div className="bg-kinari p-4 mb-6 border-l-4 border-kokihi">
-                <p className="text-sumi font-serif text-sm">
+                <p className="text-sumi text-sm md:text-base leading-relaxed">
                   <span className="text-kokihi font-bold">テーマ：</span>
                   {activity.theme}
                 </p>
               </div>
 
               {/* Description */}
-              <p className="text-sumi leading-loose font-serif mb-8">
+              <p className="text-sumi text-sm md:text-base leading-relaxed md:leading-loose mb-8">
                 {activity.description}
               </p>
 
@@ -128,11 +98,11 @@ export default function ActivitiesPage() {
                 <h3 className="text-sm font-bold text-kokihi mb-4 tracking-widest">
                   講演トピック
                 </h3>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                   {activity.topics.map((topic, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2 text-sm text-sumi font-serif"
+                      className="flex items-start gap-2 text-sm md:text-base text-sumi leading-relaxed"
                     >
                       <span className="text-kokihi mt-1">・</span>
                       {topic}

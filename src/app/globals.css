@@ -87,3 +87,32 @@ h6 {
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
+
+/* Form elements: consistent appearance + sans-serif for legibility on mobile.
+   Keep native appearance for checkbox/radio so their visual indicator is preserved. */
+select,
+input:not([type="checkbox"]):not([type="radio"]),
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: var(--font-sans);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  font-family: var(--font-sans);
+}
+
+/* Mobile readability: thin Mincho strokes get crushed at small sizes,
+   so use sans-serif for sub-headings on phones. h1 stays serif (large). */
+@media (max-width: 767px) {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-serif-md {
+    font-family: var(--font-sans);
+    font-weight: 600;
+  }
+}
