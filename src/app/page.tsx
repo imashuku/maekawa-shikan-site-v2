@@ -61,26 +61,174 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Navigation / Links Placeholder */}
-      <div className="z-10 mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg font-serif px-5 md:px-0">
-        <Link
-          href="#profile"
-          className="flex items-center justify-center border border-sumi text-sumi px-6 py-4 md:py-3 hover:bg-sumi hover:text-kinari transition-colors duration-300 text-sm md:text-base"
-        >
-          ナビゲーター紹介
-        </Link>
-        <Link
-          href="/support"
-          className="flex items-center justify-center bg-kokihi text-white px-6 py-4 md:py-3 hover:opacity-90 transition-opacity duration-300 shadow-lg text-sm md:text-base"
-        >
-          書籍化プロジェクトに参加する
-        </Link>
-      </div>
-
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 animate-bounce text-sumi opacity-50 hidden md:block">
         <span className="vertical-rl text-xs tracking-widest">スクロール</span>
       </div>
+
+      {/* --- Section: Salon Announcement (YOOR) --- */}
+      <section
+        id="salon"
+        className="w-full bg-kokihi/5 py-20 md:py-28 border-y border-kokihi/15 text-sumi"
+      >
+        <div className="max-w-4xl mx-auto px-5 md:px-0">
+          <div className="text-center mb-10 md:mb-14">
+            <span className="inline-flex items-center gap-2 text-kokihi text-xs font-bold tracking-widest mb-5">
+              <span className="rounded-sm bg-kokihi text-white px-2 py-0.5">
+                NEW
+              </span>
+              <span>ONLINE SALON ／ 事前受付中</span>
+            </span>
+            <h2 className="text-2xl md:text-4xl font-serif font-bold leading-relaxed mb-4 text-sumi-dark">
+              オンライン歴史ラウンジ
+              <br />
+              「近江にみちびかれて」開講
+            </h2>
+            <p className="font-serif text-sumi text-base md:text-lg tracking-wider">
+              今いるこの場所が、もっと好きになる時間。
+            </p>
+            <p className="text-sumi/60 text-xs md:text-sm mt-3 tracking-wider">
+              「近江解体新書」プロジェクト 〜前川史観から読み解く近江の歴史〜
+            </p>
+          </div>
+
+          {/* Detail grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-sumi/10 border border-sumi/10 mb-10 md:mb-12 shadow-sm">
+            <div className="bg-white p-6 md:p-8">
+              <p className="text-kokihi text-xs font-bold tracking-widest mb-2">
+                開講
+              </p>
+              <p className="font-serif text-lg md:text-xl font-bold text-sumi-dark">
+                2026年6月11日(木)
+              </p>
+              <p className="text-sumi/70 text-xs mt-1.5">第1回スタート</p>
+            </div>
+            <div className="bg-white p-6 md:p-8">
+              <p className="text-kokihi text-xs font-bold tracking-widest mb-2">
+                形式
+              </p>
+              <p className="font-serif text-lg md:text-xl font-bold text-sumi-dark">
+                毎月第2木曜 19:00〜21:00
+              </p>
+              <p className="text-sumi/70 text-xs mt-1.5 leading-relaxed">
+                全10回（2026年6月〜2027年3月）／オンライン（Zoom）
+              </p>
+            </div>
+            <div className="bg-white p-6 md:p-8">
+              <p className="text-kokihi text-xs font-bold tracking-widest mb-2">
+                参加費
+              </p>
+              <p className="font-serif text-lg md:text-xl font-bold text-sumi-dark">
+                全10回パス ¥12,000
+                <span className="text-xs font-normal text-sumi/60 ml-1">(税込)</span>
+              </p>
+              <p className="text-sumi/70 text-xs mt-1.5">
+                1回あたり1,200円／単発 ¥1,500
+              </p>
+            </div>
+            <div className="bg-white p-6 md:p-8">
+              <p className="text-kokihi text-xs font-bold tracking-widest mb-2">
+                アーカイブ
+              </p>
+              <p className="font-serif text-lg md:text-xl font-bold text-sumi-dark">
+                見逃しても後日視聴OK
+              </p>
+              <p className="text-sumi/70 text-xs mt-1.5">
+                全回のアーカイブ見放題
+              </p>
+            </div>
+          </div>
+
+          {/* Full 10-session curriculum */}
+          <div className="mb-12 md:mb-14">
+            <div className="text-center mb-8">
+              <h3 className="font-serif text-xl md:text-2xl font-bold mb-2 text-sumi-dark">
+                全10回のものがたり
+              </h3>
+              <p className="text-sumi/60 text-xs md:text-sm tracking-wider">
+                各回ひとつの問いから出発し、近江を入口に日本史を読み直します。
+              </p>
+            </div>
+            <ol className="bg-white border border-sumi/10 rounded-sm shadow-sm divide-y divide-sumi/10 px-5 md:px-8">
+              {[
+                { date: "2026/06/11", title: "近江は、私たちのどこにいたのだろう", sub: "日本史の地図を、近江から広げてみる" },
+                { date: "2026/07/09", title: "一万年前の、しあわせのかたち", sub: "東近江の縄文と土偶が語るもの" },
+                { date: "2026/08/13", title: "もしかして、ここが「あの国」？", sub: "邪馬台国近江説というロマン" },
+                { date: "2026/09/10", title: "兄と弟が、国を二つに分けた日", sub: "ふたつの正義がぶつかった、古代の決断" },
+                { date: "2026/10/08", title: "負けた者は、どこへ消えたのか", sub: "近江に残る源平の伝承と、生きのびる人々の物語" },
+                { date: "2026/11/12", title: "同じ血が、争うとき", sub: "近江を動かした一族たちの素顔" },
+                { date: "2026/12/10", title: "刀を置いて、そろばんを持った人たち", sub: "敗者はなぜ商人になったのか─三井家誕生の物語" },
+                { date: "2027/01/14", title: "「悪人」と呼ばれた人の、本当の顔", sub: "教科書が教えなかった、一期一会のある決断" },
+                { date: "2027/02/11", title: "あの会社も、近江から始まった", sub: "伊藤忠・丸紅・トヨタ・住友・日本生命─近江商人の挑戦と葛藤" },
+                { date: "2027/03/11", title: "あなたの「現在地」が、見えてくる", sub: "近江から、もっと、深い物語の入口へ" },
+              ].map((c, i) => (
+                <li
+                  key={i}
+                  className="flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6 py-5"
+                >
+                  <div className="flex items-baseline gap-3 sm:w-44 shrink-0">
+                    <span className="text-kokihi font-serif font-bold text-base tracking-widest">
+                      第{i + 1}回
+                    </span>
+                    <span className="text-sumi/45 text-xs tabular-nums">
+                      {c.date}（木）
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-serif font-bold text-base md:text-lg leading-relaxed text-sumi-dark">
+                      {c.title}
+                    </p>
+                    <p className="text-sumi/65 text-xs md:text-sm mt-1 leading-relaxed">
+                      〜{c.sub}〜
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <p className="text-center text-sumi/80 text-sm md:text-base leading-loose mb-10">
+            年号や人物名を覚える歴史講座ではありません。
+            <br className="hidden md:block" />
+            近江に残る物語を通して、自分自身と、今を暮らす土地を見つめ直す。
+            <br className="hidden md:block" />
+            大人のための、知的なリフレクションの時間です。
+          </p>
+
+          <div className="text-center">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
+              <a
+                href="https://yoor.jp/door/michibikarete"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-sm bg-kokihi px-10 py-5 font-bold text-white shadow-md transition-all duration-300 hover:opacity-90 hover:shadow-xl"
+              >
+                <span className="mr-2">全10回パスに申し込む（¥12,000）</span>
+                <span
+                  aria-hidden
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-shine" />
+              </a>
+              <a
+                href="https://buy.stripe.com/aFa7sKfPV0yKgaegRn5c401"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-sm border border-sumi/40 bg-white px-10 py-5 font-bold text-sumi-dark transition-all duration-300 hover:bg-sumi hover:text-white hover:border-sumi"
+              >
+                単発で試す（¥1,500）
+              </a>
+            </div>
+            <p className="text-xs text-sumi/55 mt-5 tracking-wider leading-relaxed">
+              全10回パスはYOORのサロンページから／単発は1回ごとのお申込みです。
+              <br className="hidden md:block" />
+              「まずは1回」から、いつでも全10回パスに切り替えOK。
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* --- Section: Concept (Thinking) --- */}
       <section
@@ -576,6 +724,14 @@ export default function Home() {
                   className="hover:text-kokihi transition-colors"
                 >
                   歴史の断片
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#salon"
+                  className="hover:text-kokihi transition-colors"
+                >
+                  オンラインサロン
                 </Link>
               </li>
               <li>
