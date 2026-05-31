@@ -230,13 +230,8 @@ export default function ApplyPage() {
                 setSelectedValue(e.target.value);
                 setNewName("");
               }}
-              className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors appearance-none text-base"
+              className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
               required
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23333'/%3E%3C/svg%3E")`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 14px center",
-              }}
             >
               <option value="">-- 選択してください --</option>
               {memberList
@@ -252,6 +247,9 @@ export default function ApplyPage() {
             </select>
             <p className="text-sm text-sumi/70 mt-2">
               名簿は50音順／全{memberList.filter((m) => m.member_no !== "001").length}名・スクロールで全件確認できます
+            </p>
+            <p className="text-xs text-sumi/60 mt-2 leading-relaxed">
+              ※LINEで開いて選択できない場合は、右上のメニューから「ブラウザ（Chrome／Safari）で開く」を選んでください。
             </p>
           </div>
 

@@ -259,7 +259,7 @@ export default function Home() {
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第7回 それまこ会
+              第8回 それまこ会
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
@@ -271,11 +271,11 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-base md:text-lg font-bold font-serif text-sumi-dark leading-relaxed">
-                    近江商人とは何だったのか？<br />
-                    〜明治・大正編〜
+                    私たちの現在地<br />
+                    〜昭和から現代〜
                   </p>
                   <p className="text-sm text-sumi/70 mt-2">
-                    三井家のみならず、住友もトヨタも近江商人だった——日本経済の源流をたどり、教科書では語られない近江商人の真実に迫ります。
+                    詳細は決まり次第、追記します。
                   </p>
                 </div>
               </div>
@@ -288,7 +288,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    5月27日(水)
+                    6月24日(水)
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
@@ -389,7 +389,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Section: Profile --- */}
+      {/* --- Section: Profile Teaser --- */}
       <section
         id="profile"
         className="w-full bg-white/50 py-20 md:py-32 border-y border-sumi/10"
@@ -413,7 +413,7 @@ export default function Home() {
             <span className="text-kokihi font-bold text-xs tracking-[0.2em] mb-4 block">
               NAVIGATOR
             </span>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-10">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-8">
               ナビゲーター紹介
             </h2>
 
@@ -423,31 +423,34 @@ export default function Home() {
               </span>
               <h3 className="text-2xl font-serif font-bold">
                 前川 真司
-                <span className="text-lg ml-4 opacity-50 font-normal">Shinji Maekawa</span>
+                <span className="text-lg ml-4 opacity-50 font-normal">
+                  Shinji Maekawa
+                </span>
               </h3>
             </div>
-            <p className="text-sm text-sumi/60 mb-6 font-serif">
-              歴史案内人
+            <p className="text-sm text-kokihi font-bold mb-6 font-serif tracking-wider">
+              近江史コンテンツプロデューサー／歴史講演家
             </p>
 
-            <p className="leading-loose text-sumi mb-6 text-sm md:text-base font-serif">
-              1987年、兵庫県宝塚市生まれ。
+            <p className="leading-loose text-sumi mb-8 text-sm md:text-base font-serif">
+              滋賀県東近江市を拠点に、近江から日本史を読み解く歴史プロジェクト
+              <strong className="text-kokihi">「それはまことですか？」</strong>
+              を展開。
               <br />
-              中学時代の山村留学（高知県大川村）を原点に、農山村の営みに深く惹かれる。
+              絶滅危惧種・紫草を活用した地域事業 MURASAKIno ORGANIC を経て、
+              現在は近江史コンテンツの制作・講演・教育に
+              <strong className="text-kokihi">「転戦」</strong>。
               <br />
-              東京農業大学、米国UCLA留学を経て、滋賀県立八日市南高校の農業教員に着任。
-              <br />
-              そこで絶滅危惧種「紫草（ムラサキ）」と出会い、地域資源としての可能性を見出す。
+              「日本の歴史を10巻の本にまとめたら、近江の登場しない巻は無い」を合言葉に、教科書が語らなかったもう一つの日本史を発信しています。
             </p>
-            <p className="leading-loose text-sumi text-sm md:text-base font-serif">
-              2014年、地域おこし協力隊として木地師発祥の地・君ヶ畑に移住。
-              <br />
-              2017年、「株式会社みんなの奥永源寺」を設立。
-              <br />
-              歴史の深層に眠る敗者の物語と、自然と共生する日本人の精神性を、
-              <br />
-              自らの暮らしと事業を通じて探求・実践し続けている。
-            </p>
+
+            <Link
+              href="/profile"
+              className="inline-flex items-center gap-2 border border-sumi text-sumi px-6 py-3 hover:bg-sumi hover:text-kinari transition-colors duration-300 text-sm font-serif tracking-widest"
+            >
+              詳しいプロフィールを見る
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -462,14 +465,14 @@ export default function Home() {
         </div>
 
         <div className="relative border-l-2 border-sumi/20 ml-4 md:ml-0 md:pl-0 space-y-12">
-          {/* Step 1 (Current) */}
-          <div className="relative pl-8 md:pl-0 md:flex md:justify-center items-center gap-8">
-            <div className="absolute -left-[9px] top-1 md:static w-5 h-5 border-4 border-kokihi bg-kinari rounded-full md:order-2 z-10"></div>
+          {/* Step 1 (Completed) */}
+          <div className="relative pl-8 md:pl-0 md:flex md:justify-center items-center gap-8 opacity-60">
+            <div className="absolute -left-[5px] top-2 md:static w-3 h-3 bg-sumi rounded-full md:order-2"></div>
             <div className="md:w-5/12 md:text-right md:order-1">
-              <h3 className="text-xl font-serif font-bold text-kokihi">
+              <h3 className="text-xl font-serif font-bold text-sumi-dark">
                 企画・構想
               </h3>
-              <p className="text-sm text-kokihi font-bold">2026.01 - 2026.03</p>
+              <p className="text-sm text-sumi/60">2026.01 - 2026.04</p>
             </div>
             <div className="md:w-5/12 md:order-3">
               <p className="text-sm text-sumi">
@@ -480,14 +483,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Step 2 (Future) */}
-          <div className="relative pl-8 md:pl-0 md:flex md:justify-center items-center gap-8 opacity-70">
-            <div className="absolute -left-[5px] md:static w-3 h-3 bg-sumi rounded-full md:order-2"></div>
+          {/* Step 2 (Current) */}
+          <div className="relative pl-8 md:pl-0 md:flex md:justify-center items-center gap-8">
+            <div className="absolute -left-[9px] top-1 md:static w-5 h-5 border-4 border-kokihi bg-kinari rounded-full md:order-2 z-10"></div>
             <div className="md:w-5/12 md:text-right md:order-1">
-              <h3 className="text-xl font-serif font-bold text-sumi-dark">
+              <h3 className="text-xl font-serif font-bold text-kokihi">
                 執筆・連載
               </h3>
-              <p className="text-sm text-sumi/60">2026.04 - </p>
+              <p className="text-sm text-kokihi font-bold">2026.05 -</p>
             </div>
             <div className="md:w-5/12 md:order-3">
               <div className="bg-white p-4 shadow-sm border border-sumi/10 inline-block">
@@ -500,14 +503,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Step 3 (Far Future) */}
+          {/* Step 3 (Future) */}
           <div className="relative pl-8 md:pl-0 md:flex md:justify-center items-center gap-8 opacity-50">
             <div className="absolute -left-[5px] md:static w-3 h-3 bg-sumi rounded-full md:order-2"></div>
             <div className="md:w-5/12 md:text-right md:order-1">
               <h3 className="text-xl font-serif font-bold text-sumi-dark">
                 出版・記念講演
               </h3>
-              <p className="text-sm text-sumi/60">2027.Spring (Planned)</p>
+              <p className="text-sm text-sumi/60">2027 (Planned)</p>
             </div>
             <div className="md:w-5/12 md:order-3">
               <p className="text-sm text-sumi">
