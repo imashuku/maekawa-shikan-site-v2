@@ -92,6 +92,24 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Invitation video */}
+          <div className="mb-12 md:mb-14">
+            <div className="text-center mb-5">
+              <span className="text-kokihi text-xs font-bold tracking-widest">
+                まずは、無料の招待動画から
+              </span>
+            </div>
+            <div className="relative aspect-video w-full max-w-3xl mx-auto overflow-hidden rounded-sm shadow-lg border border-sumi/10 bg-sumi-dark">
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/gjrhWpu5CjY"
+                title="オンライン歴史ラウンジ「近江にみちびかれて」へのご招待"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
           {/* Detail grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-sumi/10 border border-sumi/10 mb-10 md:mb-12 shadow-sm">
             <div className="bg-white p-6 md:p-8">
