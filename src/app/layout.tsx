@@ -18,10 +18,36 @@ const notoSansJP = Noto_Sans_JP({
 });
 */
 
+const siteName = "それはまことですか？｜前川真司の前川史観プロジェクト";
+const siteDescription =
+  "歴史講演家・前川真司による、近江から日本史を読み解く歴史プロジェクト「それはまことですか？」公式サイト。教科書には載らない、もう一つの日本史を発信。";
+
 export const metadata: Metadata = {
-  title: "それはまことですか？｜前川真司の前川史観プロジェクト",
-  description:
-    "歴史講演家・前川真司による、近江から日本史を読み解く歴史プロジェクト「それはまことですか？」公式サイト。教科書には載らない、もう一つの日本史を発信。",
+  metadataBase: new URL("https://maekawa-shikan-site-v2.vercel.app"),
+  title: siteName,
+  description: siteDescription,
+  openGraph: {
+    title: siteName,
+    description: siteDescription,
+    url: "/",
+    siteName,
+    locale: "ja_JP",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "それはまことですか？",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDescription,
+    images: ["/og-image.jpg"],
+  },
 };
 
 export const viewport: Viewport = {

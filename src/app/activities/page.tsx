@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { buildMetadata } from "@/lib/metadata";
+
+export const metadata = buildMetadata({
+  title: "活動報告｜それはまことですか？（前川史観プロジェクト）",
+  description:
+    "前川真司が各地で行った講演や勉強会の記録。「それはまことですか？」を通じて、近江の歴史の深層を伝え続けています。",
+  path: "/activities",
+});
 
 // 活動報告データ
 const activities = [

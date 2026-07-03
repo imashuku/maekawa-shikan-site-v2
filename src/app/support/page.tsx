@@ -67,7 +67,7 @@ export default function SupportPage() {
                     </p>
                     <div className="flex flex-col gap-3">
                         <a
-                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3"
+                          href="https://twitter.com/intent/tweet?text=%E6%AD%B4%E5%8F%B2%E3%81%AF%E5%8B%9D%E8%80%85%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E4%BD%9C%E3%82%8C%E3%82%8B%E3%80%82%E3%81%97%E3%81%8B%E3%81%97%E3%80%81%E7%9C%9F%E5%AE%9F%E3%81%AF%E6%95%97%E8%80%85%E3%81%AE%E5%81%B4%E3%81%AB%E3%81%93%E3%81%9D%E5%AE%BF%E3%82%8B%E3%80%82%20%7C%20%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3%20%23%E5%89%8D%E5%B7%9D%E5%8F%B2%E8%A6%B3&url=https%3A%2F%2Fmaekawa-shikan-site-v2.vercel.app"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full py-4 border border-sumi text-sumi hover:bg-sumi hover:text-white transition-colors text-sm tracking-widest text-center"
@@ -75,7 +75,7 @@ export default function SupportPage() {
                            X (Twitter)
                         </a>
                         <a
-                          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan.vercel.app"
+                          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmaekawa-shikan-site-v2.vercel.app"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full py-4 border border-washi-gray text-sumi/80 hover:bg-[#3b5998] hover:text-white hover:border-[#3b5998] transition-colors text-sm tracking-widest text-center"

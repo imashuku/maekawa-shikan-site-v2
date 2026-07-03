@@ -2,12 +2,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { stories } from "@/lib/stories";
 import { notFound } from "next/navigation";
+import { buildMetadata } from "@/lib/metadata";
 
 // Generate static params for all stories
 export async function generateStaticParams() {
   return stories.map((story) => ({
     slug: story.slug,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const story = stories.find((s) => s.slug === slug);
+  if (!story) return {};
+
+  // 1200x630 OG crops live in /og/ mirroring the original image filenames
+  const ogImage = story.imageUrl.replace(/^\//, "/og/").replace(/\.png$/, ".jpg");
+  return buildMetadata({
+    title: `${story.title}｜それはまことですか？（前川史観プロジェクト）`,
+    description: story.excerpt,
+    path: `/story/${story.slug}`,
+    image: ogImage,
+    imageAlt: story.title,
+    type: "article",
+  });
 }
 
 export default async function StoryPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "前川真司 公式プロフィール｜近江史・講演・それはまことですか？",
   description:
     "近江史コンテンツプロデューサー／歴史講演家・前川真司の公式プロフィール。紫草事業を経て、近江から日本史を読み解く歴史プロジェクト「それはまことですか？」を展開。",
-};
+  path: "/profile",
+});
 
 export default function ProfilePage() {
   return (
