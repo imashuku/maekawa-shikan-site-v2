@@ -425,7 +425,7 @@ export default function Home() {
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第8回 それまこ会
+              第9回 それまこ会
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
@@ -438,7 +438,7 @@ export default function Home() {
                 <div>
                   <p className="text-base md:text-lg font-bold font-serif text-sumi-dark leading-relaxed">
                     私たちの現在地<br />
-                    〜昭和から現代〜
+                    〜戦後から現代〜
                   </p>
                   <p className="text-sm text-sumi/70 mt-2">
                     詳細は決まり次第、追記します。
@@ -454,7 +454,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    6月24日(水)
+                    7月29日(水)
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
