@@ -1,8 +1,54 @@
 import Link from "next/link";
 import Image from "next/image";
 import LatestNote from "./components/LatestNote";
+import db from "@/lib/db";
 
-export default function Home() {
+// イベント情報はDB(events)から取得するため、常に最新を表示する
+export const dynamic = "force-dynamic";
+
+interface UpcomingEvent {
+  name: string;
+  event_date: string;
+  venue: string;
+  notes: string | null;
+}
+
+// 次回のリアル会（SATSUKI-RO開催）を1件取得。無ければnull
+async function getUpcomingEvent(): Promise<UpcomingEvent | null> {
+  try {
+    const result = await db.execute(`
+      SELECT name, event_date, venue, notes
+      FROM events
+      WHERE event_date >= date('now') AND venue = 'SATSUKI-RO'
+      ORDER BY event_date ASC
+      LIMIT 1
+    `);
+    return (result.rows[0] as unknown as UpcomingEvent) ?? null;
+  } catch (e) {
+    console.error("upcoming event fetch error:", e);
+    return null;
+  }
+}
+
+// "2026-07-29" → "7月29日(水)"（タイムゾーン非依存で曜日算出）
+function formatEventDate(dateStr: string): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const weekday = ["日", "月", "火", "水", "木", "金", "土"][
+    new Date(y, m - 1, d).getDay()
+  ];
+  return `${m}月${d}日(${weekday})`;
+}
+
+export default async function Home() {
+  const upcomingEvent = await getUpcomingEvent();
+
+  // テーマ(notes)を「本文」と「〜サブ〜」に分割（例: 私たちの現在地〜戦後から現代〜）
+  const themeRaw = upcomingEvent?.notes ?? "";
+  const themeSplitIdx = themeRaw.indexOf("〜");
+  const themeMain =
+    themeSplitIdx >= 0 ? themeRaw.slice(0, themeSplitIdx) : themeRaw;
+  const themeSub = themeSplitIdx >= 0 ? themeRaw.slice(themeSplitIdx) : "";
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-5 py-8 sm:p-20 relative overflow-hidden">
       {/* Background Texture */}
@@ -424,8 +470,10 @@ export default function Home() {
             <div className="absolute -top-3 -left-3 w-6 h-6 border-l-2 border-t-2 border-kokihi"></div>
             <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
 
+            {upcomingEvent ? (
+            <>
             <h3 className="text-xl md:text-2xl font-serif font-bold text-sumi-dark mb-8 text-center border-b border-kokihi/20 pb-6">
-              第9回 それまこ会
+              {upcomingEvent.name}
             </h3>
 
             <div className="space-y-8 font-serif leading-relaxed">
@@ -437,8 +485,13 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-base md:text-lg font-bold font-serif text-sumi-dark leading-relaxed">
-                    私たちの現在地<br />
-                    〜戦後から現代〜
+                    {themeMain}
+                    {themeSub && (
+                      <>
+                        <br />
+                        {themeSub}
+                      </>
+                    )}
                   </p>
                   <p className="text-sm text-sumi/70 mt-2">
                     詳細は決まり次第、追記します。
@@ -454,7 +507,7 @@ export default function Home() {
                 </span>
                 <div>
                   <p className="text-xl md:text-2xl font-bold font-serif text-sumi-dark">
-                    7月29日(水)
+                    {formatEventDate(upcomingEvent.event_date)}
                   </p>
                   <div className="mt-2 space-y-1 text-sm md:text-base">
                     <p>
@@ -525,6 +578,14 @@ export default function Home() {
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-shine" />
               </Link>
             </div>
+            </>
+            ) : (
+              <p className="text-center text-sumi/70 font-serif leading-loose py-8">
+                現在、次回の開催を準備中です。
+                <br />
+                日程が決まり次第、こちらでお知らせします。
+              </p>
+            )}
           </div>
         </div>
       </section>
