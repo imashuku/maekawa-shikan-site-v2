@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { buildMetadata } from "@/lib/metadata";
+import JsonLd from "@/app/components/JsonLd";
+import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
   title: "前川真司 公式プロフィール｜近江史・講演・それはまことですか？",
@@ -11,6 +12,18 @@ export const metadata = buildMetadata({
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-kinari text-sumi relative overflow-hidden">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "前川真司",
+          url: `${SITE_URL}/profile`,
+          image: `${SITE_URL}/profile.png`,
+          jobTitle: ["近江史コンテンツプロデューサー", "歴史講演家"],
+          sameAs: ["https://note.com/maekawa_shikan"],
+          knowsAbout: ["近江史", "日本史", "地域文化"],
+        }}
+      />
       {/* Background Noise */}
       <div className="fixed inset-0 pointer-events-none opacity-30 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
 

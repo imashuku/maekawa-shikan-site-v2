@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { stories } from "@/lib/stories";
 import { notFound } from "next/navigation";
-import { buildMetadata } from "@/lib/metadata";
+import JsonLd from "@/app/components/JsonLd";
+import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 // Generate static params for all stories
 export async function generateStaticParams() {
@@ -23,7 +24,7 @@ export async function generateMetadata({
   // 1200x630 OG crops live in /og/ mirroring the original image filenames
   const ogImage = story.imageUrl.replace(/^\//, "/og/").replace(/\.png$/, ".jpg");
   return buildMetadata({
-    title: `${story.title}｜それはまことですか？（前川史観プロジェクト）`,
+    title: `${story.title}｜前川史観`,
     description: story.excerpt,
     path: `/story/${story.slug}`,
     image: ogImage,
@@ -43,6 +44,26 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
 
   return (
     <main className="min-h-screen bg-kinari text-sumi flex flex-col items-center relative overflow-hidden">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: story.title,
+          description: story.excerpt,
+          image: `${SITE_URL}${story.imageUrl}`,
+          mainEntityOfPage: `${SITE_URL}/story/${story.slug}`,
+          author: {
+            "@type": "Person",
+            name: "前川真司",
+            url: `${SITE_URL}/profile`,
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "前川史観",
+            url: SITE_URL,
+          },
+        }}
+      />
       {/* Background Texture */}
       <div className="fixed inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
 

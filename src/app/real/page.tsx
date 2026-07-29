@@ -1,6 +1,7 @@
 import Link from "next/link";
+import JsonLd from "@/app/components/JsonLd";
 import { realProgram, siteConfig, upcomingSalons } from "@/content/site";
-import { buildMetadata } from "@/lib/metadata";
+import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
   title: "リアルサロン｜表層編・深層編",
@@ -12,6 +13,25 @@ export const metadata = buildMetadata({
 export default function RealSalonPage() {
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: "前川史観 リアルサロン 深層編 第1回",
+          description:
+            "前川真司が新しい仮説と物語を掘り下げるリアルサロン。表層編未受講でも参加できます。",
+          startDate: "2026-08-27T18:30:00+09:00",
+          endDate: "2026-08-27T20:30:00+09:00",
+          eventStatus: "https://schema.org/EventScheduled",
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          organizer: {
+            "@type": "Person",
+            name: "前川真司",
+            url: `${SITE_URL}/profile`,
+          },
+          url: `${SITE_URL}/real`,
+        }}
+      />
       <section className="border-b border-sumi/15 bg-paper">
         <div className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
