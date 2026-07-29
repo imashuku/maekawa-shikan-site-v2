@@ -7,6 +7,9 @@
   --kokihi: #900d0d; /* Deep Red / Accent */
   --kinari: #fcfaf2; /* Off-white / Background */
   --washi-gray: #e6e6e6; /* Subtle Gray */
+  --ai: #294a5a; /* Muted indigo / Secondary accent */
+  --gold: #aa8653; /* Museum gold / Fine accent */
+  --paper: #f6f0e4; /* Warm paper */
 
   --background: var(--kinari);
   --foreground: var(--sumi);
@@ -21,6 +24,9 @@
   --color-kokihi: var(--kokihi);
   --color-kinari: var(--kinari);
   --color-washi-gray: var(--washi-gray);
+  --color-ai: var(--ai);
+  --color-gold: var(--gold);
+  --color-paper: var(--paper);
 
   --font-sans: "Noto Sans JP", SYSTEM-UI, sans-serif;
   --font-serif: "Shippori Mincho", "Hiragino Mincho ProN", serif;
@@ -67,6 +73,15 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--kokihi) 70%, white);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--kokihi) 20%, white);
 }
 
 h1,
