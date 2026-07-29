@@ -15,6 +15,7 @@
 ### Create
 
 - `src/content/site.ts`: ブランド、外部URL、サロン、日程、出版、関わり方の正本
+- `src/lib/application.ts`: 申込入力の正規化と検証
 - `src/lib/event-policy.ts`: リアルイベントの受付可否を判定する純粋関数
 - `src/lib/real-events.ts`: Tursoから受付対象イベントだけを取得するサーバー関数
 - `src/app/components/SectionHeading.tsx`: 各章の見出し
@@ -32,6 +33,7 @@
 - `src/app/robots.ts`: robots.txt
 - `src/app/sitemap.ts`: sitemap.xml
 - `tests/event-policy.test.mjs`: 受付状態の単体テスト
+- `tests/application.test.mjs`: 氏名正規化と申込必須項目の単体テスト
 
 ### Modify
 
@@ -804,11 +806,17 @@ git commit -m "fix: close public member data endpoints"
 
 **Files:**
 
+- Create: `src/lib/application.ts`
 - Create: `src/lib/real-events.ts`
+- Create: `tests/application.test.mjs`
 - Modify: `src/app/api/apply/route.ts`
 - Modify: `src/app/apply/page.tsx`
 
-- [ ] **Step 1: 受付中イベント取得関数を作る**
+- [ ] **Step 1: 氏名正規化と必須項目をテスト駆動で追加**
+
+半角・全角スペースを除いた氏名比較、初参加のふりがな、継続参加の会員番号をテストする。
+
+- [ ] **Step 2: 受付中イベント取得関数を作る**
 
 ```ts
 import db from "@/lib/db";
@@ -847,11 +855,11 @@ export async function getOpenRealEvent(
 }
 ```
 
-- [ ] **Step 2: GETを安全なイベント取得へ変更**
+- [ ] **Step 3: GETを安全なイベント取得へ変更**
 
 `GET`は`getOpenRealEvent()`を呼び、成功時も失敗時も`Cache-Control: no-store`を付ける。DB障害時は500と一般向け文言を返し、過去イベントへフォールバックしない。
 
-- [ ] **Step 3: POSTでイベント状態を再検証**
+- [ ] **Step 4: POSTでイベント状態を再検証**
 
 POST冒頭で`event_id`のイベント日を取得し、`getRegistrationState(event_date) !== "open"`なら409を返す。
 
@@ -872,7 +880,7 @@ if (
 }
 ```
 
-- [ ] **Step 4: 継続参加者の会員番号と氏名を照合**
+- [ ] **Step 5: 継続参加者の会員番号と氏名を照合**
 
 ```ts
 const normalizeName = (value: unknown) =>
@@ -893,13 +901,13 @@ if (
 }
 ```
 
-レスポンスには会員番号、氏名、参加履歴を返さない。成功時は`{ success: true, is_new, already_registered }`だけを返す。
+レスポンスには氏名や参加履歴を返さない。継続参加では会員番号も返さず、新規登録時に限り、本人が次回使う新しい会員番号を申込完了レスポンスへ含める。
 
-- [ ] **Step 5: フォームから名簿取得を削除**
+- [ ] **Step 6: フォームから名簿取得を削除**
 
 参加区分を「初参加」「参加したことがある」のradioにし、両方で氏名を入力する。継続参加者は会員番号、初参加者はふりがなを追加で入力する。`/api/members`は呼ばず、完了画面から旧マイページへのリンクを削除する。
 
-- [ ] **Step 6: API検証**
+- [ ] **Step 7: API検証**
 
 Run:
 
@@ -910,9 +918,9 @@ curl -sS -X POST http://localhost:3000/api/apply \
   -d '{"name":"テスト","event_id":-1,"is_new":true,"furigana":"てすと"}'
 ```
 
-Expected: GETは受付中イベントまたは安全なエラー。POSTは409で、会員情報を作成しない。
+Expected: GETは受付中イベント、`event: null`、または安全なエラー。POSTは400または409で、会員情報を作成しない。
 
-- [ ] **Step 7: テスト、ビルド、コミット**
+- [ ] **Step 8: テスト、ビルド、コミット**
 
 Run: `npm test && npm run lint && npm run build`
 

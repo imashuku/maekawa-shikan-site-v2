@@ -1,323 +1,313 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { siteConfig } from "@/content/site";
 
-interface EventInfo {
+type EventInfo = {
   id: number;
   name: string;
   event_date: string;
   venue: string;
-}
+  notes: string | null;
+};
 
-interface MemberOption {
-  member_no: string;
-  name: string;
-  furigana: string;
+type SubmissionResult = {
+  success: boolean;
+  message?: string;
+  is_new?: boolean;
+  member_no?: string;
+  already_registered?: boolean;
+};
+
+function formatDate(dateString: string) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const date = new Date(year, month - 1, day);
+  return `${year}/${String(month).padStart(2, "0")}/${String(day).padStart(
+    2,
+    "0",
+  )}（${weekdays[date.getDay()]}）`;
 }
 
 export default function ApplyPage() {
   const [event, setEvent] = useState<EventInfo | null>(null);
-  const [memberList, setMemberList] = useState<MemberOption[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Form state
-  const [selectedValue, setSelectedValue] = useState("");
-  const [newName, setNewName] = useState("");
-  const [newFurigana, setNewFurigana] = useState("");
+  const [loadError, setLoadError] = useState(false);
+  const [participantType, setParticipantType] = useState<"new" | "existing">(
+    "new",
+  );
+  const [name, setName] = useState("");
+  const [furigana, setFurigana] = useState("");
+  const [memberNo, setMemberNo] = useState("");
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<{
-    success: boolean;
-    member_no?: string;
-    message?: string;
-    is_new?: boolean;
-    already_registered?: boolean;
-  } | null>(null);
-
-  const isNewMember = selectedValue === "__new__";
-  const selectedMember = memberList.find((m) => m.member_no === selectedValue);
+  const [result, setResult] = useState<SubmissionResult | null>(null);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/apply").then((r) => r.json()),
-      fetch("/api/members").then((r) => r.json()),
-    ])
-      .then(([applyData, membersData]) => {
-        setEvent(applyData.event);
-        const sorted = (membersData as MemberOption[]).sort((a, b) =>
-          (a.furigana || "").localeCompare(b.furigana || "", "ja")
-        );
-        setMemberList(sorted);
+    fetch("/api/apply", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("event fetch failed");
+        return response.json();
       })
-      .catch(console.error)
+      .then((data) => setEvent(data.event))
+      .catch(() => setLoadError(true))
       .finally(() => setLoading(false));
   }, []);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!selectedValue) return;
+  async function handleSubmit(eventObject: React.FormEvent<HTMLFormElement>) {
+    eventObject.preventDefault();
+    if (!event) return;
     setSubmitting(true);
+    setResult(null);
 
     try {
-      const res = await fetch("/api/apply", {
+      const response = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          member_no: isNewMember ? null : selectedValue,
-          name: isNewMember ? newName : selectedMember?.name,
-          furigana: isNewMember ? newFurigana : undefined,
-          event_id: event?.id,
-          is_new: isNewMember,
+          name,
+          furigana: participantType === "new" ? furigana : null,
+          member_no: participantType === "existing" ? memberNo : null,
+          event_id: event.id,
+          is_new: participantType === "new",
           afterparty,
         }),
       });
-      const data = await res.json();
-      if (res.ok) {
-        setResult({ success: true, ...data });
-      } else {
-        setResult({ success: false, message: data.error });
-      }
+      const data = await response.json();
+      setResult(
+        response.ok
+          ? { success: true, ...data }
+          : { success: false, message: data.error },
+      );
     } catch {
-      setResult({ success: false, message: "通信エラーが発生しました" });
+      setResult({
+        success: false,
+        message: "通信エラーが発生しました。時間をおいてお試しください。",
+      });
     } finally {
       setSubmitting(false);
     }
   }
 
-  const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr + "T00:00:00");
-    const days = ["日", "月", "火", "水", "木", "金", "土"];
-    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${days[d.getDay()]}）`;
-  };
-
-  const canSubmit =
-    selectedValue &&
-    (isNewMember ? newName.trim() && newFurigana.trim() : true) &&
-    !submitting;
-
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse font-serif text-sumi/50">
-          読み込み中...
-        </div>
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <p className="animate-pulse text-sumi/55">受付状況を確認しています…</p>
       </div>
     );
   }
 
-  if (!event) {
+  if (loadError || !event) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-5 text-center">
-        <h1 className="text-2xl font-serif font-bold text-sumi-dark mb-4">
-          現在募集中のイベントはありません
-        </h1>
-        <p className="text-sumi/70 font-serif mb-8">
-          次回の開催をお楽しみに。
-        </p>
-        <Link
-          href="/"
-          className="text-kokihi font-serif border-b border-kokihi/30 hover:border-kokihi transition-colors"
-        >
-          トップへ戻る
-        </Link>
-      </div>
+      <section className="min-h-[70vh] py-20">
+        <div className="mx-auto max-w-2xl px-5 text-center">
+          <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
+            REAL SALON
+          </p>
+          <h1 className="mt-5 text-3xl font-bold md:text-5xl">
+            Web受付を準備しています
+          </h1>
+          <p className="mt-6 leading-8 text-sumi/70">
+            次回日程はリアルサロンページでご確認いただけます。お申込み・お問い合わせは公式LINEから承ります。
+          </p>
+          <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
+            <a
+              href={siteConfig.urls.line}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#06C755] px-7 py-4 font-bold text-white"
+            >
+              公式LINEを開く
+            </a>
+            <Link
+              href="/real"
+              className="border border-sumi px-7 py-4 font-bold"
+            >
+              リアルサロンへ戻る
+            </Link>
+          </div>
+        </div>
+      </section>
     );
   }
 
-  // Success screen
   if (result?.success) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-5 text-center">
-        <div className="max-w-lg w-full">
-          <div className="text-6xl mb-8">🎌</div>
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-4">
+      <section className="min-h-[70vh] py-20">
+        <div className="mx-auto max-w-2xl px-5 text-center">
+          <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
+            APPLICATION COMPLETE
+          </p>
+          <h1 className="mt-5 text-3xl font-bold md:text-5xl">
             {result.already_registered
-              ? "すでにお申し込み済みです"
-              : "お申し込み完了！"}
+              ? "すでにお申込み済みです"
+              : "お申込みを受け付けました"}
           </h1>
-
-          {result.is_new && (
-            <div className="bg-kokihi/5 border border-kokihi/20 p-6 mb-8 mt-8">
-              <p className="text-sm text-sumi/70 font-serif mb-2">
-                あなたの会員番号
-              </p>
-              <p className="text-4xl font-bold font-serif text-kokihi tracking-widest">
+          <p className="mt-6 font-serif text-xl font-bold">{event.name}</p>
+          <p className="mt-2 text-sumi/65">
+            {formatDate(event.event_date)} 18:30–｜{event.venue}
+          </p>
+          {result.is_new && result.member_no ? (
+            <div className="mx-auto mt-9 max-w-sm border-t-4 border-kokihi bg-paper p-7">
+              <p className="text-sm text-sumi/60">次回から使う会員番号</p>
+              <p className="mt-2 font-serif text-4xl font-bold text-kokihi">
                 No.{result.member_no}
               </p>
-              <p className="text-xs text-sumi/50 mt-3 font-serif">
-                次回からはお名前を選ぶだけで申し込めます
+              <p className="mt-3 text-xs leading-6 text-sumi/55">
+                次回の申込みに必要です。画面を保存してください。
               </p>
             </div>
-          )}
-
-          {!result.is_new && !result.already_registered && (
-            <div className="bg-sumi-dark/5 border border-sumi/10 p-6 mb-8 mt-8">
-              <p className="font-serif text-sumi-dark">
-                お申し込みありがとうございます！
-              </p>
-            </div>
-          )}
-
-          <p className="text-sumi/70 font-serif mb-2">{event.name}</p>
-          <p className="text-sumi font-serif font-bold mb-8">
-            {formatDate(event.event_date)} 18:30〜 / {event.venue}
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <Link
-              href={`/mypage/${result.member_no}`}
-              className="bg-kokihi text-white px-6 py-3 font-serif font-bold hover:bg-sumi-dark transition-colors text-center"
-            >
-              マイページを見る
-            </Link>
-            <Link
-              href="/"
-              className="border border-sumi text-sumi px-6 py-3 font-serif hover:bg-sumi hover:text-kinari transition-colors text-center"
-            >
-              トップへ戻る
-            </Link>
-          </div>
+          ) : null}
+          <Link
+            href="/"
+            className="mt-9 inline-flex border border-sumi px-7 py-4 font-bold"
+          >
+            トップへ戻る
+          </Link>
         </div>
-      </div>
+      </section>
     );
   }
 
+  const canSubmit =
+    name.trim() &&
+    (participantType === "new" ? furigana.trim() : memberNo.trim()) &&
+    !submitting;
+
   return (
-    <div className="min-h-screen flex flex-col items-center px-5 py-16 md:py-24">
-      <div className="max-w-lg w-full">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
-            ENTRY FORM
-          </span>
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-4">
-            参加お申し込み
-          </h1>
-          <div className="bg-white border border-sumi/10 p-6 shadow-sm mt-8">
-            <h2 className="font-serif font-bold text-lg text-sumi-dark mb-3">
-              {event.name}
-            </h2>
-            <p className="font-serif text-sumi">
-              {formatDate(event.event_date)} 18:30〜
-            </p>
-            <p className="font-serif text-sumi/70 text-sm mt-1">
-              {event.venue}（東近江市八日市本町9-19）
-            </p>
-            <p className="font-serif text-sm mt-2">
-              会費：<span className="font-bold">2,000円</span>
-              <span className="text-xs text-sumi/50 ml-2">（当日お支払い）</span>
-            </p>
-          </div>
+    <section className="py-16 md:py-24">
+      <div className="mx-auto max-w-2xl px-5">
+        <div className="text-center">
+          <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
+            REAL SALON APPLICATION
+          </p>
+          <h1 className="mt-5 text-3xl font-bold md:text-5xl">参加お申込み</h1>
         </div>
 
-        {/* Error message */}
-        {result && !result.success && (
-          <div className="bg-red-50 border border-red-200 text-red-800 p-4 mb-6 font-serif text-sm">
+        <div className="mt-10 border-t-4 border-kokihi bg-paper p-7">
+          <h2 className="text-xl font-bold">{event.name}</h2>
+          <p className="mt-3 font-serif text-lg font-bold">
+            {formatDate(event.event_date)} 18:30–
+          </p>
+          <p className="mt-1 text-sm text-sumi/65">{event.venue}</p>
+          {event.notes ? (
+            <p className="mt-4 border-t border-sumi/15 pt-4 text-sm leading-7 text-sumi/70">
+              {event.notes}
+            </p>
+          ) : null}
+        </div>
+
+        {result && !result.success ? (
+          <div
+            role="alert"
+            className="mt-7 border border-red-300 bg-red-50 p-4 text-sm text-red-800"
+          >
             {result.message}
           </div>
-        )}
+        ) : null}
 
-        {/* Single form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="mt-9 space-y-7">
+          <fieldset>
+            <legend className="text-sm font-bold">参加区分</legend>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {[
+                ["new", "初めて参加する"],
+                ["existing", "参加したことがある"],
+              ].map(([value, label]) => (
+                <label
+                  key={value}
+                  className="flex cursor-pointer items-center gap-3 border border-sumi/20 bg-white p-4"
+                >
+                  <input
+                    type="radio"
+                    name="participantType"
+                    value={value}
+                    checked={participantType === value}
+                    onChange={() =>
+                      setParticipantType(value as "new" | "existing")
+                    }
+                    className="h-5 w-5 accent-kokihi"
+                  />
+                  <span className="font-bold">{label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
           <div>
-            <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
+            <label htmlFor="name" className="text-sm font-bold">
               お名前
             </label>
-            <select
-              value={selectedValue}
-              onChange={(e) => {
-                setSelectedValue(e.target.value);
-                setNewName("");
-              }}
-              className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
+            <input
+              id="name"
+              value={name}
+              onChange={(input) => setName(input.target.value)}
+              autoComplete="name"
               required
-            >
-              <option value="">-- 選択してください --</option>
-              {memberList
-                .filter((m) => m.member_no !== "001") // 講師は除外
-                .map((m) => (
-                  <option key={m.member_no} value={m.member_no}>
-                    {m.name}
-                  </option>
-                ))}
-              <option value="__new__">
-                ── この中にない方（初参加・久しぶり）
-              </option>
-            </select>
-            <p className="text-sm text-sumi/70 mt-2">
-              名簿は50音順／全{memberList.filter((m) => m.member_no !== "001").length}名・スクロールで全件確認できます
-            </p>
-            <p className="text-xs text-sumi/60 mt-2 leading-relaxed">
-              ※LINEで開いて選択できない場合は、右上のメニューから「ブラウザ（Chrome／Safari）で開く」を選んでください。
-            </p>
+              maxLength={80}
+              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+            />
           </div>
 
-          {/* New member: name + furigana input */}
-          {isNewMember && (
-            <>
-              <div>
-                <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                  お名前を入力してください
-                </label>
-                <input
-                  type="text"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  placeholder="例: 山田太郎"
-                  className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
-                  autoComplete="name"
-                  required
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="block font-serif text-sm font-bold text-sumi-dark mb-2">
-                  ふりがな（ひらがな）
-                </label>
-                <input
-                  type="text"
-                  value={newFurigana}
-                  onChange={(e) => setNewFurigana(e.target.value)}
-                  placeholder="例: やまだたろう"
-                  className="w-full border border-sumi/20 px-4 py-4 bg-white focus:outline-none focus:border-kokihi transition-colors text-base"
-                  inputMode="text"
-                  lang="ja"
-                  required
-                />
-                <p className="text-sm text-sumi/70 mt-2">
-                  名簿の50音順表示に使います。
-                </p>
-              </div>
-            </>
+          {participantType === "new" ? (
+            <div>
+              <label htmlFor="furigana" className="text-sm font-bold">
+                ふりがな
+              </label>
+              <input
+                id="furigana"
+                value={furigana}
+                onChange={(input) => setFurigana(input.target.value)}
+                required
+                maxLength={100}
+                className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+              />
+            </div>
+          ) : (
+            <div>
+              <label htmlFor="memberNo" className="text-sm font-bold">
+                会員番号
+              </label>
+              <input
+                id="memberNo"
+                value={memberNo}
+                onChange={(input) => setMemberNo(input.target.value)}
+                inputMode="numeric"
+                autoComplete="off"
+                required
+                maxLength={12}
+                placeholder="例：012"
+                className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+              />
+              <p className="mt-2 text-xs leading-6 text-sumi/55">
+                分からない場合は公式LINEからお問い合わせください。
+              </p>
+            </div>
           )}
 
-          <div>
-            <label className="flex items-start gap-3 cursor-pointer py-2">
-              <input
-                type="checkbox"
-                checked={afterparty}
-                onChange={(e) => setAfterparty(e.target.checked)}
-                className="w-6 h-6 accent-kokihi shrink-0 mt-0.5"
-              />
-              <span className="text-sumi text-base leading-relaxed">
-                懇親会にも参加する
-                <span className="text-sm text-sumi/70 ml-2 block sm:inline">
-                  （21:00〜 / リオ / 任意）
-                </span>
-              </span>
-            </label>
-          </div>
+          <label className="flex cursor-pointer items-start gap-3 border-y border-sumi/15 py-5">
+            <input
+              type="checkbox"
+              checked={afterparty}
+              onChange={(input) => setAfterparty(input.target.checked)}
+              className="mt-0.5 h-6 w-6 shrink-0 accent-kokihi"
+            />
+            <span>
+              <strong>懇親会にも参加する</strong>
+              <span className="mt-1 block text-sm text-sumi/60">任意参加</span>
+            </span>
+          </label>
 
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full bg-kokihi text-white px-6 py-5 font-bold text-base hover:bg-sumi-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-kokihi px-7 py-5 font-bold text-white transition-colors hover:bg-sumi-dark disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {submitting ? "送信中..." : "申し込む"}
+            {submitting ? "送信しています…" : "この内容で申し込む"}
           </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 }

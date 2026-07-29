@@ -1,118 +1,143 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
+import {
+  normalizeParticipantName,
+  validateApplicationInput,
+} from "@/lib/application";
+import { getRegistrationState } from "@/lib/event-policy";
+import { getOpenRealEvent } from "@/lib/real-events";
 
-// Get next event info
+const noStoreHeaders = { "Cache-Control": "no-store" };
+
 export async function GET() {
   try {
-    const result = await db.execute(`
-      SELECT * FROM events
-      WHERE event_date >= date('now')
-      ORDER BY event_date ASC
-      LIMIT 1
-    `);
-
-    if (result.rows.length === 0) {
-      return NextResponse.json({ event: null });
-    }
-
-    return NextResponse.json({ event: result.rows[0] });
+    const event = await getOpenRealEvent();
+    return NextResponse.json({ event }, { headers: noStoreHeaders });
   } catch (error) {
     console.error("Next event fetch error:", error);
     return NextResponse.json(
       { error: "イベント情報の取得に失敗しました" },
-      { status: 500 }
+      { status: 500, headers: noStoreHeaders },
     );
   }
 }
 
-// Submit application
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { member_no, name, furigana, event_id, is_new, afterparty } = body;
+    const isNew = body.is_new === true;
+    const validationError = validateApplicationInput({
+      name: body.name,
+      furigana: body.furigana,
+      member_no: body.member_no,
+      event_id: body.event_id,
+      is_new: isNew,
+    });
 
-    if (!name || !event_id) {
+    if (validationError) {
       return NextResponse.json(
-        { error: "お名前とイベントは必須です" },
-        { status: 400 }
+        { error: validationError },
+        { status: 400, headers: noStoreHeaders },
       );
     }
 
-    if ((is_new || !member_no) && (!furigana || !String(furigana).trim())) {
+    const eventId = Number(body.event_id);
+    const eventResult = await db.execute({
+      sql: "SELECT id, event_date FROM events WHERE id = ?",
+      args: [eventId],
+    });
+    const targetEvent = eventResult.rows[0];
+
+    if (
+      !targetEvent ||
+      getRegistrationState(String(targetEvent.event_date)) !== "open"
+    ) {
       return NextResponse.json(
-        { error: "ふりがなを入力してください" },
-        { status: 400 }
+        { error: "この回の受付は終了しています" },
+        { status: 409, headers: noStoreHeaders },
       );
     }
 
     let memberId: number;
     let assignedNo: string;
 
-    if (is_new || !member_no) {
-      // New member: assign next number
+    if (isNew) {
       const maxNo = await db.execute(
-        "SELECT MAX(CAST(member_no AS INTEGER)) as max_no FROM members"
+        "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
       );
-      const nextNo = (Number(maxNo.rows[0].max_no) + 1)
+      const nextNo = (Number(maxNo.rows[0]?.max_no ?? 0) + 1)
         .toString()
         .padStart(3, "0");
-
       const insertResult = await db.execute({
         sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
-        args: [nextNo, name, String(furigana).trim(), event_id],
+        args: [
+          nextNo,
+          String(body.name).trim(),
+          String(body.furigana).trim(),
+          eventId,
+        ],
       });
       memberId = Number(insertResult.lastInsertRowid);
       assignedNo = nextNo;
     } else {
-      // Existing member
+      const memberNo = String(body.member_no).trim();
       const existing = await db.execute({
-        sql: "SELECT id, member_no FROM members WHERE member_no = ?",
-        args: [member_no],
+        sql: "SELECT id, member_no, name FROM members WHERE member_no = ?",
+        args: [memberNo],
       });
-      if (existing.rows.length === 0) {
+      const member = existing.rows[0];
+
+      if (
+        !member ||
+        normalizeParticipantName(member.name) !==
+          normalizeParticipantName(body.name)
+      ) {
         return NextResponse.json(
-          { error: "会員番号が見つかりません" },
-          { status: 404 }
+          { error: "会員番号とお名前を確認してください" },
+          { status: 400, headers: noStoreHeaders },
         );
       }
-      memberId = Number(existing.rows[0].id);
-      assignedNo = String(existing.rows[0].member_no);
+
+      memberId = Number(member.id);
+      assignedNo = String(member.member_no);
     }
 
-    // Check if already registered
     const alreadyRegistered = await db.execute({
       sql: "SELECT id FROM attendances WHERE member_id = ? AND event_id = ?",
-      args: [memberId, event_id],
+      args: [memberId, eventId],
     });
 
     if (alreadyRegistered.rows.length > 0) {
-      return NextResponse.json({
-        success: true,
-        member_no: assignedNo,
-        already_registered: true,
-        message: "すでにお申し込み済みです",
-      });
+      return NextResponse.json(
+        { success: true, already_registered: true },
+        { headers: noStoreHeaders },
+      );
     }
 
-    // Register (not yet attended - stamp given after actual attendance)
     await db.execute({
       sql: "INSERT INTO attendances (member_id, event_id, status) VALUES (?, ?, ?)",
-      args: [memberId, event_id, afterparty ? "registered_with_party" : "registered"],
+      args: [
+        memberId,
+        eventId,
+        body.afterparty === true
+          ? "registered_with_party"
+          : "registered",
+      ],
     });
 
-    return NextResponse.json({
-      success: true,
-      member_no: assignedNo,
-      is_new: is_new || !member_no,
-      message: is_new
-        ? `会員No.${assignedNo}で登録しました！`
-        : "お申し込みを受け付けました！",
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        is_new: isNew,
+        member_no: isNew ? assignedNo : undefined,
+      },
+      { headers: noStoreHeaders },
+    );
   } catch (error) {
     console.error("Apply error:", error);
     return NextResponse.json(
       { error: "申込処理に失敗しました" },
-      { status: 500 }
+      { status: 500, headers: noStoreHeaders },
     );
   }
 }
