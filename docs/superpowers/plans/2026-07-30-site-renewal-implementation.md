@@ -52,6 +52,59 @@
 - `src/app/members/page.tsx`: サーバーリダイレクト
 - `src/app/mypage/[no]/page.tsx`: 安全な案内画面
 
+## Task 0: 既存のESLint設定をNext.js 15へ適合
+
+**Files:**
+
+- Modify: `eslint.config.mjs`
+
+- [x] **Step 1: 既存障害を再現**
+
+Run: `npm run lint`
+
+Observed: `TypeError: nextVitals is not iterable`
+
+- [x] **Step 2: export形式を確認**
+
+Run:
+
+```bash
+node -e 'import("eslint-config-next/core-web-vitals.js").then(m=>console.log(Array.isArray(m.default), Object.keys(m.default)))'
+```
+
+Observed: 配列ではなく、`extends`を持つlegacy config object
+
+- [x] **Step 3: 同梱のFlatCompatで読み込む**
+
+```js
+import { defineConfig, globalIgnores } from "eslint/config";
+import { FlatCompat } from "@eslint/eslintrc";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const baseDirectory = dirname(fileURLToPath(import.meta.url));
+const compat = new FlatCompat({ baseDirectory });
+
+const eslintConfig = defineConfig([
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+]);
+
+export default eslintConfig;
+```
+
+- [x] **Step 4: 設定エラーが解消したことを確認**
+
+Run: `npm run lint`
+
+Observed: ESLintが全ファイルを検査し、旧`support/page.tsx`の既存JSXエラー1件と`profile/page.tsx`の既存警告1件を報告。設定起因の停止は解消。
+
+- [x] **Step 5: 現行サイトのビルドを確認**
+
+Run: `npm run build`
+
+Observed: exit `0`。旧支援ページのlintエラーはTask 6のページ置換で、プロフィール警告はTask 4のコンポーネント整理で解消する。
+
 ## Task 1: 受付ポリシーをテスト駆動で追加
 
 **Files:**
