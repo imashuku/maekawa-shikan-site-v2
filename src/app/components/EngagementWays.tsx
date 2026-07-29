@@ -28,7 +28,7 @@ export default function EngagementWays() {
             </article>
           ))}
         </div>
-        <div className="mt-12 border-l-4 border-[#06C755] bg-paper p-7 md:flex md:items-center md:justify-between md:p-9">
+        <div className="mt-12 border-l-4 border-[#057538] bg-paper p-7 md:flex md:items-center md:justify-between md:p-9">
           <div>
             <p className="text-xs font-bold tracking-[0.2em] text-[#078c40]">
               OFFICIAL LINE
@@ -41,7 +41,7 @@ export default function EngagementWays() {
             href={siteConfig.urls.line}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex bg-[#06C755] px-7 py-4 font-bold text-white md:mt-0"
+            className="mt-6 inline-flex bg-[#057538] px-7 py-4 font-bold text-white md:mt-0"
           >
             友だち追加する →
           </a>

@@ -24,7 +24,7 @@ export default function OnlineSalonPage() {
           <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
             近江にみちびかれて
           </h1>
-          <p className="mt-3 font-serif text-lg text-sumi/60 md:text-2xl">
+          <p className="mt-3 font-serif text-lg text-sumi/75 md:text-2xl">
             オンライン歴史ラウンジ
           </p>
           <p className="mt-7 max-w-3xl leading-8 text-sumi/75 md:text-lg">
@@ -66,7 +66,7 @@ export default function OnlineSalonPage() {
             <p className="mt-4 font-serif text-2xl font-bold">
               {upcomingSalons.online.date}
             </p>
-            <p className="mt-1 text-sm text-sumi/60">
+            <p className="mt-1 text-sm text-sumi/75">
               {upcomingSalons.online.time}
             </p>
             <h2 className="mt-5 text-xl font-bold leading-8">
@@ -75,6 +75,24 @@ export default function OnlineSalonPage() {
             <p className="mt-4 text-sm leading-7 text-sumi/70">
               {upcomingSalons.online.note}
             </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <a
+                href={siteConfig.urls.onlinePass}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-kokihi px-6 py-3 text-center font-bold text-white"
+              >
+                全10回パスで参加する
+              </a>
+              <a
+                href={siteConfig.urls.onlineSingle}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-sumi px-6 py-3 text-center font-bold"
+              >
+                単発で試す
+              </a>
+            </div>
           </aside>
         </div>
       </section>
@@ -96,10 +114,10 @@ export default function OnlineSalonPage() {
                 <span className="font-serif text-xl font-bold text-kokihi">
                   第{index + 1}回
                 </span>
-                <span className="text-sm text-sumi/55">{session.date}</span>
+                <span className="text-sm text-sumi/70">{session.date}</span>
                 <div>
                   <p className="font-bold leading-7">{session.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-sumi/60">
+                  <p className="mt-1 text-sm leading-6 text-sumi/70">
                     {session.subtitle}
                   </p>
                 </div>

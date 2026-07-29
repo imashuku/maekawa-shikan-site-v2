@@ -12,7 +12,7 @@ export default function SiteFooter() {
           <p className="mt-2 text-sm text-kinari/65">
             {siteConfig.project}｜{siteConfig.person}
           </p>
-          <p className="mt-5 max-w-sm text-xs leading-6 text-kinari/55">
+          <p className="mt-5 max-w-sm text-xs leading-6 text-kinari/70">
             近江から日本史を読み替え、まだ語られていない物語をひらく。
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function SiteFooter() {
           </a>
         </nav>
       </div>
-      <div className="border-t border-kinari/10 px-5 py-5 text-center text-[10px] tracking-widest text-kinari/45">
+      <div className="border-t border-kinari/10 px-5 py-5 text-center text-[11px] tracking-widest text-kinari/65">
         © {new Date().getFullYear()} Shinji Maekawa
       </div>
     </footer>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navItems = [
   { label: "オンライン", href: "/online" },
@@ -14,6 +14,51 @@ const navItems = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const pageRegions = document.querySelectorAll("main, footer");
+    const previousOverflow = document.body.style.overflow;
+    pageRegions.forEach((region) => region.setAttribute("inert", ""));
+    document.body.style.overflow = "hidden";
+
+    const focusableItems = () => [
+      menuButtonRef.current,
+      ...(menuRef.current?.querySelectorAll<HTMLElement>("a[href]") ?? []),
+    ].filter((item): item is HTMLElement => Boolean(item));
+
+    focusableItems()[1]?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const items = focusableItems();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      pageRegions.forEach((region) => region.removeAttribute("inert"));
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-sumi/15 bg-kinari/95 backdrop-blur-md">
@@ -26,8 +71,8 @@ export default function Header() {
           <span className="font-serif text-xl font-bold tracking-[0.16em] text-sumi-dark md:text-2xl">
             前川史観
           </span>
-          <span className="hidden text-[10px] tracking-wider text-sumi/55 lg:inline">
-            それはまことですか？｜前川真司
+          <span className="hidden text-[11px] tracking-wider text-sumi/70 lg:inline">
+            前川真司｜プロジェクト「それはまことですか？」
           </span>
         </Link>
 
@@ -44,6 +89,7 @@ export default function Header() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           type="button"
           className="relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
           aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
@@ -68,30 +114,32 @@ export default function Header() {
           />
         </button>
 
-        <div
-          id="mobile-navigation"
-          className={`fixed inset-0 z-40 flex min-h-screen flex-col bg-kinari px-8 pt-28 transition-opacity md:hidden ${
-            isOpen
-              ? "pointer-events-auto opacity-100"
-              : "pointer-events-none opacity-0"
-          }`}
-        >
-          <p className="mb-8 text-xs tracking-[0.22em] text-kokihi">
-            それはまことですか？｜前川真司
-          </p>
-          <nav className="flex flex-col border-t border-sumi/15">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="border-b border-sumi/15 py-5 font-serif text-xl font-bold"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        {isOpen ? (
+          <div
+            ref={menuRef}
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="サイトメニュー"
+            className="fixed inset-0 z-40 flex min-h-screen flex-col bg-kinari px-8 pt-28 md:hidden"
+          >
+            <p className="mb-8 text-xs tracking-[0.22em] text-kokihi">
+              前川真司｜プロジェクト「それはまことですか？」
+            </p>
+            <nav className="flex flex-col border-t border-sumi/15">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="border-b border-sumi/15 py-5 font-serif text-xl font-bold"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        ) : null}
       </div>
     </header>
   );

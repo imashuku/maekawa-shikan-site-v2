@@ -21,7 +21,7 @@ export default function UpcomingSalonGrid() {
                 <span className="text-xs font-bold tracking-[0.2em] text-kokihi">
                   {salon.format}
                 </span>
-                <span className="text-sm text-sumi/55">{salon.time}</span>
+                <span className="text-sm text-sumi/70">{salon.time}</span>
               </div>
               <p className="mt-6 font-serif text-2xl font-bold text-sumi-dark">
                 {salon.date}

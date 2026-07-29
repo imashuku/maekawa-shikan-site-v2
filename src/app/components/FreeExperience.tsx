@@ -22,7 +22,7 @@ export default function FreeExperience() {
                 allowFullScreen
               />
             </div>
-            <p className="mt-4 text-sm leading-7 text-sumi/60">
+            <p className="mt-4 text-sm leading-7 text-sumi/70">
               オンライン歴史ラウンジ「近江にみちびかれて」への招待動画
             </p>
           </div>
@@ -41,7 +41,7 @@ export default function FreeExperience() {
               noteを読む →
             </a>
             <div className="mt-8 border-t border-sumi/15 pt-6">
-              <p className="text-xs font-bold tracking-wider text-sumi/50">
+              <p className="text-xs font-bold tracking-wider text-sumi/70">
                 THREE STORIES
               </p>
               <Link

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/app/components/JsonLd";
+import { upcomingSalons } from "@/content/site";
 import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
@@ -36,7 +37,7 @@ export default function ProfilePage() {
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold text-sumi-dark mb-6 leading-tight tracking-wide animate-fade-in-up delay-100">
             前川 真司
           </h1>
-          <p className="text-sm md:text-base text-sumi/60 mb-10 font-serif tracking-widest animate-fade-in-up delay-150">
+          <p className="mb-10 text-sm tracking-widest text-sumi/70 animate-fade-in-up delay-150 md:text-base">
             Shinji Maekawa
           </p>
           <p className="text-lg md:text-2xl font-serif text-sumi-dark mb-8 animate-fade-in-up delay-200 leading-relaxed">
@@ -58,7 +59,7 @@ export default function ProfilePage() {
         <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 shadow-sm border border-sumi/10 relative">
           <div className="absolute -top-3 -left-3 w-6 h-6 border-l-2 border-t-2 border-kokihi"></div>
           <div className="absolute -bottom-3 -right-3 w-6 h-6 border-r-2 border-b-2 border-kokihi"></div>
-          <p className="font-serif leading-loose text-sumi text-sm md:text-base">
+          <p className="text-base leading-8 text-sumi md:leading-loose">
             滋賀県東近江市を拠点に、近江から日本史を読み解く歴史プロジェクト
             <strong className="text-kokihi">「それはまことですか？」</strong>
             を展開しています。
@@ -85,7 +86,7 @@ export default function ProfilePage() {
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-12 leading-relaxed">
             いま、何をしている人か
           </h2>
-          <p className="font-serif text-sumi leading-loose mb-10 text-sm md:text-base">
+          <p className="mb-10 text-base leading-8 text-sumi md:leading-loose">
             近江を起点に、日本史を読み解き直す歴史コンテンツを制作・発信しています。
           </p>
 
@@ -100,7 +101,7 @@ export default function ProfilePage() {
             ].map((item) => (
               <div key={item.label} className="border-l-2 border-kokihi/60 pl-5 py-2">
                 <div className="font-serif font-bold text-sumi-dark mb-1">{item.label}</div>
-                <p className="text-sm text-sumi/80 font-serif leading-relaxed">{item.body}</p>
+                <p className="text-base leading-7 text-sumi/80">{item.body}</p>
               </div>
             ))}
           </div>
@@ -110,7 +111,7 @@ export default function ProfilePage() {
       {/* Section 2: 前川史観 */}
       <section className="relative z-10 w-full py-20 md:py-32 bg-sumi-dark text-kinari">
         <div className="max-w-4xl mx-auto px-6">
-          <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
+          <span className="mb-4 block text-xs font-bold tracking-widest text-gold">
             CORE THESIS
           </span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-kinari mb-12 leading-relaxed">
@@ -125,19 +126,19 @@ export default function ProfilePage() {
             </p>
           </blockquote>
 
-          <p className="font-serif leading-loose text-sm md:text-base opacity-90 mb-8">
+          <p className="mb-8 text-base leading-8 text-kinari/90 md:leading-loose">
             縄文遺跡から、渡来人、古代国家、万葉、壬申の乱、寺社勢力、戦国、近江商人、近代産業、現代まで。近江は日本史の各時代に深く関わっています。
           </p>
 
-          <p className="font-serif leading-loose text-sm md:text-base opacity-90 mb-6">裏テーマは——</p>
-          <ul className="font-serif text-sm md:text-base opacity-90 space-y-2 mb-10 pl-6">
+          <p className="mb-6 text-base leading-8 text-kinari/90 md:leading-loose">裏テーマは——</p>
+          <ul className="mb-10 space-y-2 pl-6 text-base text-kinari/90">
             <li className="leading-relaxed">日本の多民族・多宗教的起源</li>
-            <li className="leading-relaxed text-kokihi">敗者が転戦し、姿を変えて生き残る物語構造</li>
+            <li className="leading-relaxed text-gold">敗者が転戦し、姿を変えて生き残る物語構造</li>
             <li className="leading-relaxed">手塚治虫『火の鳥 太陽編』的な世界観</li>
           </ul>
 
-          <p className="font-serif leading-loose text-sm md:text-base opacity-90">
-            単なる郷土史ではなく、<strong className="text-kokihi">近江を通じて日本史全体を読み替える</strong>歴史コンテンツです。
+          <p className="text-base leading-8 text-kinari/90 md:leading-loose">
+            単なる郷土史ではなく、<strong className="text-gold">近江を通じて日本史全体を読み替える</strong>歴史コンテンツです。
           </p>
 
           <aside className="mt-10 border-l-4 border-gold bg-paper p-6 text-sumi">
@@ -159,7 +160,7 @@ export default function ProfilePage() {
             主な講演テーマ
           </h2>
 
-          <ol className="grid grid-cols-1 md:grid-cols-2 gap-4 font-serif text-sm md:text-base">
+          <ol className="grid grid-cols-1 gap-4 text-base md:grid-cols-2">
             {[
               "近江から見た日本史：教科書が語らなかった10の系譜",
               "万葉の蒲生野：額田王・大海人皇子・中大兄皇子と東近江の文化資源",
@@ -182,7 +183,7 @@ export default function ProfilePage() {
             ))}
           </ol>
 
-          <p className="text-xs text-sumi/60 mt-8 font-serif">
+          <p className="mt-8 text-sm text-sumi/70">
             ※テーマ・尺は柔軟に調整可能（30分／60分／90分／半日ワークショップ）
           </p>
         </div>
@@ -198,7 +199,7 @@ export default function ProfilePage() {
             経歴
           </h2>
 
-          <div className="relative border-l-2 border-sumi/20 ml-3 md:ml-6 pl-8 space-y-8 font-serif">
+          <div className="relative ml-3 space-y-8 border-l-2 border-sumi/20 pl-8 md:ml-6">
             {[
               { year: "1987", body: "兵庫県宝塚市生まれ" },
               { year: "中学時代", body: "高知県土佐郡大川村で山村留学（3年間）" },
@@ -222,7 +223,7 @@ export default function ProfilePage() {
                 <p className={`text-sm font-bold ${item.highlight ? "text-kokihi" : "text-sumi/70"}`}>
                   {item.year}
                 </p>
-                <p className="text-sm md:text-base text-sumi leading-relaxed mt-1">{item.body}</p>
+                <p className="mt-1 text-base leading-7 text-sumi">{item.body}</p>
               </div>
             ))}
           </div>
@@ -237,9 +238,9 @@ export default function ProfilePage() {
           </span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-6 leading-relaxed">
             これまでの実績
-            <span className="text-base font-normal ml-3 text-sumi/60">地域事業フェーズ</span>
+            <span className="ml-3 text-base font-normal text-sumi/70">地域事業フェーズ</span>
           </h2>
-          <p className="text-sm md:text-base text-sumi/80 mb-12 font-serif leading-loose">
+          <p className="mb-12 text-base leading-8 text-sumi/80 md:leading-loose">
             過去10年の地域事業は、いまの近江史コンテンツの<strong className="text-kokihi">土台</strong>です。
             <br />
             切り離さず、ここに記載します。
@@ -249,7 +250,7 @@ export default function ProfilePage() {
             <h3 className="text-xl font-serif font-bold text-sumi-dark mb-6">
               株式会社みんなの奥永源寺（2017-2026）
             </h3>
-            <ul className="font-serif space-y-3 text-sm md:text-base text-sumi leading-relaxed">
+            <ul className="space-y-3 text-base leading-7 text-sumi">
               <li>・ 滋賀県東近江市 奥永源寺地域・君ヶ畑町を拠点</li>
               <li>・ 絶滅危惧種・紫草（ムラサキ）の有機栽培、耕作放棄地の再生</li>
               <li>
@@ -264,7 +265,7 @@ export default function ProfilePage() {
 
           <div className="bg-white p-8 md:p-12 shadow-sm border border-sumi/10 mb-8">
             <h3 className="text-xl font-serif font-bold text-sumi-dark mb-6">主な受賞・露出</h3>
-            <ul className="font-serif space-y-2 text-sm md:text-base text-sumi leading-relaxed">
+            <ul className="space-y-2 text-base leading-7 text-sumi">
               <li>・ 環境省 グッドライフアワード サステナブル・ビジネス賞（2018）</li>
               <li>・ ルーヴル国際化粧品展示会</li>
               <li>・ 大阪万博出展</li>
@@ -275,20 +276,20 @@ export default function ProfilePage() {
 
           <div className="bg-sumi-dark text-kinari p-8 md:p-12 shadow-sm">
             <h3 className="text-xl font-serif font-bold text-kinari mb-6">この経験から残ったもの</h3>
-            <p className="font-serif text-sm md:text-base leading-loose mb-6 opacity-90">
+            <p className="mb-6 text-base leading-8 text-kinari/90 md:leading-loose">
               10期にわたる事業、過剰な抱え込み、最終的な法的整理を経験しました。
               <br />
               事業としては閉幕しました。しかし、
             </p>
-            <ul className="font-serif space-y-3 text-sm md:text-base leading-relaxed opacity-90">
+            <ul className="space-y-3 text-base leading-7 text-kinari/90">
               <li>・ 地域資源を見つけ、物語化し、商品にし、メディアに届ける一連の経験</li>
               <li>・ 行政・学校・地域・全国流通・海外展示を横断したネットワーク</li>
               <li>・ 「不便を不幸と取り違えない」哲学</li>
-              <li className="text-kokihi">
+              <li className="text-gold">
                 ・ そして何より、<strong>“敗者が姿を変えて生き残る”という前川史観の物語構造を、自分の人生で実装した経験</strong>
               </li>
             </ul>
-            <p className="font-serif text-sm md:text-base leading-loose mt-8 opacity-90">
+            <p className="mt-8 text-base leading-8 text-kinari/90 md:leading-loose">
               これらは、近江史コンテンツ事業の燃料として、第二章にそのまま持ち越しています。
             </p>
           </div>
@@ -310,24 +311,24 @@ export default function ProfilePage() {
               <h3 className="text-xl font-serif font-bold text-sumi-dark mb-4">
                 「それはまことですか？」
               </h3>
-              <p className="font-serif text-sm md:text-base text-sumi leading-loose mb-4">
+              <p className="mb-4 text-base leading-8 text-sumi">
                 教科書が語らなかった近江の歴史を、現地調査と一次資料から掘り起こす歴史プロジェクト。YouTube／note／オンライン講座／講演／ツアーを連動させて展開しています。
               </p>
-              <p className="font-serif text-sm text-kokihi font-bold">
-                ▶ それまこオンライン Zoom歴史ラウンジ：2026年6月11日（木）19:00 第1回開講予定
+              <p className="text-sm font-bold text-kokihi">
+                ▶ 次回：{upcomingSalons.online.date} {upcomingSalons.online.time}
               </p>
             </article>
 
             <article className="bg-white p-8 md:p-10 shadow-sm border border-sumi/10">
               <h3 className="text-xl font-serif font-bold text-sumi-dark mb-4">近江百ものがたり</h3>
-              <p className="font-serif text-sm md:text-base text-sumi leading-loose">
+              <p className="text-base leading-8 text-sumi">
                 東近江を起点に、近江全域の「もう一つの歴史」を100本のものがたりとして編むシリーズ。講演／映像／書籍の3形態を想定。
               </p>
             </article>
 
             <article className="bg-white p-8 md:p-10 shadow-sm border border-sumi/10">
               <h3 className="text-xl font-serif font-bold text-sumi-dark mb-4">『近江解体新書』</h3>
-              <p className="font-serif text-sm md:text-base text-sumi leading-loose">
+              <p className="text-base leading-8 text-sumi">
                 近江を解剖するように、土地・人・物語を構造化して伝えるオンライン教材。現在カリキュラム設計中。
               </p>
             </article>
@@ -336,7 +337,7 @@ export default function ProfilePage() {
               <h3 className="text-xl font-serif font-bold text-sumi-dark mb-4">
                 万葉故地サミット（2034年・令和16年）
               </h3>
-              <p className="font-serif text-sm md:text-base text-sumi leading-loose">
+              <p className="text-base leading-8 text-sumi">
                 蒲生野・万葉ロマン関連の地域団体と連携した機運醸成プロジェクト。額田王・大海人皇子・中大兄皇子をめぐる東近江の文化資源を軸に、機運形成を進めています。
               </p>
             </article>
@@ -354,7 +355,7 @@ export default function ProfilePage() {
             私について
           </h2>
 
-          <div className="font-serif text-sm md:text-base text-sumi leading-loose space-y-6">
+          <div className="space-y-6 text-base leading-8 text-sumi md:leading-loose">
             <p>
               兵庫県宝塚市で生まれ、中学時代に高知県大川村で山村留学を経験しました。東京農業大学からUCLA Extensionへ。農業と6次産業化を学んだ後、2011年に滋賀の農業高校で
               <strong className="text-kokihi">紫草（ムラサキ）</strong>と出会いました。
@@ -389,7 +390,7 @@ export default function ProfilePage() {
           </h2>
 
           <div className="bg-white p-8 md:p-10 shadow-sm border border-sumi/10">
-            <dl className="font-serif divide-y divide-sumi/10">
+            <dl className="divide-y divide-sumi/10">
               <div className="grid grid-cols-1 md:grid-cols-3 py-4 gap-2">
                 <dt className="font-bold text-kokihi text-sm md:text-base">講師・制作・執筆</dt>
                 <dd className="md:col-span-2 text-sm md:text-base text-sumi">前川 真司</dd>
@@ -423,13 +424,13 @@ export default function ProfilePage() {
       {/* CTA */}
       <section className="relative z-10 w-full py-20 md:py-32 bg-sumi-dark text-kinari">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
+          <span className="mb-4 block text-xs font-bold tracking-widest text-gold">
             CONTACT
           </span>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-kinari mb-8 leading-relaxed">
             講演・取材・コラボレーション
           </h2>
-          <p className="font-serif leading-loose mb-12 text-sm md:text-base opacity-90">
+          <p className="mb-12 text-base leading-8 text-kinari/90 md:leading-loose">
             企業・自治体・学校・地域団体・メディアからのご相談を承ります。
             <br />
             講演テーマや尺の調整、オンライン／対面いずれも対応可能です。
@@ -452,7 +453,7 @@ export default function ProfilePage() {
             </a>
           </div>
 
-          <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-6 text-sm font-serif opacity-70">
+          <div className="mt-16 flex flex-col items-center justify-center gap-6 text-sm text-kinari/70 md:flex-row">
             <a
               href="https://note.com/maekawa_shikan"
               target="_blank"

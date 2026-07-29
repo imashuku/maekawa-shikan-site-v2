@@ -47,7 +47,7 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mt-12 border-l-4 border-[#06C755] bg-paper p-7 md:p-10">
+          <div className="mt-12 border-l-4 border-[#057538] bg-paper p-7 md:p-10">
             <p className="text-xs font-bold tracking-[0.2em] text-[#078c40]">
               HOW TO CONTACT
             </p>
@@ -61,7 +61,7 @@ export default function ContactPage() {
               href={siteConfig.urls.line}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex bg-[#06C755] px-8 py-4 font-bold text-white"
+              className="mt-8 inline-flex bg-[#057538] px-8 py-4 font-bold text-white"
             >
               公式LINEを開く
             </a>

@@ -1,9 +1,9 @@
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "参加お申し込み｜それはまことですか？（前川史観プロジェクト）",
+  title: "リアルサロン参加お申込み",
   description:
-    "「それはまことですか？」講演会・イベントの参加お申し込みページ。現在募集中のイベント情報とお申し込みはこちらから。",
+    "前川史観リアルサロンの参加お申込み。Web受付の準備中は、公式LINEからご案内します。",
   path: "/apply",
 });
 

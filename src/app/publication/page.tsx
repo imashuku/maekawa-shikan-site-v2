@@ -123,14 +123,14 @@ export default function PublicationPage() {
 
       <section className="py-20 text-center md:py-24">
         <div className="mx-auto max-w-3xl px-5">
-          <p className="text-sm leading-7 text-sumi/60">
+          <p className="text-sm leading-7 text-sumi/70">
             発売日、出版社、価格、予約方法は、確定後にこのページと公式LINEでお知らせします。
           </p>
           <a
             href={siteConfig.urls.line}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex bg-[#06C755] px-8 py-4 font-bold text-white"
+            className="mt-8 inline-flex bg-[#057538] px-8 py-4 font-bold text-white"
           >
             出版案内をLINEで受け取る
           </a>

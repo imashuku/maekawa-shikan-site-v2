@@ -20,7 +20,7 @@ export default function LegacyMypagePage() {
             href={siteConfig.urls.line}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#06C755] px-7 py-4 font-bold text-white"
+            className="bg-[#057538] px-7 py-4 font-bold text-white"
           >
             公式LINEで確認する
           </a>
