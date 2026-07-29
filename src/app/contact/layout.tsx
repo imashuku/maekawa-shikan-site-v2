@@ -1,9 +1,9 @@
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "お問い合わせ｜それはまことですか？（前川史観プロジェクト）",
+  title: "講演・取材・協業のお問い合わせ",
   description:
-    "講演のご依頼、取材、その他お問い合わせはこちらのフォームからお願いいたします。",
+    "前川真司への講演、取材、教育、地域企画などのご相談。現在は公式LINEで受け付けています。",
   path: "/contact",
 });
 

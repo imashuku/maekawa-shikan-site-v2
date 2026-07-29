@@ -1,79 +1,73 @@
-"use client";
+import { siteConfig } from "@/content/site";
 
-import { useState } from "react";
+const consultationTypes = [
+  {
+    title: "講演・研修",
+    body: "企業、学校、地域団体、文化活動など。目的と時間に合わせてテーマを組み立てます。",
+  },
+  {
+    title: "取材・出演",
+    body: "近江史、地域の物語、歴史コンテンツづくりについての取材・出演相談。",
+  },
+  {
+    title: "企画・協業",
+    body: "ツアー、教材、地域企画、出版、映像など、前川史観を活かした共同制作。",
+  },
+] as const;
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      alert("お問い合わせありがとうございます。（デモ機能：実際には送信されていません）");
-      setIsSubmitting(false);
-      (e.target as HTMLFormElement).reset();
-    }, 1000);
-  };
-
   return (
-    <main className="min-h-screen bg-kinari text-sumi flex flex-col items-center relative overflow-hidden">
-      {/* Background Texture */}
-      <div className="fixed inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('/noise.svg')] bg-repeat z-0"></div>
-
-      <section className="relative z-10 w-full max-w-2xl mx-auto pt-12 md:pt-20 pb-20 md:pb-24 px-5 md:px-6">
-         <div className="text-center mb-10 md:mb-12">
-             <h1 className="text-2xl md:text-3xl font-serif font-bold text-sumi-dark mb-4">お問い合わせ</h1>
-             <p className="text-sm md:text-base text-sumi/80 leading-relaxed">
-                 講演のご依頼、取材、その他お問い合わせは<br/>
-                 以下のフォームよりお願いいたします。
-             </p>
-         </div>
-
-         <div className="bg-white/60 p-6 md:p-12 border border-sumi/10 shadow-lg">
-             <form onSubmit={handleSubmit} className="space-y-6">
-                 <div>
-                     <label className="block text-sm font-bold mb-2 text-sumi-dark">お名前</label>
-                     <input
-                       type="text"
-                       required
-                       autoComplete="name"
-                       className="w-full px-4 py-4 bg-kinari border border-sumi/20 focus:outline-none focus:border-kokihi transition-colors text-base"
-                     />
-                 </div>
-                 <div>
-                     <label className="block text-sm font-bold mb-2 text-sumi-dark">メールアドレス</label>
-                     <input
-                       type="email"
-                       required
-                       autoComplete="email"
-                       inputMode="email"
-                       className="w-full px-4 py-4 bg-kinari border border-sumi/20 focus:outline-none focus:border-kokihi transition-colors text-base"
-                     />
-                 </div>
-                 <div>
-                     <label className="block text-sm font-bold mb-2 text-sumi-dark">お問い合わせ内容</label>
-                     <textarea
-                       required
-                       className="w-full px-4 py-4 bg-kinari border border-sumi/20 focus:outline-none focus:border-kokihi transition-colors text-base min-h-[8rem] md:min-h-[10rem]"
-                     ></textarea>
-                 </div>
-                 <button
-                   type="submit"
-                   disabled={isSubmitting}
-                   className="w-full bg-sumi text-kinari py-5 hover:bg-kokihi transition-colors font-bold text-base tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
-                 >
-                    {isSubmitting ? "送信中..." : "送信する"}
-                 </button>
-             </form>
-         </div>
+    <>
+      <section className="border-b border-sumi/15 bg-paper py-16 md:py-24">
+        <div className="mx-auto max-w-5xl px-5">
+          <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
+            CONTACT
+          </p>
+          <h1 className="mt-5 text-4xl font-bold md:text-6xl">
+            前川史観を、
+            <br />
+            新しい場へ。
+          </h1>
+          <p className="mt-7 max-w-3xl leading-8 text-sumi/75">
+            講演、取材、教育、地域企画などのご相談は、現在、公式LINEで受け付けています。
+          </p>
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full bg-sumi-dark text-kinari py-8 text-center text-xs opacity-60">
-        &copy; {new Date().getFullYear()} Shinji Maekawa All Rights Reserved.
-      </footer>
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-5">
+          <div className="grid gap-px border border-sumi/15 bg-sumi/15 md:grid-cols-3">
+            {consultationTypes.map((item) => (
+              <article key={item.title} className="bg-white p-7">
+                <h2 className="text-xl font-bold">{item.title}</h2>
+                <p className="mt-4 text-sm leading-7 text-sumi/70">
+                  {item.body}
+                </p>
+              </article>
+            ))}
+          </div>
 
-    </main>
+          <div className="mt-12 border-l-4 border-[#06C755] bg-paper p-7 md:p-10">
+            <p className="text-xs font-bold tracking-[0.2em] text-[#078c40]">
+              HOW TO CONTACT
+            </p>
+            <h2 className="mt-3 text-2xl font-bold md:text-3xl">
+              公式LINEからご連絡ください
+            </h2>
+            <p className="mt-5 leading-8 text-sumi/70">
+              お名前、所属、希望内容、希望時期、折り返し先をお送りいただくと、その後のご案内がスムーズです。
+            </p>
+            <a
+              href={siteConfig.urls.line}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex bg-[#06C755] px-8 py-4 font-bold text-white"
+            >
+              公式LINEを開く
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

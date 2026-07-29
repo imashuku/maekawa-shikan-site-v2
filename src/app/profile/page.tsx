@@ -100,7 +100,7 @@ export default function ProfilePage() {
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             CORE THESIS
           </span>
-          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-12 leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-kinari mb-12 leading-relaxed">
             中核資産：「前川史観」
           </h2>
 
@@ -126,6 +126,13 @@ export default function ProfilePage() {
           <p className="font-serif leading-loose text-sm md:text-base opacity-90">
             単なる郷土史ではなく、<strong className="text-kokihi">近江を通じて日本史全体を読み替える</strong>歴史コンテンツです。
           </p>
+
+          <aside className="mt-10 border-l-4 border-gold bg-paper p-6 text-sumi">
+            <h3 className="text-lg font-bold">前川史観の読み方</h3>
+            <p className="mt-3 text-sm leading-7">
+              このサイトでは、史資料や先行研究で確認できる事実と、前川真司による仮説・解釈を区別して紹介します。出典を示せるものは明記し、仮説は問いとして開いていきます。
+            </p>
+          </aside>
         </div>
       </section>
 
@@ -254,7 +261,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="bg-sumi-dark text-kinari p-8 md:p-12 shadow-sm">
-            <h3 className="text-xl font-serif font-bold mb-6">この経験から残ったもの</h3>
+            <h3 className="text-xl font-serif font-bold text-kinari mb-6">この経験から残ったもの</h3>
             <p className="font-serif text-sm md:text-base leading-loose mb-6 opacity-90">
               10期にわたる事業、過剰な抱え込み、最終的な法的整理を経験しました。
               <br />
@@ -406,7 +413,7 @@ export default function ProfilePage() {
           <span className="text-kokihi text-xs font-bold tracking-widest mb-4 block">
             CONTACT
           </span>
-          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-kinari mb-8 leading-relaxed">
             講演・取材・コラボレーション
           </h2>
           <p className="font-serif leading-loose mb-12 text-sm md:text-base opacity-90">
@@ -420,7 +427,7 @@ export default function ProfilePage() {
               href="/contact"
               className="bg-kokihi text-white px-10 py-4 hover:bg-white hover:text-kokihi transition-all duration-300 shadow-xl tracking-widest font-serif font-bold text-base rounded-sm w-full md:w-auto"
             >
-              お問い合わせフォーム
+              お問い合わせへ
             </Link>
             <a
               href="https://lin.ee/KY9xx1E"
