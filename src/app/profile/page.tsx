@@ -212,7 +212,11 @@ export default function ProfilePage() {
               { year: "2018", body: "環境省 グッドライフアワード サステナブル・ビジネス賞 受賞（国内第1号企業認定）" },
               { year: "2020", body: "第7回ディスカバー農村漁村の宝（近畿・個人部門）" },
               { year: "2024-", body: "歴史コンテンツ事業へ本格シフト。YouTube「それはまことですか？」、近江百ものがたり、講演活動を展開" },
-              { year: "2026/05", body: "株式会社みんなの奥永源寺の法的整理を完了。近江史コンテンツ事業へ「転戦」、第二章へ", highlight: true },
+              {
+                year: "2026",
+                body: "地域事業から近江史コンテンツ事業へ活動の軸足を移し、「転戦」の第二章へ",
+                highlight: true,
+              },
             ].map((item, i) => (
               <div key={i} className="relative">
                 <div
@@ -277,9 +281,9 @@ export default function ProfilePage() {
           <div className="bg-sumi-dark text-kinari p-8 md:p-12 shadow-sm">
             <h3 className="text-xl font-serif font-bold text-kinari mb-6">この経験から残ったもの</h3>
             <p className="mb-6 text-base leading-8 text-kinari/90 md:leading-loose">
-              10期にわたる事業、過剰な抱え込み、最終的な法的整理を経験しました。
+              10期にわたる地域事業では、地域資源を見つけ、育て、社会へ届ける挑戦を続けました。
               <br />
-              事業としては閉幕しました。しかし、
+              その経験は、いまの活動へつながっています。
             </p>
             <ul className="space-y-3 text-base leading-7 text-kinari/90">
               <li>・ 地域資源を見つけ、物語化し、商品にし、メディアに届ける一連の経験</li>
@@ -364,8 +368,9 @@ export default function ProfilePage() {
               絶滅危惧種・紫草を活用して、限界集落・奥永源寺で会社を立ち上げ、10年間走り続けました。うまくいったこと、行かなかったこと、両方たくさんありました。
             </p>
             <p>
-              10年の事業期間で、私は「一人で全部抱え込む」働き方を変えられませんでした。2026年、その会社の法的整理を完了し、私は
-              <strong className="text-kokihi">「転戦」</strong>することにしました。
+              10年の地域事業で得た経験を次の活動へつなぎ、2026年からは
+              <strong className="text-kokihi">「転戦」</strong>
+              の第二章として、近江史コンテンツ事業へ活動の軸足を移しました。
             </p>
             <p>
               これからは、私が15年かけて積み上げてきたもう一つの資産——
