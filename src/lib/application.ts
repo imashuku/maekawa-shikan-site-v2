@@ -36,18 +36,9 @@ export function validateApplicationInput(
     return "イベントを確認してください";
   }
 
-  if (input.is_new === true) {
-    if (!String(input.furigana ?? "").trim()) {
-      return "ふりがなを入力してください";
-    }
-    return null;
-  }
-
-  // 既存会員は「ふりがな」で照合する。会員番号は覚えている方のための任意入力。
-  if (
-    !String(input.furigana ?? "").trim() &&
-    !String(input.member_no ?? "").trim()
-  ) {
+  // 参加区分にかかわらず、お名前とふりがなだけを必須にする。
+  // ふりがなは会員の照合キーであり、新規登録時の並び順にも使うため。
+  if (!String(input.furigana ?? "").trim()) {
     return "ふりがなを入力してください";
   }
 

@@ -27,9 +27,6 @@ export default function ApplicationForm({
 }: {
   event: PublicRealEvent;
 }) {
-  const [participantType, setParticipantType] = useState<"new" | "existing">(
-    "new",
-  );
   const [name, setName] = useState("");
   const [furigana, setFurigana] = useState("");
   const [memberNo, setMemberNo] = useState("");
@@ -49,12 +46,8 @@ export default function ApplicationForm({
         body: JSON.stringify({
           name,
           furigana,
-          member_no:
-            participantType === "existing" && memberNo.trim()
-              ? memberNo.trim()
-              : null,
+          member_no: memberNo.trim() || null,
           event_id: event.id,
-          is_new: participantType === "new",
           afterparty,
         }),
       });
@@ -149,33 +142,6 @@ export default function ApplicationForm({
         ) : null}
 
         <form onSubmit={handleSubmit} className="mt-9 space-y-7">
-          <fieldset>
-            <legend className="text-sm font-bold">参加区分</legend>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {[
-                ["new", "初めて参加する"],
-                ["existing", "参加したことがある"],
-              ].map(([value, label]) => (
-                <label
-                  key={value}
-                  className="flex cursor-pointer items-center gap-3 border border-sumi/20 bg-white p-4"
-                >
-                  <input
-                    type="radio"
-                    name="participantType"
-                    value={value}
-                    checked={participantType === value}
-                    onChange={() =>
-                      setParticipantType(value as "new" | "existing")
-                    }
-                    className="h-5 w-5 accent-kokihi"
-                  />
-                  <span className="font-bold">{label}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
           <div>
             <label htmlFor="name" className="text-sm font-bold">
               お名前
@@ -204,34 +170,30 @@ export default function ApplicationForm({
               placeholder="例：しだ まさこ"
               className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
             />
-            {participantType === "existing" ? (
-              <p className="mt-2 text-xs leading-6 text-sumi/70">
-                お名前とふりがなで、これまでのご参加記録とつなげます。
-              </p>
-            ) : null}
+            <p className="mt-2 text-xs leading-6 text-sumi/70">
+              お名前とふりがなで、これまでのご参加記録とつなげます。
+            </p>
           </div>
 
-          {participantType === "existing" ? (
-            <div>
-              <label htmlFor="memberNo" className="text-sm font-bold">
-                会員番号
-                <span className="ml-2 font-normal text-sumi/60">任意</span>
-              </label>
-              <input
-                id="memberNo"
-                value={memberNo}
-                onChange={(input) => setMemberNo(input.target.value)}
-                inputMode="numeric"
-                autoComplete="off"
-                maxLength={12}
-                placeholder="例：012"
-                className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
-              />
-              <p className="mt-2 text-xs leading-6 text-sumi/70">
-                分からなければ空欄のままで大丈夫です。
-              </p>
-            </div>
-          ) : null}
+          <div>
+            <label htmlFor="memberNo" className="text-sm font-bold">
+              会員番号
+              <span className="ml-2 font-normal text-sumi/60">任意</span>
+            </label>
+            <input
+              id="memberNo"
+              value={memberNo}
+              onChange={(input) => setMemberNo(input.target.value)}
+              inputMode="numeric"
+              autoComplete="off"
+              maxLength={12}
+              placeholder="例：012"
+              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+            />
+            <p className="mt-2 text-xs leading-6 text-sumi/70">
+              初めての方・分からない方は、空欄のままで大丈夫です。
+            </p>
+          </div>
 
           <label className="flex cursor-pointer items-start gap-3 border-y border-sumi/15 py-5">
             <input

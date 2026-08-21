@@ -23,12 +23,12 @@ test("初参加は氏名とふりがなを必須にする", () => {
   );
 });
 
-test("継続参加は会員番号かふりがなのどちらかを必須にする", () => {
+test("会員番号を入れてもふりがなは必須（照合キーのため）", () => {
   assert.equal(
     validateApplicationInput({
       name: "山田 太郎",
       furigana: "",
-      member_no: "",
+      member_no: "012",
       event_id: 10,
       is_new: false,
     }),
@@ -59,7 +59,7 @@ test("必要項目がそろえばnullを返す", () => {
   assert.equal(
     validateApplicationInput({
       name: "山田 太郎",
-      furigana: null,
+      furigana: "やまだ たろう",
       member_no: "012",
       event_id: 10,
       is_new: false,

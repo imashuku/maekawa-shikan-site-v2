@@ -59,114 +59,64 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let memberId: number;
-    let assignedNo: string;
-    // 「初めて」を選んだが既存会員だった場合、完了画面で新規番号の案内を出さない
-    let isExistingMemberLinked = false;
+    // 参加区分にかかわらず、同じ手順で会員を特定する。
+    // 一致しなければ弾かずに新しい会員として受け付け、重複は運営があとで統合する。
+    // （常連の方を「該当なし」で門前払いする損失のほうが大きい、という運用判断）
+    const nameKey = normalizeParticipantName(body.name);
+    const furiganaKey = normalizeFurigana(body.furigana);
+    const memberNo = String(body.member_no ?? "").trim();
+    const allMembers = await db.execute(
+      "SELECT id, member_no, name, furigana FROM members",
+    );
 
-    if (isNew) {
-      // 「初めて」を選んだ既存会員を、そのまま新規登録して重複させない。
-      // 実際に同姓同名・同ふりがなの会員レコードが二重にできた（026/030）。
-      const nameKey = normalizeParticipantName(body.name);
-      const furiganaKey = normalizeFurigana(body.furigana);
-      const existingRows = await db.execute(
-        "SELECT id, member_no, name, furigana FROM members",
-      );
-      // 既に重複レコードがある人もいるため、複数見つかっても最初の1件に寄せる。
-      // ここで新規作成すると重複がさらに増える。
-      const alreadyMember = existingRows.rows
+    // ① 会員番号の申告があり、お名前も一致するならそれを使う
+    let matched = memberNo
+      ? allMembers.rows.find(
+          (row) =>
+            String(row.member_no).trim() === memberNo &&
+            normalizeParticipantName(row.name) === nameKey,
+        )
+      : undefined;
+
+    // ② 番号が無い・合わない場合は、お名前＋ふりがなで探す。
+    //    既に重複レコードがある人もいるため、複数見つかってもいちばん若い番号に寄せる
+    if (!matched) {
+      matched = allMembers.rows
         .filter(
           (row) =>
             normalizeParticipantName(row.name) === nameKey &&
             normalizeFurigana(row.furigana) === furiganaKey,
         )
-        .sort(
-          (a, b) => Number(a.member_no) - Number(b.member_no),
-        );
+        .sort((a, b) => Number(a.member_no) - Number(b.member_no))[0];
+    }
 
-      if (alreadyMember.length > 0) {
-        memberId = Number(alreadyMember[0].id);
-        assignedNo = String(alreadyMember[0].member_no);
-        isExistingMemberLinked = true;
-      } else {
-        const maxNo = await db.execute(
-          "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
-        );
-        const nextNo = (Number(maxNo.rows[0]?.max_no ?? 0) + 1)
-          .toString()
-          .padStart(3, "0");
-        const insertResult = await db.execute({
-          sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
-          args: [
-            nextNo,
-            String(body.name).trim(),
-            String(body.furigana).trim(),
-            eventId,
-          ],
-        });
-        memberId = Number(insertResult.lastInsertRowid);
-        assignedNo = nextNo;
-      }
+    let memberId: number;
+    let assignedNo: string;
+    let isNewMember = false;
+
+    if (matched) {
+      memberId = Number(matched.id);
+      assignedNo = String(matched.member_no);
     } else {
-      const memberNo = String(body.member_no ?? "").trim();
-
-      if (memberNo) {
-        // 会員番号を覚えている方: 番号とお名前の一致で確認する
-        const existing = await db.execute({
-          sql: "SELECT id, member_no, name FROM members WHERE member_no = ?",
-          args: [memberNo],
-        });
-        const member = existing.rows[0];
-
-        if (
-          !member ||
-          normalizeParticipantName(member.name) !==
-            normalizeParticipantName(body.name)
-        ) {
-          return NextResponse.json(
-            { error: "会員番号とお名前を確認してください" },
-            { status: 400, headers: noStoreHeaders },
-          );
-        }
-
-        memberId = Number(member.id);
-        assignedNo = String(member.member_no);
-      } else {
-        // 会員番号が分からない方: お名前＋ふりがなで照合する
-        const nameKey = normalizeParticipantName(body.name);
-        const furiganaKey = normalizeFurigana(body.furigana);
-        const all = await db.execute(
-          "SELECT id, member_no, name, furigana FROM members",
-        );
-        const matched = all.rows.filter(
-          (row) =>
-            normalizeParticipantName(row.name) === nameKey &&
-            normalizeFurigana(row.furigana) === furiganaKey,
-        );
-
-        if (matched.length === 0) {
-          return NextResponse.json(
-            {
-              error:
-                "お名前とふりがなで会員登録が見つかりませんでした。表記をご確認ください。初めてご参加の場合は「初めて参加する」をお選びください。",
-            },
-            { status: 400, headers: noStoreHeaders },
-          );
-        }
-
-        if (matched.length > 1) {
-          return NextResponse.json(
-            {
-              error:
-                "同じお名前の登録が複数あります。お手数ですが会員番号をご入力ください。",
-            },
-            { status: 409, headers: noStoreHeaders },
-          );
-        }
-
-        memberId = Number(matched[0].id);
-        assignedNo = String(matched[0].member_no);
-      }
+      // ③ 見つからなければ新しい会員として登録する（申込は必ず受け付ける）
+      const maxNo = await db.execute(
+        "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
+      );
+      const nextNo = (Number(maxNo.rows[0]?.max_no ?? 0) + 1)
+        .toString()
+        .padStart(3, "0");
+      const insertResult = await db.execute({
+        sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
+        args: [
+          nextNo,
+          String(body.name).trim(),
+          String(body.furigana).trim(),
+          eventId,
+        ],
+      });
+      memberId = Number(insertResult.lastInsertRowid);
+      assignedNo = nextNo;
+      isNewMember = true;
     }
 
     const alreadyRegistered = await db.execute({
@@ -195,7 +145,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        is_new: isNew && !isExistingMemberLinked,
+        is_new: isNewMember,
         member_no: assignedNo,
       },
       { headers: noStoreHeaders },
