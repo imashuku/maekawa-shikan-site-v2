@@ -12,6 +12,16 @@ export function normalizeParticipantName(value: unknown): string {
     .replace(/[ 　]+/g, "");
 }
 
+/**
+ * ふりがなの照合用に正規化する。
+ * 空白を落とし、カタカナで書かれた場合もひらがなに寄せる（会員データは全件ひらがな）。
+ */
+export function normalizeFurigana(value: unknown): string {
+  return normalizeParticipantName(value).replace(/[ァ-ヶ]/g, (character) =>
+    String.fromCharCode(character.charCodeAt(0) - 0x60),
+  );
+}
+
 export function validateApplicationInput(
   input: ApplicationInput,
 ): string | null {
@@ -30,8 +40,12 @@ export function validateApplicationInput(
     return null;
   }
 
-  if (!String(input.member_no ?? "").trim()) {
-    return "会員番号を入力してください";
+  // 既存会員は「ふりがな」で照合する。会員番号は覚えている方のための任意入力。
+  if (
+    !String(input.furigana ?? "").trim() &&
+    !String(input.member_no ?? "").trim()
+  ) {
+    return "ふりがなを入力してください";
   }
 
   return null;

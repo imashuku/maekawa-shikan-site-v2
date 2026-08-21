@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import {
+  normalizeFurigana,
   normalizeParticipantName,
   validateApplicationInput,
 } from "@/lib/application";
@@ -80,26 +81,65 @@ export async function POST(request: NextRequest) {
       memberId = Number(insertResult.lastInsertRowid);
       assignedNo = nextNo;
     } else {
-      const memberNo = String(body.member_no).trim();
-      const existing = await db.execute({
-        sql: "SELECT id, member_no, name FROM members WHERE member_no = ?",
-        args: [memberNo],
-      });
-      const member = existing.rows[0];
+      const memberNo = String(body.member_no ?? "").trim();
 
-      if (
-        !member ||
-        normalizeParticipantName(member.name) !==
-          normalizeParticipantName(body.name)
-      ) {
-        return NextResponse.json(
-          { error: "会員番号とお名前を確認してください" },
-          { status: 400, headers: noStoreHeaders },
+      if (memberNo) {
+        // 会員番号を覚えている方: 番号とお名前の一致で確認する
+        const existing = await db.execute({
+          sql: "SELECT id, member_no, name FROM members WHERE member_no = ?",
+          args: [memberNo],
+        });
+        const member = existing.rows[0];
+
+        if (
+          !member ||
+          normalizeParticipantName(member.name) !==
+            normalizeParticipantName(body.name)
+        ) {
+          return NextResponse.json(
+            { error: "会員番号とお名前を確認してください" },
+            { status: 400, headers: noStoreHeaders },
+          );
+        }
+
+        memberId = Number(member.id);
+        assignedNo = String(member.member_no);
+      } else {
+        // 会員番号が分からない方: お名前＋ふりがなで照合する
+        const nameKey = normalizeParticipantName(body.name);
+        const furiganaKey = normalizeFurigana(body.furigana);
+        const all = await db.execute(
+          "SELECT id, member_no, name, furigana FROM members",
         );
-      }
+        const matched = all.rows.filter(
+          (row) =>
+            normalizeParticipantName(row.name) === nameKey &&
+            normalizeFurigana(row.furigana) === furiganaKey,
+        );
 
-      memberId = Number(member.id);
-      assignedNo = String(member.member_no);
+        if (matched.length === 0) {
+          return NextResponse.json(
+            {
+              error:
+                "お名前とふりがなで会員登録が見つかりませんでした。表記をご確認ください。初めてご参加の場合は「初めて参加する」をお選びください。",
+            },
+            { status: 400, headers: noStoreHeaders },
+          );
+        }
+
+        if (matched.length > 1) {
+          return NextResponse.json(
+            {
+              error:
+                "同じお名前の登録が複数あります。お手数ですが会員番号をご入力ください。",
+            },
+            { status: 409, headers: noStoreHeaders },
+          );
+        }
+
+        memberId = Number(matched[0].id);
+        assignedNo = String(matched[0].member_no);
+      }
     }
 
     const alreadyRegistered = await db.execute({
@@ -109,7 +149,7 @@ export async function POST(request: NextRequest) {
 
     if (alreadyRegistered.rows.length > 0) {
       return NextResponse.json(
-        { success: true, already_registered: true },
+        { success: true, already_registered: true, member_no: assignedNo },
         { headers: noStoreHeaders },
       );
     }
@@ -129,7 +169,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         is_new: isNew,
-        member_no: isNew ? assignedNo : undefined,
+        member_no: assignedNo,
       },
       { headers: noStoreHeaders },
     );

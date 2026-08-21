@@ -48,8 +48,11 @@ export default function ApplicationForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          furigana: participantType === "new" ? furigana : null,
-          member_no: participantType === "existing" ? memberNo : null,
+          furigana,
+          member_no:
+            participantType === "existing" && memberNo.trim()
+              ? memberNo.trim()
+              : null,
           event_id: event.id,
           is_new: participantType === "new",
           afterparty,
@@ -87,14 +90,16 @@ export default function ApplicationForm({
           <p className="mt-2 text-sumi/65">
             {formatDate(event.event_date)} 18:30–｜{event.venue}
           </p>
-          {result.is_new && result.member_no ? (
+          {result.member_no ? (
             <div className="mx-auto mt-9 max-w-sm border-t-4 border-kokihi bg-paper p-7">
-              <p className="text-sm text-sumi/70">次回から使う会員番号</p>
+              <p className="text-sm text-sumi/70">
+                {result.is_new ? "次回から使う会員番号" : "あなたの会員番号"}
+              </p>
               <p className="mt-2 font-serif text-4xl font-bold text-kokihi">
                 No.{result.member_no}
               </p>
               <p className="mt-3 text-xs leading-6 text-sumi/70">
-                次回の申込みに必要です。画面を保存してください。
+                お申込みはお名前とふりがなだけでできます。番号は控えとしてお使いください。
               </p>
             </div>
           ) : null}
@@ -109,11 +114,7 @@ export default function ApplicationForm({
     );
   }
 
-  const canSubmit = Boolean(
-    name.trim() &&
-      (participantType === "new" ? furigana.trim() : memberNo.trim()) &&
-      !submitting,
-  );
+  const canSubmit = Boolean(name.trim() && furigana.trim() && !submitting);
 
   return (
     <section className="py-16 md:py-24">
@@ -190,24 +191,31 @@ export default function ApplicationForm({
             />
           </div>
 
-          {participantType === "new" ? (
-            <div>
-              <label htmlFor="furigana" className="text-sm font-bold">
-                ふりがな
-              </label>
-              <input
-                id="furigana"
-                value={furigana}
-                onChange={(input) => setFurigana(input.target.value)}
-                required
-                maxLength={100}
-                className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
-              />
-            </div>
-          ) : (
+          <div>
+            <label htmlFor="furigana" className="text-sm font-bold">
+              ふりがな
+            </label>
+            <input
+              id="furigana"
+              value={furigana}
+              onChange={(input) => setFurigana(input.target.value)}
+              required
+              maxLength={100}
+              placeholder="例：しだ まさこ"
+              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+            />
+            {participantType === "existing" ? (
+              <p className="mt-2 text-xs leading-6 text-sumi/70">
+                お名前とふりがなで、これまでのご参加記録とつなげます。
+              </p>
+            ) : null}
+          </div>
+
+          {participantType === "existing" ? (
             <div>
               <label htmlFor="memberNo" className="text-sm font-bold">
                 会員番号
+                <span className="ml-2 font-normal text-sumi/60">任意</span>
               </label>
               <input
                 id="memberNo"
@@ -215,16 +223,15 @@ export default function ApplicationForm({
                 onChange={(input) => setMemberNo(input.target.value)}
                 inputMode="numeric"
                 autoComplete="off"
-                required
                 maxLength={12}
                 placeholder="例：012"
                 className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
               />
               <p className="mt-2 text-xs leading-6 text-sumi/70">
-                分からない場合は公式LINEからお問い合わせください。
+                分からなければ空欄のままで大丈夫です。
               </p>
             </div>
-          )}
+          ) : null}
 
           <label className="flex cursor-pointer items-start gap-3 border-y border-sumi/15 py-5">
             <input
