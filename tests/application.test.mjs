@@ -67,3 +67,22 @@ test("必要項目がそろえばnullを返す", () => {
     null,
   );
 });
+
+test("半角カタカナのふりがなを、ひらがな登録と同一視する", () => {
+  assert.equal(normalizeFurigana("ｺﾊﾞﾔｼｴﾂｺ"), normalizeFurigana("こばやしえつこ"));
+});
+
+test("濁点が分解された入力（NFD）を、通常の入力と同一視する", () => {
+  assert.equal(
+    normalizeFurigana("こばやしえつこ".normalize("NFD")),
+    normalizeFurigana("こばやしえつこ"),
+  );
+  assert.equal(
+    normalizeParticipantName("春木".normalize("NFD")),
+    normalizeParticipantName("春木"),
+  );
+});
+
+test("全角英数の会員名を半角と同一視する", () => {
+  assert.equal(normalizeParticipantName("ＡＢＣ　太郎"), "ABC太郎");
+});

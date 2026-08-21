@@ -61,25 +61,52 @@ export async function POST(request: NextRequest) {
 
     let memberId: number;
     let assignedNo: string;
+    // 「初めて」を選んだが既存会員だった場合、完了画面で新規番号の案内を出さない
+    let isExistingMemberLinked = false;
 
     if (isNew) {
-      const maxNo = await db.execute(
-        "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
+      // 「初めて」を選んだ既存会員を、そのまま新規登録して重複させない。
+      // 実際に同姓同名・同ふりがなの会員レコードが二重にできた（026/030）。
+      const nameKey = normalizeParticipantName(body.name);
+      const furiganaKey = normalizeFurigana(body.furigana);
+      const existingRows = await db.execute(
+        "SELECT id, member_no, name, furigana FROM members",
       );
-      const nextNo = (Number(maxNo.rows[0]?.max_no ?? 0) + 1)
-        .toString()
-        .padStart(3, "0");
-      const insertResult = await db.execute({
-        sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
-        args: [
-          nextNo,
-          String(body.name).trim(),
-          String(body.furigana).trim(),
-          eventId,
-        ],
-      });
-      memberId = Number(insertResult.lastInsertRowid);
-      assignedNo = nextNo;
+      // 既に重複レコードがある人もいるため、複数見つかっても最初の1件に寄せる。
+      // ここで新規作成すると重複がさらに増える。
+      const alreadyMember = existingRows.rows
+        .filter(
+          (row) =>
+            normalizeParticipantName(row.name) === nameKey &&
+            normalizeFurigana(row.furigana) === furiganaKey,
+        )
+        .sort(
+          (a, b) => Number(a.member_no) - Number(b.member_no),
+        );
+
+      if (alreadyMember.length > 0) {
+        memberId = Number(alreadyMember[0].id);
+        assignedNo = String(alreadyMember[0].member_no);
+        isExistingMemberLinked = true;
+      } else {
+        const maxNo = await db.execute(
+          "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
+        );
+        const nextNo = (Number(maxNo.rows[0]?.max_no ?? 0) + 1)
+          .toString()
+          .padStart(3, "0");
+        const insertResult = await db.execute({
+          sql: "INSERT INTO members (member_no, name, furigana, joined_event_id) VALUES (?, ?, ?, ?)",
+          args: [
+            nextNo,
+            String(body.name).trim(),
+            String(body.furigana).trim(),
+            eventId,
+          ],
+        });
+        memberId = Number(insertResult.lastInsertRowid);
+        assignedNo = nextNo;
+      }
     } else {
       const memberNo = String(body.member_no ?? "").trim();
 
@@ -168,7 +195,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        is_new: isNew,
+        is_new: isNew && !isExistingMemberLinked,
         member_no: assignedNo,
       },
       { headers: noStoreHeaders },

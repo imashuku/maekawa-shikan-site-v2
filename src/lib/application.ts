@@ -8,6 +8,9 @@ export type ApplicationInput = {
 
 export function normalizeParticipantName(value: unknown): string {
   return String(value ?? "")
+    // NFKC で半角カタカナ・全角英数・分解された濁点を吸収する。
+    // これが無いと「ｺﾊﾞﾔｼ」や、見た目は同じでも濁点が分解された入力が弾かれる。
+    .normalize("NFKC")
     .trim()
     .replace(/[ 　]+/g, "");
 }
