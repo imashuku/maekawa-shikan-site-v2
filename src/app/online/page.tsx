@@ -1,8 +1,8 @@
 import Link from "next/link";
 import {
+  getUpcomingOnlineSalon,
   onlineCurriculum,
   siteConfig,
-  upcomingSalons,
 } from "@/content/site";
 import { buildMetadata } from "@/lib/metadata";
 
@@ -13,7 +13,12 @@ export const metadata = buildMetadata({
   path: "/online",
 });
 
+// 次回表示を切り替えるため、静的生成の結果を定期的に作り直す
+export const revalidate = 300;
+
 export default function OnlineSalonPage() {
+  const nextSession = getUpcomingOnlineSalon();
+
   return (
     <>
       <section className="border-b border-sumi/15 bg-paper">
@@ -61,20 +66,31 @@ export default function OnlineSalonPage() {
           </div>
           <aside className="border-t-4 border-kokihi bg-paper p-7 md:p-9">
             <p className="text-xs font-bold tracking-[0.2em] text-kokihi">
-              NEXT SESSION
+              {nextSession ? "NEXT SESSION" : "ARCHIVE"}
             </p>
-            <p className="mt-4 font-serif text-2xl font-bold">
-              {upcomingSalons.online.date}
-            </p>
-            <p className="mt-1 text-sm text-sumi/75">
-              {upcomingSalons.online.time}
-            </p>
-            <h2 className="mt-5 text-xl font-bold leading-8">
-              {upcomingSalons.online.title}
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-sumi/70">
-              {upcomingSalons.online.note}
-            </p>
+            {nextSession ? (
+              <>
+                <p className="mt-4 font-serif text-2xl font-bold">
+                  {nextSession.date}
+                </p>
+                <p className="mt-1 text-sm text-sumi/75">{nextSession.time}</p>
+                <h2 className="mt-5 text-xl font-bold leading-8">
+                  {nextSession.title}
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-sumi/70">
+                  {nextSession.note}
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="mt-5 text-xl font-bold leading-8">
+                  全10回の開催を終えました
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-sumi/70">
+                  全10回パスにお申し込みいただくと、第1回からアーカイブでご覧いただけます。
+                </p>
+              </>
+            )}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col">
               <a
                 href={siteConfig.urls.onlinePass}

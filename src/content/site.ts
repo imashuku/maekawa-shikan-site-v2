@@ -1,3 +1,9 @@
+import {
+  formatSessionDate,
+  getNextOnlineSession,
+  onlineSessions,
+} from "@/lib/online-schedule";
+
 export const siteConfig = {
   brand: "前川史観",
   project: "それはまことですか？",
@@ -33,77 +39,42 @@ export const salonChoices = [
   },
 ] as const;
 
-export const upcomingSalons = {
-  online: {
-    format: "オンライン",
-    date: "2026/08/13（木）",
-    time: "19:00–21:00",
-    title: "第3回｜もしかして、ここが「あの国」？",
-    note: "アーカイブ視聴があるため、途中参加でも第1回から学べます。",
-    href: "/online",
-  },
-  real: {
-    format: "リアル",
-    date: "2026/08/27（木）",
-    time: "18:30–20:30",
-    title: "深層編 第1回",
-    note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
-    href: "/apply",
-  },
+export const onlineSalon = {
+  format: "オンライン",
+  time: "19:00–21:00",
+  note: "アーカイブ視聴があるため、途中参加でも第1回から学べます。",
+  href: "/online",
 } as const;
 
-export const onlineCurriculum = [
-  {
-    date: "2026/06/11（木）",
-    title: "近江は、私たちのどこにいたのだろう",
-    subtitle: "日本史の地図を、近江から広げてみる",
-  },
-  {
-    date: "2026/07/09（木）",
-    title: "一万年前の、しあわせのかたち",
-    subtitle: "東近江の縄文と土偶が語るもの",
-  },
-  {
-    date: "2026/08/13（木）",
-    title: "もしかして、ここが「あの国」？",
-    subtitle: "邪馬台国近江説というロマン",
-  },
-  {
-    date: "2026/09/10（木）",
-    title: "兄と弟が、国を二つに分けた日",
-    subtitle: "ふたつの正義がぶつかった、古代の決断",
-  },
-  {
-    date: "2026/10/08（木）",
-    title: "負けた者は、どこへ消えたのか",
-    subtitle: "近江に残る源平の伝承と、生きのびる人々の物語",
-  },
-  {
-    date: "2026/11/12（木）",
-    title: "同じ血が、争うとき",
-    subtitle: "近江を動かした一族たちの素顔",
-  },
-  {
-    date: "2026/12/10（木）",
-    title: "刀を置いて、そろばんを持った人たち",
-    subtitle: "敗者はなぜ商人になったのか─三井家誕生の物語",
-  },
-  {
-    date: "2027/01/14（木）",
-    title: "「悪人」と呼ばれた人の、本当の顔",
-    subtitle: "教科書が教えなかった、一期一会のある決断",
-  },
-  {
-    date: "2027/02/11（木）",
-    title: "あの会社も、近江から始まった",
-    subtitle: "近江商人の挑戦と葛藤",
-  },
-  {
-    date: "2027/03/11（木）",
-    title: "あなたの「現在地」が、見えてくる",
-    subtitle: "近江から、もっと深い物語の入口へ",
-  },
-] as const;
+export const realSalon = {
+  format: "リアル",
+  date: "2026/08/27（木）",
+  time: "18:30–20:30",
+  title: "深層編 第1回",
+  note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
+  href: "/apply",
+} as const;
+
+/** 開催日の翌日0:00（JST）に次の回へ切り替わる。全10回終了後は null */
+export function getUpcomingOnlineSalon(now = new Date()) {
+  const next = getNextOnlineSession(now);
+  if (!next) return null;
+  return {
+    ...onlineSalon,
+    date: formatSessionDate(next.isoDate),
+    title: `第${next.number}回｜${next.title}`,
+  };
+}
+
+export function getUpcomingSalons(now = new Date()) {
+  return { online: getUpcomingOnlineSalon(now), real: realSalon };
+}
+
+/** 日付表示は online-schedule の isoDate から生成する（正本の二重持ちを避ける） */
+export const onlineCurriculum = onlineSessions.map((session) => ({
+  ...session,
+  date: formatSessionDate(session.isoDate),
+}));
 
 export const realProgram = {
   surface: {

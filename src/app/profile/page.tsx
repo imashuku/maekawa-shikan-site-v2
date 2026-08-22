@@ -1,6 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/app/components/JsonLd";
-import { upcomingSalons } from "@/content/site";
+import { getUpcomingOnlineSalon } from "@/content/site";
 import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
@@ -10,7 +10,12 @@ export const metadata = buildMetadata({
   path: "/profile",
 });
 
+// 次回表示を切り替えるため、静的生成の結果を定期的に作り直す
+export const revalidate = 300;
+
 export default function ProfilePage() {
+  const nextSession = getUpcomingOnlineSalon();
+
   return (
     <div className="min-h-screen bg-kinari text-sumi relative overflow-hidden">
       <JsonLd
@@ -318,9 +323,11 @@ export default function ProfilePage() {
               <p className="mb-4 text-base leading-8 text-sumi">
                 教科書が語らなかった近江の歴史を、現地調査と一次資料から掘り起こす歴史プロジェクト。YouTube／note／オンライン講座／講演／ツアーを連動させて展開しています。
               </p>
-              <p className="text-sm font-bold text-kokihi">
-                ▶ 次回：{upcomingSalons.online.date} {upcomingSalons.online.time}
-              </p>
+              {nextSession && (
+                <p className="text-sm font-bold text-kokihi">
+                  ▶ 次回：{nextSession.date} {nextSession.time}
+                </p>
+              )}
             </article>
 
             <article className="bg-white p-8 md:p-10 shadow-sm border border-sumi/10">

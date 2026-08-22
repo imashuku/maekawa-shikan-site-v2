@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { upcomingSalons } from "@/content/site";
+import { getUpcomingSalons } from "@/content/site";
 import SectionHeading from "./SectionHeading";
 
 export default function UpcomingSalonGrid() {
+  const { online, real } = getUpcomingSalons();
+  const salons = [online, real].filter((salon) => salon !== null);
+
   return (
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
@@ -12,7 +15,7 @@ export default function UpcomingSalonGrid() {
           lead="途中からでも大丈夫です。今の関心と、参加しやすい方法で選んでください。"
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {Object.values(upcomingSalons).map((salon) => (
+          {salons.map((salon) => (
             <article
               key={salon.format}
               className="border border-sumi/15 bg-white p-7 shadow-[0_18px_50px_rgba(40,32,24,0.06)] md:p-9"

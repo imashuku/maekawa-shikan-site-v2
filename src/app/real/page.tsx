@@ -1,6 +1,6 @@
 import Link from "next/link";
 import JsonLd from "@/app/components/JsonLd";
-import { realProgram, siteConfig, upcomingSalons } from "@/content/site";
+import { realProgram, realSalon, siteConfig } from "@/content/site";
 import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
@@ -104,14 +104,14 @@ export default function RealSalonPage() {
               NEXT SESSION
             </p>
             <p className="mt-5 font-serif text-3xl font-bold text-kinari md:text-5xl">
-              {upcomingSalons.real.date}
+              {realSalon.date}
             </p>
-            <p className="mt-2 text-kinari/60">{upcomingSalons.real.time}</p>
+            <p className="mt-2 text-kinari/60">{realSalon.time}</p>
             <h2 className="mt-6 text-2xl font-bold text-kinari">
-              {upcomingSalons.real.title}
+              {realSalon.title}
             </h2>
             <p className="mt-4 max-w-2xl leading-8 text-kinari/70">
-              {upcomingSalons.real.note}
+              {realSalon.note}
             </p>
           </div>
           <Link
