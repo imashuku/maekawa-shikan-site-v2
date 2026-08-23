@@ -104,6 +104,8 @@ export type RealSession = {
   startTime: string;
   endTime: string;
   title: string;
+  /** 前川さんから届く回ごとの演題。未定の回は省略でき、その場合は回次だけを表示する */
+  theme?: string;
   note: string;
 };
 
@@ -120,6 +122,7 @@ export const realSessions: readonly RealSession[] = [
     startTime: "18:30",
     endTime: "20:30",
     title: "深層編 第1回",
+    theme: "大化の改新　〜大津宮・紫香楽宮・保良宮とは何だったのか？〜",
     note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
   },
   {
@@ -127,6 +130,7 @@ export const realSessions: readonly RealSession[] = [
     startTime: "18:30",
     endTime: "20:30",
     title: "深層編 第2回",
+    theme: "惟喬親王　〜平安時代とは何だったのか？〜",
     note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
   },
 ];

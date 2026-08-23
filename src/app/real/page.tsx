@@ -25,7 +25,7 @@ export default function RealSalonPage() {
           data={{
             "@context": "https://schema.org",
             "@type": "Event",
-            name: `前川史観 リアルサロン ${scheduled.title}`,
+            name: `前川史観 リアルサロン ${scheduled.title}${scheduled.theme ? `｜${scheduled.theme}` : ""}`,
             description:
               "前川真司が新しい仮説と物語を掘り下げるリアルサロン。表層編未受講でも参加できます。",
             startDate: `${scheduled.isoDate}T${scheduled.startTime}:00+09:00`,

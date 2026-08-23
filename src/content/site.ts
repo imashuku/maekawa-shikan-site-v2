@@ -94,7 +94,7 @@ export function getUpcomingRealSalon(now = new Date()): SalonCard {
     ...realSalon,
     date: formatSessionDate(next.isoDate),
     time: `${next.startTime}–${next.endTime}`,
-    title: next.title,
+    title: next.theme ? `${next.title}｜${next.theme}` : next.title,
     note: next.note,
   };
 }
