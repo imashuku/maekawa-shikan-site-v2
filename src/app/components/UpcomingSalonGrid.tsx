@@ -32,6 +32,11 @@ export default function UpcomingSalonGrid() {
                 {salon.date}
               </p>
               <h3 className="mt-3 text-xl font-bold leading-8">{salon.title}</h3>
+              {salon.theme && (
+                <p className="mt-2 font-serif text-base font-bold leading-7 text-sumi-dark">
+                  {salon.theme}
+                </p>
+              )}
               <p className="mt-4 text-sm leading-7 text-sumi/70">{salon.note}</p>
               {salon.cta.external ? (
                 <a

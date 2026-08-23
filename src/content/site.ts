@@ -46,6 +46,8 @@ export type SalonCard = {
   date: string;
   time: string | null;
   title: string;
+  /** 回ごとの演題。見出しとは別行で見せる。持たない回は null */
+  theme: string | null;
   note: string;
   cta: { label: string; href: string; external: boolean };
 };
@@ -70,6 +72,7 @@ export function getUpcomingOnlineSalon(now = new Date()): SalonCard | null {
     ...onlineSalon,
     date: formatSessionDate(next.isoDate),
     title: `第${next.number}回｜${next.title}`,
+    theme: null,
   };
 }
 
@@ -83,6 +86,7 @@ const WORD_JOINER = "\u2060";
  *  - 主題が途中で割れる（大化の改新 → 「大化の改」「新」）
  *  - 副題を開く「〜」だけが行末に取り残される
  * 改行は主題と副題のあいだの全角スペースで起きるようになる。
+ * 見出しとは別行に置いたうえで、この保険をかける。
  */
 function protectThemeWrapping(theme: string): string {
   const opening = theme.indexOf("〜");
@@ -100,6 +104,7 @@ export function getUpcomingRealSalon(now = new Date()): SalonCard {
       date: "次回日程は調整中",
       time: null,
       title: "決まり次第、おしらせします",
+      theme: null,
       note: "公式LINEにご登録いただくと、次回の日程をいちばん早くお受け取りいただけます。",
       cta: {
         label: "公式LINEで知らせを受け取る",
@@ -112,9 +117,8 @@ export function getUpcomingRealSalon(now = new Date()): SalonCard {
     ...realSalon,
     date: formatSessionDate(next.isoDate),
     time: `${next.startTime}–${next.endTime}`,
-    title: next.theme
-      ? `${next.title}｜${protectThemeWrapping(next.theme)}`
-      : next.title,
+    title: next.title,
+    theme: next.theme ? protectThemeWrapping(next.theme) : null,
     note: next.note,
   };
 }

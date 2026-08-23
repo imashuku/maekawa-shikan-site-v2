@@ -122,6 +122,11 @@ export default function RealSalonPage() {
             <h2 className="mt-6 text-2xl font-bold text-kinari">
               {nextSession.title}
             </h2>
+            {nextSession.theme && (
+              <p className="mt-3 max-w-2xl font-serif text-lg font-bold leading-8 text-kinari md:text-xl">
+                {nextSession.theme}
+              </p>
+            )}
             <p className="mt-4 max-w-2xl leading-8 text-kinari/70">
               {nextSession.note}
             </p>
