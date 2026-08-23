@@ -1,8 +1,10 @@
 import {
   formatSessionDate,
   getNextOnlineSession,
+  getNextRealSession,
   onlineSessions,
-} from "@/lib/online-schedule";
+  realSessions,
+} from "@/lib/salon-schedule";
 
 export const siteConfig = {
   brand: "前川史観",
@@ -39,24 +41,29 @@ export const salonChoices = [
   },
 ] as const;
 
-export const onlineSalon = {
+export type SalonCard = {
+  format: "オンライン" | "リアル";
+  date: string;
+  time: string | null;
+  title: string;
+  note: string;
+  cta: { label: string; href: string; external: boolean };
+};
+
+const onlineSalon = {
   format: "オンライン",
   time: "19:00–21:00",
   note: "アーカイブ視聴があるため、途中参加でも第1回から学べます。",
-  href: "/online",
+  cta: { label: "詳細を見る", href: "/online", external: false },
 } as const;
 
-export const realSalon = {
+const realSalon = {
   format: "リアル",
-  date: "2026/08/27（木）",
-  time: "18:30–20:30",
-  title: "深層編 第1回",
-  note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
-  href: "/apply",
+  cta: { label: "参加を申し込む", href: "/apply", external: false },
 } as const;
 
 /** 開催日の翌日0:00（JST）に次の回へ切り替わる。全10回終了後は null */
-export function getUpcomingOnlineSalon(now = new Date()) {
+export function getUpcomingOnlineSalon(now = new Date()): SalonCard | null {
   const next = getNextOnlineSession(now);
   if (!next) return null;
   return {
@@ -66,11 +73,40 @@ export function getUpcomingOnlineSalon(now = new Date()) {
   };
 }
 
-export function getUpcomingSalons(now = new Date()) {
-  return { online: getUpcomingOnlineSalon(now), real: realSalon };
+/** 開催日の翌日0:00（JST）に次の回へ切り替わる。次の日程が未登録なら「調整中」 */
+export function getUpcomingRealSalon(now = new Date()): SalonCard {
+  const next = getNextRealSession(now);
+  if (!next) {
+    return {
+      format: "リアル",
+      date: "次回日程は調整中",
+      time: null,
+      title: "決まり次第、おしらせします",
+      note: "公式LINEにご登録いただくと、次回の日程をいちばん早くお受け取りいただけます。",
+      cta: {
+        label: "公式LINEで知らせを受け取る",
+        href: siteConfig.urls.line,
+        external: true,
+      },
+    };
+  }
+  return {
+    ...realSalon,
+    date: formatSessionDate(next.isoDate),
+    time: `${next.startTime}–${next.endTime}`,
+    title: next.title,
+    note: next.note,
+  };
 }
 
-/** 日付表示は online-schedule の isoDate から生成する（正本の二重持ちを避ける） */
+export function getUpcomingSalons(now = new Date()) {
+  return {
+    online: getUpcomingOnlineSalon(now),
+    real: getUpcomingRealSalon(now),
+  };
+}
+
+/** 日付表示は salon-schedule の isoDate から生成する（正本の二重持ちを避ける） */
 export const onlineCurriculum = onlineSessions.map((session) => ({
   ...session,
   date: formatSessionDate(session.isoDate),
@@ -88,7 +124,9 @@ export const realProgram = {
     label: "地図の下にある、もう一枚の地図",
     description:
       "前川真司が新しい仮説と物語を掘り下げる旗艦編。表層編未受講でも参加できます。",
-    dates: ["2026/08/27（木）18:30", "2026/09/30（水）18:30"],
+    dates: realSessions.map(
+      (session) => `${formatSessionDate(session.isoDate)}${session.startTime}`,
+    ),
   },
 } as const;
 

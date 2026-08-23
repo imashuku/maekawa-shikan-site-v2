@@ -24,19 +24,32 @@ export default function UpcomingSalonGrid() {
                 <span className="text-xs font-bold tracking-[0.2em] text-kokihi">
                   {salon.format}
                 </span>
-                <span className="text-sm text-sumi/70">{salon.time}</span>
+                {salon.time && (
+                  <span className="text-sm text-sumi/70">{salon.time}</span>
+                )}
               </div>
               <p className="mt-6 font-serif text-2xl font-bold text-sumi-dark">
                 {salon.date}
               </p>
               <h3 className="mt-3 text-xl font-bold leading-8">{salon.title}</h3>
               <p className="mt-4 text-sm leading-7 text-sumi/70">{salon.note}</p>
-              <Link
-                href={salon.href}
-                className="mt-8 inline-flex bg-sumi-dark px-6 py-3.5 font-bold text-white transition-colors hover:bg-kokihi"
-              >
-                {salon.format === "リアル" ? "参加を申し込む" : "詳細を見る"}
-              </Link>
+              {salon.cta.external ? (
+                <a
+                  href={salon.cta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 inline-flex bg-sumi-dark px-6 py-3.5 font-bold text-white transition-colors hover:bg-kokihi"
+                >
+                  {salon.cta.label}
+                </a>
+              ) : (
+                <Link
+                  href={salon.cta.href}
+                  className="mt-8 inline-flex bg-sumi-dark px-6 py-3.5 font-bold text-white transition-colors hover:bg-kokihi"
+                >
+                  {salon.cta.label}
+                </Link>
+              )}
             </article>
           ))}
         </div>

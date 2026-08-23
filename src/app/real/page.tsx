@@ -1,6 +1,7 @@
 import Link from "next/link";
 import JsonLd from "@/app/components/JsonLd";
-import { realProgram, realSalon, siteConfig } from "@/content/site";
+import { getUpcomingRealSalon, realProgram, siteConfig } from "@/content/site";
+import { getNextRealSession } from "@/lib/salon-schedule";
 import { buildMetadata, SITE_URL } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
@@ -10,28 +11,37 @@ export const metadata = buildMetadata({
   path: "/real",
 });
 
+// 次回表示を切り替えるため、静的生成の結果を定期的に作り直す
+export const revalidate = 300;
+
 export default function RealSalonPage() {
+  const nextSession = getUpcomingRealSalon();
+  const scheduled = getNextRealSession();
+
   return (
     <>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Event",
-          name: "前川史観 リアルサロン 深層編 第1回",
-          description:
-            "前川真司が新しい仮説と物語を掘り下げるリアルサロン。表層編未受講でも参加できます。",
-          startDate: "2026-08-27T18:30:00+09:00",
-          endDate: "2026-08-27T20:30:00+09:00",
-          eventStatus: "https://schema.org/EventScheduled",
-          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-          organizer: {
-            "@type": "Person",
-            name: "前川真司",
-            url: `${SITE_URL}/profile`,
-          },
-          url: `${SITE_URL}/real`,
-        }}
-      />
+      {scheduled && (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Event",
+            name: `前川史観 リアルサロン ${scheduled.title}`,
+            description:
+              "前川真司が新しい仮説と物語を掘り下げるリアルサロン。表層編未受講でも参加できます。",
+            startDate: `${scheduled.isoDate}T${scheduled.startTime}:00+09:00`,
+            endDate: `${scheduled.isoDate}T${scheduled.endTime}:00+09:00`,
+            eventStatus: "https://schema.org/EventScheduled",
+            eventAttendanceMode:
+              "https://schema.org/OfflineEventAttendanceMode",
+            organizer: {
+              "@type": "Person",
+              name: "前川真司",
+              url: `${SITE_URL}/profile`,
+            },
+            url: `${SITE_URL}/real`,
+          }}
+        />
+      )}
       <section className="border-b border-sumi/15 bg-paper">
         <div className="mx-auto max-w-6xl px-5 py-16 md:py-24">
           <p className="text-xs font-bold tracking-[0.24em] text-kokihi">
@@ -104,22 +114,35 @@ export default function RealSalonPage() {
               NEXT SESSION
             </p>
             <p className="mt-5 font-serif text-3xl font-bold text-kinari md:text-5xl">
-              {realSalon.date}
+              {nextSession.date}
             </p>
-            <p className="mt-2 text-kinari/60">{realSalon.time}</p>
+            {nextSession.time && (
+              <p className="mt-2 text-kinari/60">{nextSession.time}</p>
+            )}
             <h2 className="mt-6 text-2xl font-bold text-kinari">
-              {realSalon.title}
+              {nextSession.title}
             </h2>
             <p className="mt-4 max-w-2xl leading-8 text-kinari/70">
-              {realSalon.note}
+              {nextSession.note}
             </p>
           </div>
-          <Link
-            href="/apply"
-            className="inline-flex justify-center bg-kokihi px-8 py-4 font-bold text-white md:justify-self-end"
-          >
-            深層編に申し込む
-          </Link>
+          {nextSession.cta.external ? (
+            <a
+              href={nextSession.cta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex justify-center bg-kokihi px-8 py-4 font-bold text-white md:justify-self-end"
+            >
+              {nextSession.cta.label}
+            </a>
+          ) : (
+            <Link
+              href="/apply"
+              className="inline-flex justify-center bg-kokihi px-8 py-4 font-bold text-white md:justify-self-end"
+            >
+              深層編に申し込む
+            </Link>
+          )}
         </div>
       </section>
 

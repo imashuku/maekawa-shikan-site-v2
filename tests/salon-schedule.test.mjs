@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { REAL_EVENT_POLICIES } from "../src/lib/event-policy.ts";
 import {
   formatSessionDate,
   getNextOnlineSession,
+  getNextRealSession,
   onlineSessions,
-} from "../src/lib/online-schedule.ts";
+  realSessions,
+} from "../src/lib/salon-schedule.ts";
 
 test("全10回・すべて木曜日", () => {
   assert.equal(onlineSessions.length, 10);
@@ -62,4 +65,33 @@ test("UTCのサーバで動かしても判定がずれない", () => {
     3,
   );
   assert.equal(getNextOnlineSession(new Date("2026-08-13T15:00:00Z"))?.number, 4);
+});
+
+// --- リアルサロン ---
+
+test("リアルも開催当日はその回、翌日0:00（JST）に次の回へ", () => {
+  assert.equal(
+    getNextRealSession(new Date("2026-08-27T23:59:59+09:00"))?.title,
+    "深層編 第1回",
+  );
+  assert.equal(
+    getNextRealSession(new Date("2026-08-28T00:00:00+09:00"))?.title,
+    "深層編 第2回",
+  );
+});
+
+test("リアルは日程を使い切ると null（＝サイトは「調整中」表示になる）", () => {
+  assert.equal(
+    getNextRealSession(new Date("2026-09-30T23:59:59+09:00"))?.isoDate,
+    "2026-09-30",
+  );
+  assert.equal(getNextRealSession(new Date("2026-10-01T00:00:00+09:00")), null);
+});
+
+test("リアルの日程と申込受付の日付がずれていない", () => {
+  assert.deepEqual(
+    realSessions.map((session) => session.isoDate),
+    Object.keys(REAL_EVENT_POLICIES).sort(),
+    "salon-schedule の realSessions と event-policy の REAL_EVENT_POLICIES を揃えること",
+  );
 });

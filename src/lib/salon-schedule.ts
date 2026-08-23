@@ -97,3 +97,45 @@ export function getNextOnlineSession(
   if (index === -1) return null;
   return { ...onlineSessions[index], number: index + 1 };
 }
+
+export type RealSession = {
+  /** 開催日（JST） */
+  isoDate: string;
+  startTime: string;
+  endTime: string;
+  title: string;
+  note: string;
+};
+
+/**
+ * リアルサロン（SATSUKI-RO）の開催日程。
+ * オンラインと違い全10回のような決まった連番ではないので、
+ * 新しい回が決まったらここに足す。ここが空になると、サイトは
+ * 「次回日程は調整中」の表示に切り替わる。
+ * 申込の受付期間は src/lib/event-policy.ts が持つ（isoDate を揃えること）。
+ */
+export const realSessions: readonly RealSession[] = [
+  {
+    isoDate: "2026-08-27",
+    startTime: "18:30",
+    endTime: "20:30",
+    title: "深層編 第1回",
+    note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
+  },
+  {
+    isoDate: "2026-09-30",
+    startTime: "18:30",
+    endTime: "20:30",
+    title: "深層編 第2回",
+    note: "初めての方へ、冒頭に表層編のダイジェストを用意します。",
+  },
+];
+
+/** オンラインと同じく、開催日の翌日0:00（JST）に次の回へ切り替わる */
+export function getNextRealSession(now = new Date()): RealSession | null {
+  return (
+    realSessions.find(
+      (session) => now.getTime() < getSwitchoverTime(session.isoDate),
+    ) ?? null
+  );
+}
