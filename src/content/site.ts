@@ -74,6 +74,24 @@ export function getUpcomingOnlineSalon(now = new Date()): SalonCard | null {
 }
 
 /** 開催日の翌日0:00（JST）に次の回へ切り替わる。次の日程が未登録なら「調整中」 */
+/** 不可視の結合子。表示にもコピーにも現れず、その位置での改行だけを止める */
+const WORD_JOINER = "\u2060";
+
+/**
+ * 「主題　〜副題〜」形式の演題を、折り返しに強くする。
+ * スマホ375pxで実測して分かった2つの崩れを潰す。
+ *  - 主題が途中で割れる（大化の改新 → 「大化の改」「新」）
+ *  - 副題を開く「〜」だけが行末に取り残される
+ * 改行は主題と副題のあいだの全角スペースで起きるようになる。
+ */
+function protectThemeWrapping(theme: string): string {
+  const opening = theme.indexOf("〜");
+  if (opening < 0) return theme;
+  const main = theme.slice(0, opening).replace(/(?<=\S)(?=\S)/g, WORD_JOINER);
+  const sub = theme.slice(opening).replace(/〜/g, `〜${WORD_JOINER}`);
+  return main + sub;
+}
+
 export function getUpcomingRealSalon(now = new Date()): SalonCard {
   const next = getNextRealSession(now);
   if (!next) {
@@ -94,10 +112,8 @@ export function getUpcomingRealSalon(now = new Date()): SalonCard {
     ...realSalon,
     date: formatSessionDate(next.isoDate),
     time: `${next.startTime}–${next.endTime}`,
-    // 副題を開く「〜」が行末に1字だけ残らないよう、直後の改行機会を潰す。
-    // U+2060 WORD JOINER は不可視で、コピーしても見た目は変わらない。
     title: next.theme
-      ? `${next.title}｜${next.theme.replace(/〜/g, "〜\u2060")}`
+      ? `${next.title}｜${protectThemeWrapping(next.theme)}`
       : next.title,
     note: next.note,
   };
