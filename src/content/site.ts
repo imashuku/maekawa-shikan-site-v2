@@ -94,7 +94,11 @@ export function getUpcomingRealSalon(now = new Date()): SalonCard {
     ...realSalon,
     date: formatSessionDate(next.isoDate),
     time: `${next.startTime}–${next.endTime}`,
-    title: next.theme ? `${next.title}｜${next.theme}` : next.title,
+    // 副題を開く「〜」が行末に1字だけ残らないよう、直後の改行機会を潰す。
+    // U+2060 WORD JOINER は不可視で、コピーしても見た目は変わらない。
+    title: next.theme
+      ? `${next.title}｜${next.theme.replace(/〜/g, "〜\u2060")}`
+      : next.title,
     note: next.note,
   };
 }
