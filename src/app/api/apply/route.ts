@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import {
-  normalizeFurigana,
-  normalizeParticipantName,
+  type ApplicationMember,
+  resolveApplicationMember,
   validateApplicationInput,
 } from "@/lib/application";
 import { getRegistrationState } from "@/lib/event-policy";
@@ -59,46 +59,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 参加区分にかかわらず、同じ手順で会員を特定する。
-    // 一致しなければ弾かずに新しい会員として受け付け、重複は運営があとで統合する。
-    // （常連の方を「該当なし」で門前払いする損失のほうが大きい、という運用判断）
-    const nameKey = normalizeParticipantName(body.name);
-    const furiganaKey = normalizeFurigana(body.furigana);
-    const memberNo = String(body.member_no ?? "").trim();
     const allMembers = await db.execute(
       "SELECT id, member_no, name, furigana FROM members",
     );
+    const resolution = resolveApplicationMember(
+      allMembers.rows as unknown as ApplicationMember[],
+      {
+        name: String(body.name),
+        furigana: String(body.furigana),
+        memberNo: String(body.member_no ?? ""),
+        isNew,
+      },
+    );
 
-    // ① 会員番号の申告があり、お名前も一致するならそれを使う
-    let matched = memberNo
-      ? allMembers.rows.find(
-          (row) =>
-            String(row.member_no).trim() === memberNo &&
-            normalizeParticipantName(row.name) === nameKey,
-        )
-      : undefined;
-
-    // ② 番号が無い・合わない場合は、お名前＋ふりがなで探す。
-    //    既に重複レコードがある人もいるため、複数見つかってもいちばん若い番号に寄せる
-    if (!matched) {
-      matched = allMembers.rows
-        .filter(
-          (row) =>
-            normalizeParticipantName(row.name) === nameKey &&
-            normalizeFurigana(row.furigana) === furiganaKey,
-        )
-        .sort((a, b) => Number(a.member_no) - Number(b.member_no))[0];
+    if (resolution.kind === "review") {
+      return NextResponse.json(
+        {
+          error: "会員情報を確認できませんでした。ふりがな・会員番号をご確認ください。分からない場合は公式LINEでご相談ください。",
+        },
+        { status: 409, headers: noStoreHeaders },
+      );
     }
 
     let memberId: number;
     let assignedNo: string;
     let isNewMember = false;
 
-    if (matched) {
-      memberId = Number(matched.id);
-      assignedNo = String(matched.member_no);
+    if (resolution.kind === "matched") {
+      memberId = Number(resolution.member.id);
+      assignedNo = String(resolution.member.member_no);
     } else {
-      // ③ 見つからなければ新しい会員として登録する（申込は必ず受け付ける）
+      // 初参加が明示され、同姓同名の既存会員もいない場合だけ新規作成する。
       const maxNo = await db.execute(
         "SELECT MAX(CAST(member_no AS INTEGER)) AS max_no FROM members",
       );

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { siteConfig } from "@/content/site";
 import type { PublicRealEvent } from "@/lib/real-events";
 
 type SubmissionResult = {
@@ -30,6 +31,7 @@ export default function ApplicationForm({
   const [name, setName] = useState("");
   const [furigana, setFurigana] = useState("");
   const [memberNo, setMemberNo] = useState("");
+  const [isNew, setIsNew] = useState<boolean | null>(null);
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmissionResult | null>(null);
@@ -48,6 +50,7 @@ export default function ApplicationForm({
           furigana,
           member_no: memberNo.trim() || null,
           event_id: event.id,
+          is_new: isNew,
           afterparty,
         }),
       });
@@ -92,7 +95,7 @@ export default function ApplicationForm({
                 No.{result.member_no}
               </p>
               <p className="mt-3 text-xs leading-6 text-sumi/70">
-                お申込みはお名前とふりがなだけでできます。番号は控えとしてお使いください。
+                会員番号は次回のお申し込みに使えます。控えておいてください。
               </p>
             </div>
           ) : null}
@@ -107,7 +110,7 @@ export default function ApplicationForm({
     );
   }
 
-  const canSubmit = Boolean(name.trim() && furigana.trim() && !submitting);
+  const canSubmit = Boolean(name.trim() && furigana.trim() && isNew !== null && !submitting);
 
   return (
     <section className="py-16 md:py-24">
@@ -137,11 +140,39 @@ export default function ApplicationForm({
             role="alert"
             className="mt-7 border border-red-300 bg-red-50 p-4 text-sm text-red-800"
           >
-            {result.message}
+            <p>{result.message}</p>
+            <a className="mt-3 inline-block font-bold underline" href={siteConfig.urls.line}>
+              公式LINEで相談する
+            </a>
           </div>
         ) : null}
 
         <form onSubmit={handleSubmit} className="mt-9 space-y-7">
+          <fieldset>
+            <legend className="text-sm font-bold">これまでに参加したことがありますか？</legend>
+            <div className="mt-3 flex flex-wrap gap-5">
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="radio"
+                  name="participation-history"
+                  checked={isNew === false}
+                  onChange={() => setIsNew(false)}
+                  className="h-5 w-5 accent-kokihi"
+                />
+                以前参加した
+              </label>
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="radio"
+                  name="participation-history"
+                  checked={isNew === true}
+                  onChange={() => setIsNew(true)}
+                  className="h-5 w-5 accent-kokihi"
+                />
+                初めて参加する
+              </label>
+            </div>
+          </fieldset>
           <div>
             <label htmlFor="name" className="text-sm font-bold">
               お名前
@@ -171,7 +202,8 @@ export default function ApplicationForm({
               className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
             />
             <p className="mt-2 text-xs leading-6 text-sumi/70">
-              お名前とふりがなで、これまでのご参加記録とつなげます。
+              以前参加した方は、お名前とふりがなで参加記録を照合します。
+              表記が違う場合は新しい会員番号を作らず、ご案内します。
             </p>
           </div>
 

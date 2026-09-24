@@ -36,11 +36,56 @@ export function validateApplicationInput(
     return "イベントを確認してください";
   }
 
-  // 参加区分にかかわらず、お名前とふりがなだけを必須にする。
-  // ふりがなは会員の照合キーであり、新規登録時の並び順にも使うため。
+  // ふりがなは会員照合と新規登録時の並び順に使う。
   if (!String(input.furigana ?? "").trim()) {
     return "ふりがなを入力してください";
   }
 
+  if (typeof input.is_new !== "boolean") {
+    return "参加経験を選択してください";
+  }
+
   return null;
+}
+
+export type ApplicationMember = {
+  id: number | string;
+  member_no: number | string;
+  name: string;
+  furigana: string | null;
+};
+
+export function resolveApplicationMember<T extends ApplicationMember>(
+  members: T[],
+  input: { name: string; furigana: string; memberNo: string; isNew: boolean },
+): { kind: "matched"; member: T } | { kind: "new" } | { kind: "review" } {
+  const nameKey = normalizeParticipantName(input.name);
+  const furiganaKey = normalizeFurigana(input.furigana);
+  const memberNo = input.memberNo.trim();
+
+  if (memberNo) {
+    const normalizeNo = (value: string) =>
+      /^\d+$/.test(value) ? value.replace(/^0+(?=\d)/, "") : value;
+    const numbered = members.find(
+      (member) => normalizeNo(String(member.member_no).trim()) === normalizeNo(memberNo),
+    );
+    return numbered && normalizeParticipantName(numbered.name) === nameKey
+      ? { kind: "matched", member: numbered }
+      : { kind: "review" };
+  }
+
+  const sameName = members.filter(
+    (member) => normalizeParticipantName(member.name) === nameKey,
+  );
+
+  // 同姓同名や既存の重複は、ふりがなが一致しても自動で同一人物と断定しない。
+  if (sameName.length > 1) return { kind: "review" };
+  if (sameName.length === 1) {
+    return normalizeFurigana(sameName[0].furigana) === furiganaKey
+      ? { kind: "matched", member: sameName[0] }
+      : { kind: "review" };
+  }
+
+  // 会員を新規作成するのは、本人が初参加を選んだ場合だけ。
+  return input.isNew ? { kind: "new" } : { kind: "review" };
 }
