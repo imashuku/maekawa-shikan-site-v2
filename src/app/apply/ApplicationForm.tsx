@@ -150,7 +150,7 @@ export default function ApplicationForm({
           </a>
           <p className="mt-3 text-xs leading-6 text-sumi/65">
             LINEのトーク画面が開いたら、入力済みの「参加」を送信してください。
-            懇親会も希望する方は、続けてその旨をお知らせください。
+            懇親会も希望する方は、続けて「懇親会も」と送ってください。
           </p>
           <a
             href={siteConfig.urls.line}
