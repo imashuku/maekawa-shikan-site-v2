@@ -26,7 +26,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const isNew = body.is_new === true;
+    const isNew = body.is_new;
     const validationError = validateApplicationInput({
       name: body.name,
       furigana: body.furigana,
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         name: String(body.name),
         furigana: String(body.furigana),
         memberNo: String(body.member_no ?? ""),
-        isNew,
+        isNew: isNew === true,
       },
     );
 
