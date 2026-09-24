@@ -140,13 +140,13 @@ export default function ApplicationForm({
           <p className="text-xs font-bold tracking-[0.18em] text-kokihi">LINEでかんたん申込</p>
           <h2 className="mt-3 text-xl font-bold">公式LINEに「参加」と送る</h2>
           <p className="mt-3 text-sm leading-7 text-sumi/75">
-            LINEのトークから、そのまま参加をお知らせいただけます。
+            スマートフォンのLINEトークから、そのまま参加をお知らせいただけます。
           </p>
           <a
             href={siteConfig.urls.lineParticipation}
             className="mt-5 flex w-full items-center justify-center bg-kokihi px-7 py-4 text-center font-bold text-white transition-colors hover:bg-sumi-dark"
           >
-            LINEで参加を伝える
+            スマートフォンでLINEを開く
           </a>
           <p className="mt-3 text-xs leading-6 text-sumi/65">
             LINEのトーク画面が開いたら、入力済みの「参加」を送信してください。
