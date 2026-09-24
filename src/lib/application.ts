@@ -36,13 +36,13 @@ export function validateApplicationInput(
     return "イベントを確認してください";
   }
 
-  // ふりがなは会員照合と新規登録時の並び順に使う。
-  if (!String(input.furigana ?? "").trim()) {
-    return "ふりがなを入力してください";
-  }
-
   if (typeof input.is_new !== "boolean") {
     return "参加経験を選択してください";
+  }
+
+  // 新規会員の登録にだけふりがなを使う。継続参加は氏名で照合する。
+  if (input.is_new && !String(input.furigana ?? "").trim()) {
+    return "ふりがなを入力してください";
   }
 
   return null;
@@ -64,6 +64,7 @@ export function resolveApplicationMember<T extends ApplicationMember>(
   const memberNo = input.memberNo.trim();
 
   if (memberNo) {
+    if (input.isNew) return { kind: "review" };
     const normalizeNo = (value: string) =>
       /^\d+$/.test(value) ? value.replace(/^0+(?=\d)/, "") : value;
     const numbered = members.find(
@@ -81,7 +82,9 @@ export function resolveApplicationMember<T extends ApplicationMember>(
   // 同姓同名や既存の重複は、ふりがなが一致しても自動で同一人物と断定しない。
   if (sameName.length > 1) return { kind: "review" };
   if (sameName.length === 1) {
-    return normalizeFurigana(sameName[0].furigana) === furiganaKey
+    // 初参加の申告と既存会員の氏名が衝突したら、自動では結び付けない。
+    if (input.isNew) return { kind: "review" };
+    return (!furiganaKey || normalizeFurigana(sameName[0].furigana) === furiganaKey)
       ? { kind: "matched", member: sameName[0] }
       : { kind: "review" };
   }

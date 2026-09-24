@@ -33,5 +33,11 @@ export async function getOpenRealEvent(
     return null;
   }
 
-  return event;
+  return {
+    id: Number(event.id),
+    name: String(event.name),
+    event_date: String(event.event_date),
+    venue: String(event.venue),
+    notes: event.notes == null ? null : String(event.notes),
+  };
 }

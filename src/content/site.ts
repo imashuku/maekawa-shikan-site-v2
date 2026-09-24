@@ -15,6 +15,7 @@ export const siteConfig = {
     "前川真司が近江から日本史を読み解く「前川史観」の公式サイト。オンラインとリアル、二つのサロンにいつからでも参加できます。",
   urls: {
     line: "https://lin.ee/KY9xx1E",
+    lineParticipation: "https://line.me/R/oaMessage/%40918kbaia/?%E5%8F%82%E5%8A%A0",
     note: "https://note.com/maekawa_shikan",
     youtubeEmbed: "https://www.youtube.com/embed/gjrhWpu5CjY",
     onlinePass: "https://yoor.jp/door/michibikarete",

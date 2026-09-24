@@ -35,6 +35,7 @@ export default function ApplicationForm({
   const [afterparty, setAfterparty] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmissionResult | null>(null);
+  const [showMemberNo, setShowMemberNo] = useState(false);
 
   async function handleSubmit(eventObject: React.FormEvent<HTMLFormElement>) {
     eventObject.preventDefault();
@@ -47,8 +48,8 @@ export default function ApplicationForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          furigana,
-          member_no: memberNo.trim() || null,
+          furigana: isNew ? furigana : "",
+          member_no: isNew ? null : memberNo.trim() || null,
           event_id: event.id,
           is_new: isNew,
           afterparty,
@@ -60,6 +61,7 @@ export default function ApplicationForm({
           ? { success: true, ...data }
           : { success: false, message: data.error },
       );
+      if (response.status === 409 && isNew === false) setShowMemberNo(true);
     } catch {
       setResult({
         success: false,
@@ -94,9 +96,6 @@ export default function ApplicationForm({
               <p className="mt-2 font-serif text-4xl font-bold text-kokihi">
                 No.{result.member_no}
               </p>
-              <p className="mt-3 text-xs leading-6 text-sumi/70">
-                会員番号は次回のお申し込みに使えます。控えておいてください。
-              </p>
             </div>
           ) : null}
           <Link
@@ -110,7 +109,9 @@ export default function ApplicationForm({
     );
   }
 
-  const canSubmit = Boolean(name.trim() && furigana.trim() && isNew !== null && !submitting);
+  const canSubmit = Boolean(
+    name.trim() && isNew !== null && (!isNew || furigana.trim()) && !submitting,
+  );
 
   return (
     <section className="py-16 md:py-24">
@@ -135,6 +136,37 @@ export default function ApplicationForm({
           ) : null}
         </div>
 
+        <div className="mt-9 border border-kokihi/30 bg-white p-6 md:p-8">
+          <p className="text-xs font-bold tracking-[0.18em] text-kokihi">LINEでかんたん申込</p>
+          <h2 className="mt-3 text-xl font-bold">公式LINEに「参加」と送る</h2>
+          <p className="mt-3 text-sm leading-7 text-sumi/75">
+            LINEのトークから、そのまま参加をお知らせいただけます。
+          </p>
+          <a
+            href={siteConfig.urls.lineParticipation}
+            className="mt-5 flex w-full items-center justify-center bg-kokihi px-7 py-4 text-center font-bold text-white transition-colors hover:bg-sumi-dark"
+          >
+            LINEで参加を伝える
+          </a>
+          <p className="mt-3 text-xs leading-6 text-sumi/65">
+            LINEのトーク画面が開いたら、入力済みの「参加」を送信してください。
+            懇親会も希望する方は、続けてその旨をお知らせください。
+          </p>
+          <a
+            href={siteConfig.urls.line}
+            className="mt-2 inline-block text-xs text-sumi/70 underline underline-offset-4"
+          >
+            トーク画面が開かない場合はこちら
+          </a>
+        </div>
+
+        <div className="mt-10 border-t border-sumi/20 pt-8">
+          <h2 className="text-xl font-bold">Webフォームで申し込む</h2>
+          <p className="mt-2 text-sm leading-7 text-sumi/70">
+            LINEを使わない方はこちらから。以前参加した方は、まずお名前だけ入力してください。
+          </p>
+        </div>
+
         {result && !result.success ? (
           <div
             role="alert"
@@ -147,11 +179,11 @@ export default function ApplicationForm({
           </div>
         ) : null}
 
-        <form onSubmit={handleSubmit} className="mt-9 space-y-7">
+        <form onSubmit={handleSubmit} className="mt-7 space-y-7">
           <fieldset>
             <legend className="text-sm font-bold">これまでに参加したことがありますか？</legend>
-            <div className="mt-3 flex flex-wrap gap-5">
-              <label className="flex cursor-pointer items-center gap-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <label className={`flex cursor-pointer items-center gap-3 border p-4 ${isNew === false ? "border-kokihi bg-paper" : "border-sumi/20 bg-white"}`}>
                 <input
                   type="radio"
                   name="participation-history"
@@ -161,7 +193,7 @@ export default function ApplicationForm({
                 />
                 以前参加した
               </label>
-              <label className="flex cursor-pointer items-center gap-2">
+              <label className={`flex cursor-pointer items-center gap-3 border p-4 ${isNew === true ? "border-kokihi bg-paper" : "border-sumi/20 bg-white"}`}>
                 <input
                   type="radio"
                   name="participation-history"
@@ -173,72 +205,80 @@ export default function ApplicationForm({
               </label>
             </div>
           </fieldset>
-          <div>
-            <label htmlFor="name" className="text-sm font-bold">
-              お名前
-            </label>
-            <input
-              id="name"
-              value={name}
-              onChange={(input) => setName(input.target.value)}
-              autoComplete="name"
-              required
-              maxLength={80}
-              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
-            />
-          </div>
+          {isNew !== null ? (
+            <>
+              <div>
+                <label htmlFor="name" className="text-sm font-bold">お名前</label>
+                <input
+                  id="name"
+                  value={name}
+                  onChange={(input) => setName(input.target.value)}
+                  autoComplete="name"
+                  required
+                  maxLength={80}
+                  className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+                />
+              </div>
 
-          <div>
-            <label htmlFor="furigana" className="text-sm font-bold">
-              ふりがな
-            </label>
-            <input
-              id="furigana"
-              value={furigana}
-              onChange={(input) => setFurigana(input.target.value)}
-              required
-              maxLength={100}
-              placeholder="例：しだ まさこ"
-              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
-            />
-            <p className="mt-2 text-xs leading-6 text-sumi/70">
-              以前参加した方は、お名前とふりがなで参加記録を照合します。
-              表記が違う場合は新しい会員番号を作らず、ご案内します。
-            </p>
-          </div>
+              {isNew ? (
+                <div>
+                  <label htmlFor="furigana" className="text-sm font-bold">ふりがな</label>
+                  <input
+                    id="furigana"
+                    value={furigana}
+                    onChange={(input) => setFurigana(input.target.value)}
+                    required
+                    maxLength={100}
+                    placeholder="例：やまだ たろう"
+                    className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+                  />
+                </div>
+              ) : (
+                <div>
+                  {!showMemberNo ? (
+                    <button
+                      type="button"
+                      onClick={() => setShowMemberNo(true)}
+                      className="text-sm text-sumi/70 underline underline-offset-4"
+                    >
+                      会員番号を入力する場合はこちら（任意）
+                    </button>
+                  ) : (
+                    <>
+                      <label htmlFor="memberNo" className="text-sm font-bold">
+                        会員番号 <span className="font-normal text-sumi/60">任意</span>
+                      </label>
+                      <input
+                        id="memberNo"
+                        value={memberNo}
+                        onChange={(input) => setMemberNo(input.target.value)}
+                        inputMode="numeric"
+                        autoComplete="off"
+                        maxLength={12}
+                        placeholder="分からなければ空欄のままで大丈夫です"
+                        className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
+                      />
+                    </>
+                  )}
+                </div>
+              )}
+            </>
+          ) : null}
 
-          <div>
-            <label htmlFor="memberNo" className="text-sm font-bold">
-              会員番号
-              <span className="ml-2 font-normal text-sumi/60">任意</span>
+          {isNew !== null ? (
+            <label className="flex cursor-pointer items-start gap-3 border-y border-sumi/15 py-5">
+              <input
+                type="checkbox"
+                checked={afterparty}
+                onChange={(input) => setAfterparty(input.target.checked)}
+                className="mt-0.5 h-6 w-6 shrink-0 accent-kokihi"
+              />
+              <span>
+                <strong>懇親会にも参加する</strong>
+                <span className="mt-1 block text-sm text-sumi/70">任意参加</span>
+              </span>
             </label>
-            <input
-              id="memberNo"
-              value={memberNo}
-              onChange={(input) => setMemberNo(input.target.value)}
-              inputMode="numeric"
-              autoComplete="off"
-              maxLength={12}
-              placeholder="例：012"
-              className="mt-2 w-full border border-sumi/25 bg-white px-4 py-4 text-base focus:border-kokihi focus:outline-none"
-            />
-            <p className="mt-2 text-xs leading-6 text-sumi/70">
-              初めての方・分からない方は、空欄のままで大丈夫です。
-            </p>
-          </div>
-
-          <label className="flex cursor-pointer items-start gap-3 border-y border-sumi/15 py-5">
-            <input
-              type="checkbox"
-              checked={afterparty}
-              onChange={(input) => setAfterparty(input.target.checked)}
-              className="mt-0.5 h-6 w-6 shrink-0 accent-kokihi"
-            />
-            <span>
-              <strong>懇親会にも参加する</strong>
-              <span className="mt-1 block text-sm text-sumi/70">任意参加</span>
-            </span>
-          </label>
+          ) : null}
 
           <button
             type="submit"

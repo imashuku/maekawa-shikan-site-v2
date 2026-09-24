@@ -66,17 +66,20 @@ export async function POST(request: NextRequest) {
       allMembers.rows as unknown as ApplicationMember[],
       {
         name: String(body.name),
-        furigana: String(body.furigana),
+        furigana: String(body.furigana ?? ""),
         memberNo: String(body.member_no ?? ""),
         isNew: isNew === true,
       },
     );
 
     if (resolution.kind === "review") {
+      const error = isNew
+        ? "このお名前では新規登録を自動で進められませんでした。公式LINEでご連絡ください。"
+        : body.member_no
+          ? "お名前と会員番号を照合できませんでした。公式LINEでご連絡ください。"
+          : "このお名前では登録を特定できませんでした。会員番号が分かる方は入力して再送信してください。分からない方は公式LINEでご連絡ください。";
       return NextResponse.json(
-        {
-          error: "会員情報を確認できませんでした。ふりがな・会員番号をご確認ください。分からない場合は公式LINEでご相談ください。",
-        },
+        { error },
         { status: 409, headers: noStoreHeaders },
       );
     }

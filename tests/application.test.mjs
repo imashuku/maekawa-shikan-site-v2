@@ -24,7 +24,7 @@ test("初参加は氏名とふりがなを必須にする", () => {
   );
 });
 
-test("会員番号を入れてもふりがなは必須", () => {
+test("継続参加はふりがななしでも申し込める", () => {
   assert.equal(
     validateApplicationInput({
       name: "山田 太郎",
@@ -33,11 +33,11 @@ test("会員番号を入れてもふりがなは必須", () => {
       event_id: 10,
       is_new: false,
     }),
-    "ふりがなを入力してください",
+    null,
   );
 });
 
-test("継続参加はふりがなだけでも申し込める（会員番号は任意）", () => {
+test("継続参加は会員番号も任意", () => {
   assert.equal(
     validateApplicationInput({
       name: "山田 太郎",
@@ -105,6 +105,26 @@ test("既存会員のふりがなを誤入力しても新規会員を作らな�
   assert.equal(result.kind, "review");
 });
 
+test("氏名が一意の継続参加者はふりがななしで照合する", () => {
+  const result = resolveApplicationMember([existing], {
+    name: "今宿裕昭",
+    furigana: "",
+    memberNo: "",
+    isNew: false,
+  });
+  assert.deepEqual(result, { kind: "matched", member: existing });
+});
+
+test("初参加の申告と既存会員の氏名が重なるときは自動照合しない", () => {
+  const result = resolveApplicationMember([existing], {
+    name: "今宿裕昭",
+    furigana: "いましゅくひろあき",
+    memberNo: "",
+    isNew: true,
+  });
+  assert.equal(result.kind, "review");
+});
+
 test("会員番号と氏名が一致すればふりがなの誤入力でも既存会員に結び付ける", () => {
   const result = resolveApplicationMember([existing], {
     name: "今宿裕昭",
@@ -113,6 +133,16 @@ test("会員番号と氏名が一致すればふりがなの誤入力でも既�
     isNew: false,
   });
   assert.deepEqual(result, { kind: "matched", member: existing });
+});
+
+test("初参加の申告と会員番号が同時に送られたら自動照合しない", () => {
+  const result = resolveApplicationMember([existing], {
+    name: "今宿裕昭",
+    furigana: "いましゅくひろあき",
+    memberNo: "2",
+    isNew: true,
+  });
+  assert.equal(result.kind, "review");
 });
 
 test("初参加を明示した場合だけ、未登録の氏名で新規会員を作る", () => {
